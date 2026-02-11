@@ -1,0 +1,158 @@
+┌─────────────────────────────────────────────────────────────────┐
+│       FLUJO COMPLETO: CREAR UNA PÁGINA CON VUE + INERTIA       │
+└─────────────────────────────────────────────────────────────────┘
+
+┌──────────────┐
+│  1. USUARIO  │  Escribe en el navegador: localhost:8000/servicios
+└──────┬───────┘
+       │
+       ▼
+┌─────────────────────────────────────────────────────┐
+│  2. RUTA (routes/web.php)                           │
+│                                                     │
+│  Route::get('/servicios', function () {            │
+│      return Inertia::render('Servicios', [         │
+│          'datos' => ['a', 'b', 'c']                │
+│      ]);                                           │
+│  });                                               │
+└─────────────┬───────────────────────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────────────────┐
+│  3. INERTIA (Backend)                              │
+│                                                     │
+│  - Busca: resources/js/Pages/Servicios.vue        │
+│  - Envía datos como JSON                          │
+└─────────────┬───────────────────────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────────────────┐
+│  4. COMPONENTE VUE (Frontend)                      │
+│     resources/js/Pages/Servicios.vue               │
+│                                                     │
+│  <script setup>                                    │
+│  import MainLayout from '@/Layouts/MainLayout.vue' │
+│                                                     │
+│  defineProps({                                     │
+│      datos: Array  ← Recibe los datos del backend │
+│  })                                                │
+│  </script>                                         │
+│                                                     │
+│  <template>                                        │
+│      <MainLayout title="Servicios">               │
+│          <h1>Servicios</h1>                       │
+│          <div v-for="dato in datos">              │
+│              {{ dato }}                           │
+│          </div>                                   │
+│      </MainLayout>                                │
+│  </template>                                      │
+└─────────────┬───────────────────────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────────────────┐
+│  5. LAYOUT (MainLayout.vue)                        │
+│                                                     │
+│  - Incluye <Navigation />                         │
+│  - Incluye <Footer />                             │
+│  - Renderiza el contenido con <slot />           │
+└─────────────┬───────────────────────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────────────────┐
+│  6. NAVEGACIÓN (Navigation.vue)                    │
+│                                                     │
+│  <Link href="/servicios">Servicios</Link>         │
+│  <Link href="/contacto">Contacto</Link>           │
+└─────────────┬───────────────────────────────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────────────────┐
+│  7. RESULTADO FINAL                                │
+│                                                     │
+│  ┌─────────────────────────────────────────┐      │
+│  │ [NAVIGATION BAR]                        │      │
+│  ├─────────────────────────────────────────┤      │
+│  │                                         │      │
+│  │  <h1>Servicios</h1>                    │      │
+│  │                                         │      │
+│  │  • a                                    │      │
+│  │  • b                                    │      │
+│  │  • c                                    │      │
+│  │                                         │      │
+│  ├─────────────────────────────────────────┤      │
+│  │ [FOOTER]                                │      │
+│  └─────────────────────────────────────────┘      │
+└───────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════
+
+              RESUMEN ULTRA-SIMPLE
+
+═══════════════════════════════════════════════════════════════
+
+  PASO 1: Crear archivo Vue
+  ┌────────────────────────────────────────────────┐
+  │ resources/js/Pages/Servicios.vue              │
+  │                                                │
+  │ <script setup>                                 │
+  │ import MainLayout from '@/Layouts/...'         │
+  │ </script>                                      │
+  │                                                │
+  │ <template>                                     │
+  │   <MainLayout title="Servicios">              │
+  │     <h1>Mi contenido aquí</h1>                │
+  │   </MainLayout>                               │
+  │ </template>                                   │
+  └────────────────────────────────────────────────┘
+
+  PASO 2: Agregar ruta PHP
+  ┌────────────────────────────────────────────────┐
+  │ routes/web.php                                 │
+  │                                                │
+  │ Route::get('/servicios', function() {          │
+  │     return Inertia::render('Servicios');       │
+  │ });                                            │
+  └────────────────────────────────────────────────┘
+
+  ¡LISTO! 🎉 Visita: localhost:8000/servicios
+
+
+═══════════════════════════════════════════════════════════════
+
+        DIFERENCIAS CLAVE: BLADE vs VUE + INERTIA
+
+═══════════════════════════════════════════════════════════════
+
+┌─────────────────────┬─────────────────────────────────────┐
+│       BLADE         │        VUE + INERTIA                │
+├─────────────────────┼─────────────────────────────────────┤
+│ view('nombre')      │ Inertia::render('Nombre')          │
+│ .blade.php          │ .vue                               │
+│ @extends            │ <MainLayout>                       │
+│ @section            │ <slot>                             │
+│ @foreach            │ v-for                              │
+│ @if                 │ v-if                               │
+│ {{ $var }}          │ {{ var }}                          │
+│ <a href="">         │ <Link href="">                     │
+│ resources/views/    │ resources/js/Pages/                │
+└─────────────────────┴─────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════
+
+                  NOMENCLATURA IMPORTANTE
+
+═══════════════════════════════════════════════════════════════
+
+  ✓ Archivos Vue: PascalCase  → Servicios.vue, MiPagina.vue
+  ✓ Rutas: kebab-case         → /mi-pagina, /sobre-nosotros
+  ✓ Nombres de rutas: dot.case → 'servicios', 'mi.pagina'
+  
+  Ejemplo:
+  ┌──────────────────────────────────────────────────┐
+  │ Archivo: MiPagina.vue                            │
+  │ Ruta: /mi-pagina                                 │
+  │ Render: Inertia::render('MiPagina')  ← SIN .vue │
+  │ Nombre: ->name('mi.pagina')                      │
+  └──────────────────────────────────────────────────┘
