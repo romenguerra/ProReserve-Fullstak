@@ -36,6 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/interests/setup', [App\Http\Controllers\InterestController::class, 'create'])->name('interests.create');
+    Route::post('/interests', [App\Http\Controllers\InterestController::class, 'store'])->name('interests.store');
 });
 
 // Rutas protegidas por rol - EJEMPLOS

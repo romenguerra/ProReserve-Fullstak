@@ -9,17 +9,24 @@ defineProps({
 
 const categories = [
     {
-        title: 'Restauración',
+        title: 'Gastronomía',
         description: 'Reserva en tu restaurante favorito',
-        image: '/images/restauracion.jpg',
-        color: 'blue',
+        image: '/images/gastronomia.jpg',
+        color: 'orange',
         link: '#'
     },
     {
-        title: 'Bienestar',
-        description: 'Entrena en tu gimnasio',
-        image: '/images/bienestar.jpg',
+        title: 'Deporte',
+        description: 'Entrena y mantente en forma',
+        image: '/images/deporte.jpg',
         color: 'green',
+        link: '#'
+    },
+    {
+        title: 'Salud',
+        description: 'Cuida de tu bienestar físico',
+        image: '/images/salud.jpg',
+        color: 'red',
         link: '#'
     },
     {
@@ -30,22 +37,23 @@ const categories = [
         link: '#'
     },
     {
-        title: 'Salud',
-        description: 'Cuida de tu salud',
-        image: '/images/salud.jpg',
-        color: 'red',
+        title: 'Personal',
+        description: 'Servicios a tu medida',
+        image: '/images/personal.jpg', 
+        color: 'indigo',
         link: '#'
     }
 ];
 
 const getColorClasses = (color) => {
     const colors = {
-        blue: 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-300',
+        orange: 'bg-orange-500 hover:bg-orange-600 focus:ring-orange-300',
         green: 'bg-green-600 hover:bg-green-700 focus:ring-green-300',
         purple: 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-300',
-        red: 'bg-red-600 hover:bg-red-700 focus:ring-red-300'
+        red: 'bg-red-600 hover:bg-red-700 focus:ring-red-300',
+        indigo: 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-300'
     };
-    return colors[color] || colors.blue;
+    return colors[color] || colors.indigo;
 };
 </script>
 
@@ -62,37 +70,36 @@ const getColorClasses = (color) => {
                 </p>
 
                 <!-- Contenedor de tarjetas -->
-                <div class="flex flex-wrap justify-center gap-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
                     <!-- Tarjeta por categoría -->
                     <div
                         v-for="category in categories"
                         :key="category.title"
-                        class="bg-white block max-w-sm border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                        class="bg-white flex flex-col border border-gray-200 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
                     >
-                        <a :href="category.link">
+                        <a :href="category.link" class="block aspect-video overflow-hidden">
                             <img
-                                class="rounded-t-lg w-64 h-40 object-cover"
+                                class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                                 :src="category.image"
                                 :alt="category.title"
                             />
                         </a>
-                        <div class="p-6 text-center">
-                            <a :href="category.link">
-                                <h5 class="mt-3 mb-6 text-2xl font-semibold tracking-tight text-gray-900">
-                                    {{ category.title }}
-                                </h5>
-                            </a>
+                        <div class="p-5 flex flex-col flex-grow text-center">
+                            <h5 class="mb-3 text-xl font-bold tracking-tight text-gray-900">
+                                {{ category.title }}
+                            </h5>
+                            <p class="text-sm text-gray-600 mb-5 flex-grow">
+                                {{ category.description }}
+                            </p>
                             <a
                                 :href="category.link"
-                                :class="['inline-flex items-center text-white shadow-md font-medium rounded-lg text-sm px-4 py-2.5 focus:outline-none focus:ring-4 transition-all duration-200', getColorClasses(category.color)]"
+                                :class="['inline-flex items-center justify-center text-white shadow-md font-semibold rounded-lg text-sm px-4 py-2.5 focus:outline-none focus:ring-4 transition-all duration-200', getColorClasses(category.color)]"
                             >
-                                {{ category.description }}
+                                Reservar
                                 <svg
-                                    class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5"
+                                    class="w-4 h-4 ms-2"
                                     aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                 >
