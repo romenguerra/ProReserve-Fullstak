@@ -23,7 +23,7 @@ const submit = () => {
     <Head title="Register" />
 
     <div
-        class="min-h-screen bg-gradient-to-br from-[#b8d4c8] to-[#a3c4b5] flex items-center justify-center p-4"
+        class="min-h-screen bg-gradient-to-tr from-[#9ec4b3] via-[#e5f0eb] to-[#70a891] flex items-center justify-center p-4"
     >
         <div
             class="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden flex"
@@ -176,57 +176,36 @@ const submit = () => {
 
             <!-- Right Side - Image -->
             <div
-                class="hidden lg:block lg:w-1/2 relative bg-gradient-to-br from-[#b8d4c8] to-[#a3c4b5] overflow-hidden"
+                class="hidden lg:block lg:w-1/2 relative bg-[url('/images/register-hero.png')] bg-cover bg-center overflow-hidden"
             >
+                <!-- Overlay para mejorar legibilidad -->
+                <div class="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-[#111827]/40 to-[#111827]/20 z-0"></div>
                 <div
-                    class="absolute inset-0 flex flex-col items-center justify-center p-12 text-[#111827] z-10"
+                    class="absolute inset-0 flex flex-col items-center justify-center p-12 text-white z-10"
                 >
                     <div class="max-w-md text-center space-y-6">
-                        <h2 class="text-4xl font-bold leading-tight">
+                        <h2 class="text-4xl font-bold leading-tight drop-shadow-lg">
                             Gestiona tus reservas de forma profesional
                         </h2>
-                        <p class="text-xl text-gray-700">
+                        <p class="text-xl text-gray-100 drop-shadow-md">
                             Sistema diseñado para negocios que valoran la
                             simplicidad y la eficiencia
                         </p>
                         <div class="flex justify-center gap-3 pt-4">
                             <div
-                                class="w-3 h-3 bg-[#111827] rounded-full"
+                                class="w-3 h-3 bg-white rounded-full"
                             ></div>
                             <div
-                                class="w-3 h-3 bg-[#111827]/50 rounded-full"
+                                class="w-3 h-3 bg-white/50 rounded-full"
                             ></div>
                             <div
-                                class="w-3 h-3 bg-[#111827]/50 rounded-full"
+                                class="w-3 h-3 bg-white/50 rounded-full"
                             ></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Decorative Pattern -->
-                <div class="absolute inset-0 opacity-10">
-                    <svg
-                        class="w-full h-full"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <defs>
-                            <pattern
-                                id="grid"
-                                width="40"
-                                height="40"
-                                patternUnits="userSpaceOnUse"
-                            >
-                                <path
-                                    d="M 40 0 L 0 0 0 40"
-                                    fill="none"
-                                    stroke="#111827"
-                                    stroke-width="1"
-                                />
-                            </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill="url(#grid)" />
-                    </svg>
-                </div>
+                <!-- Decorative Pattern Removed -->
             </div>
         </div>
     </div>

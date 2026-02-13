@@ -43,8 +43,8 @@ const categories = [
 
 <template>
     <MainLayout title="Inicio - ProReserve">
-        <!-- Hero Section - Verde Menta -->
-        <section class="bg-[#B8D4C8] min-h-[70vh] flex items-center">
+        <!-- Hero Section - Con Gradiente Premium -->
+        <section class="bg-[url('/images/hero-gradient.png')] bg-cover bg-center min-h-[70vh] flex items-center">
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-20 w-full">
                 <div class="max-w-3xl">
                     <h1
