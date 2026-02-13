@@ -170,7 +170,7 @@ defineProps({
                             <span class="absolute -inset-1.5"></span>
                             <span class="sr-only">Open user menu</span>
                             <img
-                                :src="`https://ui-avatars.com/api/?name=${user?.name || 'Usuario'}&background=3b82f6&color=fff`"
+                                :src="`https://ui-avatars.com/api/?name=${user?.name || 'Usuario'}&background=9ca3af&color=fff&length=1`"
                                 alt=""
                                 class="size-8 rounded-full bg-white outline -outline-offset-1 outline-gray-200"
                             />
