@@ -17,11 +17,12 @@ class DatabaseSeeder extends Seeder
     {
         // Ejecutar seeders en orden
         $this->call([
-            RoleSeeder::class,        // Primero crear roles y permisos
-            AdminUserSeeder::class,   // Luego crear usuario admin
+            RoleSeeder::class , // Primero crear roles y permisos
+            AdminUserSeeder::class , // Luego crear usuario admin
+            InterestSeeder::class , // Añadir intereses
         ]);
 
-        // Opcional: Crear usuarios de prueba
-        // User::factory(10)->create();
+    // Opcional: Crear usuarios de prueba
+    // User::factory(10)->create();
     }
 }
