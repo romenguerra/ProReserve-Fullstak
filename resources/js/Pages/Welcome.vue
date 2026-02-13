@@ -33,7 +33,7 @@ const categories = [
         link: "#",
     },
     {
-        title: "Personal",
+        title: "Imagen personal",
         description: "Servicios a tu medida",
         image: "/images/personal.jpg",
         link: "#",
