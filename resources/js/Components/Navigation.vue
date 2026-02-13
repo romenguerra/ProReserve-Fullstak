@@ -93,7 +93,7 @@ defineProps({
                                     $page.url === '/'
                                         ? 'text-gray-900 font-semibold'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center',
+                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
                                 ]"
                             >
                                 Inicio
@@ -104,7 +104,7 @@ defineProps({
                                     $page.url.startsWith('/servicios')
                                         ? 'text-gray-900 font-semibold'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center',
+                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
                                 ]"
                             >
                                 Servicios
@@ -115,7 +115,7 @@ defineProps({
                                     $page.url === '/contacto'
                                         ? 'text-gray-900 font-semibold'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center',
+                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
                                 ]"
                             >
                                 Contacto
@@ -126,7 +126,7 @@ defineProps({
                                     $page.url === '/calendario'
                                         ? 'text-gray-900 font-semibold'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-sm font-medium transition-all duration-200 flex items-center',
+                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
                                 ]"
                             >
                                 Calendario

@@ -144,7 +144,7 @@ const categories = [
                     </p>
                     <Link
                         href="/login"
-                        class="inline-block bg-[#B8D4C8] text-gray-900 px-8 py-4 rounded-full font-medium hover:bg-[#A3C4B5] transition-all duration-200"
+                        class="inline-block bg-[#ffffff] text-gray-900 px-8 py-4 rounded-full font-medium hover:bg-[#adadad] transition-all duration-200"
                     >
                         Iniciar sesión
                     </Link>
