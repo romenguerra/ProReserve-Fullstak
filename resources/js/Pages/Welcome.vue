@@ -1,6 +1,6 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
-import MainLayout from '@/Layouts/MainLayout.vue';
+import { Link } from "@inertiajs/vue3";
+import MainLayout from "@/Layouts/MainLayout.vue";
 
 defineProps({
     canLogin: Boolean,
@@ -9,113 +9,147 @@ defineProps({
 
 const categories = [
     {
-        title: 'Gastronomía',
-        description: 'Reserva en tu restaurante favorito',
-        image: '/images/gastronomia.jpg',
-        color: 'orange',
-        link: '#'
+        title: "Gastronomía",
+        description: "Reserva en tu restaurante",
+        image: "/images/gastronomia.jpg",
+        link: "#",
     },
     {
-        title: 'Deporte',
-        description: 'Entrena y mantente en forma',
-        image: '/images/deporte.jpg',
-        color: 'green',
-        link: '#'
+        title: "Deporte",
+        description: "Entrena y mantente en forma",
+        image: "/images/deporte.jpg",
+        link: "#",
     },
     {
-        title: 'Salud',
-        description: 'Cuida de tu bienestar físico',
-        image: '/images/salud.jpg',
-        color: 'red',
-        link: '#'
+        title: "Salud",
+        description: "Cuida de tu bienestar físico",
+        image: "/images/salud.jpg",
+        link: "#",
     },
     {
-        title: 'Ocio',
-        description: 'Disfruta de tu tiempo libre',
-        image: '/images/ocio.jpg',
-        color: 'purple',
-        link: '#'
+        title: "Ocio",
+        description: "Disfruta de tu tiempo libre",
+        image: "/images/ocio.jpg",
+        link: "#",
     },
     {
-        title: 'Personal',
-        description: 'Servicios a tu medida',
-        image: '/images/personal.jpg', 
-        color: 'indigo',
-        link: '#'
-    }
+        title: "Personal",
+        description: "Servicios a tu medida",
+        image: "/images/personal.jpg",
+        link: "#",
+    },
 ];
-
-const getColorClasses = (color) => {
-    const colors = {
-        orange: 'bg-orange-500 hover:bg-orange-600 focus:ring-orange-300',
-        green: 'bg-green-600 hover:bg-green-700 focus:ring-green-300',
-        purple: 'bg-purple-600 hover:bg-purple-700 focus:ring-purple-300',
-        red: 'bg-red-600 hover:bg-red-700 focus:ring-red-300',
-        indigo: 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-300'
-    };
-    return colors[color] || colors.indigo;
-};
 </script>
 
 <template>
     <MainLayout title="Inicio - ProReserve">
-        <!-- Contenido principal -->
-        <div class="flex flex-col items-center justify-center min-h-[calc(100vh-15rem)] p-6">
-            <div class="max-w-7xl mx-auto">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4 text-center">
-                    Bienvenido a ProReserve
-                </h1>
-                <p class="text-lg text-gray-600 mb-8 text-center">
-                    Gestiona tus servicios y reservas de forma simple, rápida y profesional
-                </p>
-
-                <!-- Contenedor de tarjetas -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-                    <!-- Tarjeta por categoría -->
-                    <div
-                        v-for="category in categories"
-                        :key="category.title"
-                        class="bg-white flex flex-col border border-gray-200 rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden"
+        <!-- Hero Section - Verde Menta -->
+        <section class="bg-[#B8D4C8] min-h-[70vh] flex items-center">
+            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-20 w-full">
+                <div class="max-w-3xl">
+                    <h1
+                        class="text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 leading-tight mb-6"
                     >
-                        <a :href="category.link" class="block aspect-video overflow-hidden">
-                            <img
-                                class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                                :src="category.image"
-                                :alt="category.title"
-                            />
-                        </a>
-                        <div class="p-5 flex flex-col flex-grow text-center">
-                            <h5 class="mb-3 text-xl font-bold tracking-tight text-gray-900">
-                                {{ category.title }}
-                            </h5>
-                            <p class="text-sm text-gray-600 mb-5 flex-grow">
-                                {{ category.description }}
-                            </p>
-                            <a
-                                :href="category.link"
-                                :class="['inline-flex items-center justify-center text-white shadow-md font-semibold rounded-lg text-sm px-4 py-2.5 focus:outline-none focus:ring-4 transition-all duration-200', getColorClasses(category.color)]"
-                            >
-                                Reservar
-                                <svg
-                                    class="w-4 h-4 ms-2"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
+                        Reservas<br />simples.
+                    </h1>
+                    <p class="text-xl md:text-2xl text-gray-800 mb-8 max-w-xl">
+                        Tu tiempo es valioso. Reserva lo que necesitas sin
+                        complicaciones.
+                    </p>
+                    <Link
+                        href="/register"
+                        class="inline-block bg-gray-900 text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-all duration-200"
+                    >
+                        Comenzar ahora
+                    </Link>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section - Blanco -->
+        <section class="bg-white py-20">
+            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
+                <div class="mb-10">
+                    <h2
+                        class="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
+                    >
+                        Qué podemos<br />hacer por ti.
+                    </h2>
+                    <p class="text-xl text-gray-600 max-w-2xl">
+                        Selecciona el servicio que necesitas y reserva tu cita.
+                    </p>
+                </div>
+
+                <!-- Grid de servicios minimalista -->
+                <div class="flex justify-center">
+                    <div class="grid grid-cols-5 gap-6 max-w-6xl">
+                        <div
+                            v-for="category in categories"
+                            :key="category.title"
+                            class="group cursor-pointer"
+                        >
+                            <a :href="category.link" class="block">
+                                <div
+                                    class="aspect-square overflow-hidden mb-3 bg-gray-100 rounded-lg"
                                 >
-                                    <path
-                                        stroke="currentColor"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 12H5m14 0-4 4m4-4-4-4"
+                                    <img
+                                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        :src="category.image"
+                                        :alt="category.title"
                                     />
-                                </svg>
+                                </div>
+                                <h3
+                                    class="text-lg font-bold text-gray-900 mb-1"
+                                >
+                                    {{ category.title }}
+                                </h3>
+                                <p class="text-sm text-gray-600 mb-2">
+                                    {{ category.description }}
+                                </p>
+                                <span
+                                    class="inline-flex items-center text-sm text-gray-900 font-medium group-hover:gap-1 transition-all"
+                                >
+                                    Ver más
+                                    <svg
+                                        class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                        />
+                                    </svg>
+                                </span>
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- CTA Section - Negro -->
+        <section class="bg-gray-900 text-white py-20">
+            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
+                <div class="max-w-3xl">
+                    <h2 class="text-5xl md:text-6xl font-bold mb-6">
+                        El método ProReserve.
+                    </h2>
+                    <p class="text-xl text-gray-300 mb-8 max-w-2xl">
+                        Sistema de reservas diseñado para negocios que valoran
+                        la simplicidad y la eficiencia.
+                    </p>
+                    <Link
+                        href="/login"
+                        class="inline-block bg-[#ffffff] text-gray-900 px-8 py-4 rounded-full font-medium hover:bg-[#adadad] transition-all duration-200"
+                    >
+                        Iniciar sesión
+                    </Link>
+                </div>
+            </div>
+        </section>
     </MainLayout>
 </template>
