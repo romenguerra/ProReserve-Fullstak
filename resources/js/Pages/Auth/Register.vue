@@ -4,6 +4,13 @@ import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
 
 const form = useForm({
     name: "",
@@ -17,6 +24,24 @@ const submit = () => {
         onFinish: () => form.reset("password", "password_confirmation"),
     });
 };
+
+const registerSlides = [
+    {
+        image: '/images/register-hero.png',
+        title: 'Gestiona tus reservas de forma profesional',
+        description: 'Sistema diseñado para negocios que valoran la simplicidad y la eficiencia'
+    },
+    {
+        image: '/images/gastronomia.jpg',
+        title: 'Potencia tu restaurante',
+        description: 'Optimiza tus mesas y ofrece la mejor experiencia a tus comensales'
+    },
+    {
+        image: '/images/bienestar.jpg',
+        title: 'Tu centro de bienestar organizado',
+        description: 'Gestiona citas y clientes con total facilidad desde un solo lugar'
+    }
+];
 </script>
 
 <template>
@@ -174,39 +199,56 @@ const submit = () => {
                 </div>
             </div>
 
-            <!-- Right Side - Image -->
-            <div
-                class="hidden lg:block lg:w-1/2 relative bg-[url('/images/register-hero.png')] bg-cover bg-center overflow-hidden"
-            >
-                <!-- Overlay para mejorar legibilidad -->
-                <div class="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-[#111827]/40 to-[#111827]/20 z-0"></div>
-                <div
-                    class="absolute inset-0 flex flex-col items-center justify-center p-12 text-white z-10"
+            <!-- Right Side - Image Carousel -->
+            <div class="hidden lg:block lg:w-1/2 relative overflow-hidden">
+                <swiper
+                    :modules="[Autoplay, Pagination, EffectFade]"
+                    :slides-per-view="1"
+                    :effect="'fade'"
+                    :loop="true"
+                    :autoplay="{
+                        delay: 4000,
+                        disableOnInteraction: false,
+                    }"
+                    :pagination="{ clickable: false }"
+                    :allow-touch-move="false"
+                    class="h-full w-full"
                 >
-                    <div class="max-w-md text-center space-y-6">
-                        <h2 class="text-4xl font-bold leading-tight drop-shadow-lg">
-                            Gestiona tus reservas de forma profesional
-                        </h2>
-                        <p class="text-xl text-gray-100 drop-shadow-md">
-                            Sistema diseñado para negocios que valoran la
-                            simplicidad y la eficiencia
-                        </p>
-                        <div class="flex justify-center gap-3 pt-4">
-                            <div
-                                class="w-3 h-3 bg-white rounded-full"
-                            ></div>
-                            <div
-                                class="w-3 h-3 bg-white/50 rounded-full"
-                            ></div>
-                            <div
-                                class="w-3 h-3 bg-white/50 rounded-full"
-                            ></div>
+                    <swiper-slide v-for="(slide, index) in registerSlides" :key="index" class="relative">
+                        <div 
+                            class="absolute inset-0 bg-cover bg-center transition-transform duration-[4000ms] hover:scale-110"
+                            :style="{ backgroundImage: `url(${slide.image})` }"
+                        ></div>
+                        <!-- Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#111827]/80 via-[#111827]/40 to-[#111827]/20 z-10"></div>
+                        
+                        <div class="absolute inset-0 flex flex-col items-center justify-center p-12 text-white z-20">
+                            <div class="max-w-md text-center space-y-6">
+                                <h2 class="text-4xl font-bold leading-tight drop-shadow-lg">
+                                    {{ slide.title }}
+                                </h2>
+                                <p class="text-xl text-gray-100 drop-shadow-md">
+                                    {{ slide.description }}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Decorative Pattern Removed -->
+                    </swiper-slide>
+                </swiper>
             </div>
         </div>
     </div>
 </template>
+
+<style scoped>
+:deep(.swiper-pagination-bullet) {
+    background: white;
+    opacity: 0.5;
+}
+:deep(.swiper-pagination-bullet-active) {
+    background: white;
+    opacity: 1;
+    width: 24px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+</style>
