@@ -92,9 +92,9 @@ defineProps({
                                 href="/"
                                 :class="[
                                     $page.url === '/'
-                                        ? 'text-gray-900 font-semibold'
+                                        ? 'nav-link-active'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
                                 Inicio
@@ -103,9 +103,9 @@ defineProps({
                                 :href="route('servicios')"
                                 :class="[
                                     $page.url.startsWith('/servicios')
-                                        ? 'text-gray-900 font-semibold'
+                                        ? 'nav-link-active'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
                                 Servicios
@@ -114,9 +114,9 @@ defineProps({
                                 href="/contacto"
                                 :class="[
                                     $page.url === '/contacto'
-                                        ? 'text-gray-900 font-semibold'
+                                        ? 'nav-link-active'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
                                 Contacto
@@ -125,9 +125,9 @@ defineProps({
                                 href="/calendario"
                                 :class="[
                                     $page.url === '/calendario'
-                                        ? 'text-gray-900 font-semibold'
+                                        ? 'nav-link-active'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
                                 Calendario

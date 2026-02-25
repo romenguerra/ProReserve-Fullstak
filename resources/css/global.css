@@ -1,0 +1,42 @@
+:root {
+    /* Colors */
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --secondary-color: #10b981;
+    --accent-color: #f59e0b;
+    --background-color: #f9fafb;
+    --text-color: #111827;
+    --text-muted: #6b7280;
+
+    /* Fonts */
+    --font-main: 'Figtree', sans-serif;
+    --font-heading: 'Outfit', sans-serif;
+
+    /* Sizes */
+    --border-radius: 0.5rem;
+    --header-height: 4rem;
+}
+
+/* Navigation Styles */
+.nav-link-item {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-link-active {
+    color: var(--text-color) !important;
+    font-weight: 600;
+}
+
+.nav-link-active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    /* Ajusta la posición debajo del texto */
+    left: 15%;
+    right: 15%;
+    height: 3px;
+    background-color: var(--text-color);
+    border-radius: 999px;
+    transition: all 0.3s ease;
+}
