@@ -1,6 +1,7 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
+import { onMounted, ref } from "vue";
 
 defineProps({
     canLogin: Boolean,
@@ -39,6 +40,29 @@ const categories = [
         link: "#",
     },
 ];
+
+const cardsRef = ref([]);
+
+onMounted(() => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                // Obtenemos el índice del elemento para aplicar un pequeño retraso extra
+                const index = entry.target.getAttribute('data-index');
+                setTimeout(() => {
+                    entry.target.classList.add('reveal-card');
+                }, index * 300); 
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { 
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px' // Se activa un poco antes de entrar del todo
+    });
+
+    const cards = document.querySelectorAll('.card-animate');
+    cards.forEach((card) => observer.observe(card));
+});
 </script>
 
 <template>
@@ -66,12 +90,17 @@ const categories = [
                     <h1
                         class="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 leading-[0.9] tracking-tighter mb-8"
                     >
-                        Reservas<br />simples.
+                        <span class="title-reveal-wrapper">
+                            <span class="title-reveal-text title-delay-1">Reservas</span>
+                        </span>
+                        <span class="title-reveal-wrapper">
+                            <span class="title-reveal-text title-delay-2">simples.</span>
+                        </span>
                     </h1>
-                    <p class="text-xl md:text-2xl text-gray-800 mb-10 max-w-xl leading-relaxed">
+                    <p class="text-xl md:text-2xl text-gray-800 mb-10 max-w-xl leading-relaxed hero-animate hero-delay-sub">
                         Tu tiempo es valioso. Reserva lo que necesitas de forma rápida y elegante.
                     </p>
-                    <div class="flex flex-wrap gap-4">
+                    <div class="flex flex-wrap gap-4 hero-animate hero-delay-btn">
                         <Link
                             href="/register"
                             class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-semibold hover:bg-black transition-all duration-300 shadow-2xl shadow-gray-400/50 hover:-translate-y-1"
@@ -99,36 +128,38 @@ const categories = [
 
                 <!-- Grid de servicios minimalista -->
                 <div class="flex justify-center">
-                    <div class="grid grid-cols-5 gap-6 max-w-6xl">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-8 max-w-6xl">
                         <div
-                            v-for="category in categories"
+                            v-for="(category, index) in categories"
                             :key="category.title"
-                            class="group cursor-pointer"
+                            :data-index="index"
+                            class="group cursor-pointer card-animate category-card"
                         >
                             <a :href="category.link" class="block">
                                 <div
-                                    class="aspect-square overflow-hidden mb-3 bg-gray-100 rounded-lg"
+                                    class="aspect-[4/5] overflow-hidden mb-4 bg-gray-100 rounded-2xl image-container"
                                 >
                                     <img
-                                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                        class="w-full h-full object-cover"
                                         :src="category.image"
                                         :alt="category.title"
+                                        loading="lazy"
                                     />
                                 </div>
                                 <h3
-                                    class="text-lg font-bold text-gray-900 mb-1"
+                                    class="text-xl font-bold text-gray-900 mb-1 card-title"
                                 >
                                     {{ category.title }}
                                 </h3>
-                                <p class="text-sm text-gray-600 mb-2">
+                                <p class="text-sm text-gray-500 mb-3 line-clamp-2">
                                     {{ category.description }}
                                 </p>
                                 <span
-                                    class="inline-flex items-center text-sm text-gray-900 font-medium group-hover:gap-1 transition-all"
+                                    class="inline-flex items-center text-sm text-gray-900 font-semibold group-hover:text-[#8EB6A5] transition-colors"
                                 >
-                                    Ver más
+                                    Explorar
                                     <svg
-                                        class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"
+                                        class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -136,7 +167,7 @@ const categories = [
                                         <path
                                             stroke-linecap="round"
                                             stroke-linejoin="round"
-                                            stroke-width="2"
+                                            stroke-width="2.5"
                                             d="M17 8l4 4m0 0l-4 4m4-4H3"
                                         />
                                     </svg>
@@ -170,3 +201,6 @@ const categories = [
         </section>
     </MainLayout>
 </template>
+
+
+
