@@ -179,23 +179,110 @@ onMounted(() => {
             </div>
         </section>
 
-        <!-- CTA Section - Negro -->
-        <section class="bg-gray-900 text-white py-20">
-            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
-                <div class="max-w-3xl">
-                    <h2 class="text-5xl md:text-6xl font-bold mb-6">
-                        El método ProReserve.
-                    </h2>
-                    <p class="text-xl text-gray-300 mb-8 max-w-2xl">
-                        Sistema de reservas diseñado para negocios que valoran
-                        la simplicidad y la eficiencia.
-                    </p>
-                    <Link
-                        href="/login"
-                        class="inline-block bg-[#ffffff] text-gray-900 px-8 py-4 rounded-full font-medium hover:bg-[#adadad] transition-all duration-200"
-                    >
-                        Iniciar sesión
-                    </Link>
+        <!-- CTA Section - User Focused -->
+        <section class="bg-gray-950 text-white py-24 overflow-hidden relative">
+            <!-- Decorative blur layers -->
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#8EB6A5]/10 rounded-full blur-[120px]"></div>
+            <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-white/5 rounded-full blur-[120px]"></div>
+
+            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="max-w-xl">
+                        <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tighter">
+                            Tus planes, <span class="text-[#8EB6A5]">a un solo toque.</span>
+                        </h2>
+                        <p class="text-xl text-gray-400 mb-10 leading-relaxed">
+                            Olvida las esperas al teléfono y los mensajes sin respuesta. Con ProReserve, reservar tu lugar ideal es rápido, sencillo y elegante.
+                        </p>
+                        
+                        <!-- Advantages Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
+                            <div class="flex items-start gap-4 group">
+                                <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#8EB6A5]/50 transition-all duration-300">
+                                    <svg class="w-6 h-6 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-white mb-1 group-hover:text-[#8EB6A5] transition-colors">Busca y Descubre</h4>
+                                    <p class="text-sm text-gray-500">Encuentra los mejores locales de tu zona con valoraciones reales.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 group">
+                                <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#8EB6A5]/50 transition-all duration-300">
+                                    <svg class="w-6 h-6 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-white mb-1 group-hover:text-[#8EB6A5] transition-colors">Reserva en Segundos</h4>
+                                    <p class="text-sm text-gray-500">Selecciona día y hora, confirma y ¡listo! Sin esperas ni confirmaciones tardías.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 group">
+                                <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#8EB6A5]/50 transition-all duration-300">
+                                    <svg class="w-6 h-6 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-white mb-1 group-hover:text-[#8EB6A5] transition-colors">Todo en tu Mano</h4>
+                                    <p class="text-sm text-gray-500">Gestiona todas tus reservas desde un único perfil personal.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 group">
+                                <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#8EB6A5]/50 transition-all duration-300">
+                                    <svg class="w-6 h-6 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg text-white mb-1 group-hover:text-[#8EB6A5] transition-colors">Recordatorios</h4>
+                                    <p class="text-sm text-gray-500">Recibe notificaciones automáticas para que nunca llegues tarde a tus planes.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            <Link
+                                href="/register"
+                                class="inline-block bg-[#8EB6A5] text-white px-10 py-5 rounded-full font-bold hover:bg-white hover:text-gray-950 transition-all duration-500 shadow-2xl shadow-[#8EB6A5]/20"
+                            >
+                                Crear mi cuenta gratis
+                            </Link>
+                            <Link
+                                href="/login"
+                                class="inline-block bg-white/5 text-white border border-white/10 px-10 py-5 rounded-full font-bold hover:bg-white/10 transition-all duration-300"
+                            >
+                                Entrar a mi perfil
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div class="relative group lg:mt-0 mt-12">
+                        <!-- Background decoration -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-[#8EB6A5]/30 to-transparent rounded-[3rem] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        
+                        <div class="relative rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_0_50px_-12px_rgba(255,255,255,0.1)] group-hover:border-[#8EB6A5]/30 transition-all duration-700">
+                            <img
+                                src="/images/proreserve-user-cta.png"
+                                alt="ProReserve App Interface"
+                                class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-1000"
+                            />
+                        </div>
+                        
+                        <!-- Floating feedback card -->
+                        <div class="absolute -top-6 -right-6 bg-white p-5 rounded-3xl shadow-2xl hidden sm:block transform group-hover:translate-y-2 transition-transform duration-500">
+                            <div class="flex items-center gap-3">
+                                <div class="flex -space-x-2">
+                                    <div class="w-8 h-8 rounded-full bg-gray-200 border-2 border-white"></div>
+                                    <div class="w-8 h-8 rounded-full bg-gray-300 border-2 border-white"></div>
+                                    <div class="w-8 h-8 rounded-full bg-[#8EB6A5] border-2 border-white flex items-center justify-center text-[10px] text-white font-bold">+12k</div>
+                                </div>
+                                <p class="text-gray-900 font-bold text-xs">Usuarios reservando hoy</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
