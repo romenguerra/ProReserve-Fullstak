@@ -47,12 +47,8 @@ const registerSlides = [
 <template>
     <Head title="Register" />
 
-    <div
-        class="min-h-screen bg-gradient-to-tr from-[#9ec4b3] via-[#e5f0eb] to-[#70a891] flex items-center justify-center p-4"
-    >
-        <div
-            class="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden flex"
-        >
+    <div class="auth-page-wrapper">
+        <div class="auth-card">
             <!-- Left Side - Form -->
             <div class="w-full lg:w-1/2 p-8 lg:p-12">
                 <!-- Logo -->
@@ -80,7 +76,7 @@ const registerSlides = [
                     <div class="flex gap-4 mb-8">
                         <Link
                             :href="route('login')"
-                            class="flex-1 py-3 text-center border-2 border-gray-300 text-gray-600 rounded-xl font-medium hover:border-[#b8d4c8] hover:text-[#b8d4c8] transition-all"
+                            class="flex-1 py-3 text-center btn-outline"
                         >
                             Iniciar Sesión
                         </Link>
@@ -239,16 +235,3 @@ const registerSlides = [
     </div>
 </template>
 
-<style scoped>
-:deep(.swiper-pagination-bullet) {
-    background: white;
-    opacity: 0.5;
-}
-:deep(.swiper-pagination-bullet-active) {
-    background: white;
-    opacity: 1;
-    width: 24px;
-    border-radius: 4px;
-    transition: all 0.3s;
-}
-</style>

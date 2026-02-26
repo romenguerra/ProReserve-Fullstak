@@ -23,7 +23,7 @@ const submit = () => {
 <template>
     <Head title="Recuperar Contraseña" />
 
-    <div class="min-h-screen bg-gradient-to-tr from-[#9ec4b3] via-[#e5f0eb] to-[#70a891] flex items-center justify-center p-4">
+    <div class="auth-page-wrapper">
         <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden p-8 lg:p-12">
             <!-- Logo -->
             <div class="flex justify-center mb-8">

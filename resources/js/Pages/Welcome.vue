@@ -45,17 +45,8 @@ const categories = [
     <MainLayout title="Inicio - ProReserve">
         <!-- Hero Section - Gradiente de Malla Premium (Verde Agua) -->
         <section class="relative min-h-[75vh] flex items-center overflow-hidden bg-white">
-            <!-- Fondo de malla (Mesh Gradient) complejo con CSS -->
-            <div class="absolute inset-0 opacity-80" style="
-                background-color: #ffffff;
-                background-image: 
-                    radial-gradient(at 0% 0%, #B8D4C8 0px, transparent 50%),
-                    radial-gradient(at 100% 0%, #E8F3EF 0px, transparent 50%),
-                    radial-gradient(at 100% 100%, #A3C4B5 0px, transparent 50%),
-                    radial-gradient(at 0% 100%, #CDE5DB 0px, transparent 50%),
-                    radial-gradient(at 50% 50%, #B8D4C8 0px, transparent 50%);
-                filter: blur(40px);
-            "></div>
+            <!-- Fondo de malla (Mesh Gradient) complejo centralizado en global.css -->
+            <div class="absolute inset-0 opacity-80 bg-mesh-gradient filter blur-[40px]"></div>
             
             <!-- Toque de color verde intenso decorativo -->
             <div class="absolute top-[20%] right-[15%] w-96 h-96 bg-[#8EB6A5]/30 rounded-full blur-[100px] animate-pulse"></div>
@@ -74,7 +65,7 @@ const categories = [
                     <div class="flex flex-wrap gap-4">
                         <Link
                             href="/register"
-                            class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-semibold hover:bg-black transition-all duration-300 shadow-2xl shadow-gray-400/50 hover:-translate-y-1"
+                            class="btn-primary"
                         >
                             Comenzar ahora
                         </Link>
