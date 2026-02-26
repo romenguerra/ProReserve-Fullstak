@@ -37,7 +37,7 @@ defineProps({
                         class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-2 focus:-outline-offset-1 focus:outline-blue-500"
                     >
                         <span class="absolute -inset-0.5"></span>
-                        <span class="sr-only">Open main menu</span>
+                        <span class="sr-only">Abrir menú principal</span>
                         <!-- Icon hamburger -->
                         <svg
                             v-if="!mobileMenuOpen"
@@ -146,7 +146,7 @@ defineProps({
                         class="relative rounded-full p-1 text-gray-600 hover:text-gray-900 focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
                     >
                         <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">View notifications</span>
+                        <span class="sr-only">Ver notificaciones</span>
 
                         <Bell 
         :size="24"
@@ -175,7 +175,7 @@ defineProps({
                             class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                         >
                             <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">Open user menu</span>
+                            <span class="sr-only">Abrir menú de usuario</span>
                             <img v-if="user?.name"
                                 :src="`https://ui-avatars.com/api/?name=${user.name}&background=9ca3af&color=fff&length=1`"
                                 alt=""
