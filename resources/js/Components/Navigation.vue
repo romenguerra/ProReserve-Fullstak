@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { Link } from "@inertiajs/vue3";
+import { UserRound, Bell} from 'lucide-vue-next'; 
 
 const mobileMenuOpen = ref(false);
 const profileMenuOpen = ref(false);
@@ -91,9 +92,9 @@ defineProps({
                                 href="/"
                                 :class="[
                                     $page.url === '/'
-                                        ? 'text-gray-900 font-semibold'
+                                        ? 'nav-link-active'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
                                 Inicio
@@ -102,9 +103,9 @@ defineProps({
                                 :href="route('servicios')"
                                 :class="[
                                     $page.url.startsWith('/servicios')
-                                        ? 'text-gray-900 font-semibold'
+                                        ? 'nav-link-active'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
                                 Servicios
@@ -113,9 +114,9 @@ defineProps({
                                 href="/contacto"
                                 :class="[
                                     $page.url === '/contacto'
-                                        ? 'text-gray-900 font-semibold'
+                                        ? 'nav-link-active'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
                                 Contacto
@@ -124,9 +125,9 @@ defineProps({
                                 href="/calendario"
                                 :class="[
                                     $page.url === '/calendario'
-                                        ? 'text-gray-900 font-semibold'
+                                        ? 'nav-link-active'
                                         : 'text-gray-600 hover:text-gray-900',
-                                    'px-4 py-2 text-lg font-medium transition-all duration-200 flex items-center',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
                                 Calendario
@@ -146,7 +147,13 @@ defineProps({
                     >
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">View notifications</span>
-                        <svg
+
+                        <Bell 
+        :size="24"
+        stroke-width="1.5"
+        class="size-6"
+    />
+                        <!-- <svg
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -158,7 +165,7 @@ defineProps({
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                             />
-                        </svg>
+                        </svg> -->
                     </button>
 
                     <!-- Profile dropdown -->
@@ -169,10 +176,15 @@ defineProps({
                         >
                             <span class="absolute -inset-1.5"></span>
                             <span class="sr-only">Open user menu</span>
-                            <img
-                                :src="`https://ui-avatars.com/api/?name=${user?.name || 'Usuario'}&background=9ca3af&color=fff&length=1`"
+                            <img v-if="user?.name"
+                                :src="`https://ui-avatars.com/api/?name=${user.name}&background=9ca3af&color=fff&length=1`"
                                 alt=""
                                 class="size-8 rounded-full bg-white outline -outline-offset-1 outline-gray-200"
+                            />
+                            <UserRound v-else
+                                :size="28"
+                                class="size-7 text-gray-500"
+                                stroke-width="1.5"
                             />
                         </button>
 

@@ -33,7 +33,7 @@ const categories = [
         link: "#",
     },
     {
-        title: "Personal",
+        title: "Imagen personal",
         description: "Servicios a tu medida",
         image: "/images/personal.jpg",
         link: "#",
@@ -43,25 +43,42 @@ const categories = [
 
 <template>
     <MainLayout title="Inicio - ProReserve">
-        <!-- Hero Section - Verde Menta -->
-        <section class="bg-[#B8D4C8] min-h-[70vh] flex items-center">
-            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-20 w-full">
+        <!-- Hero Section - Gradiente de Malla Premium (Verde Agua) -->
+        <section class="relative min-h-[75vh] flex items-center overflow-hidden bg-white">
+            <!-- Fondo de malla (Mesh Gradient) complejo con CSS -->
+            <div class="absolute inset-0 opacity-80" style="
+                background-color: #ffffff;
+                background-image: 
+                    radial-gradient(at 0% 0%, #B8D4C8 0px, transparent 50%),
+                    radial-gradient(at 100% 0%, #E8F3EF 0px, transparent 50%),
+                    radial-gradient(at 100% 100%, #A3C4B5 0px, transparent 50%),
+                    radial-gradient(at 0% 100%, #CDE5DB 0px, transparent 50%),
+                    radial-gradient(at 50% 50%, #B8D4C8 0px, transparent 50%);
+                filter: blur(40px);
+            "></div>
+            
+            <!-- Toque de color verde intenso decorativo -->
+            <div class="absolute top-[20%] right-[15%] w-96 h-96 bg-[#8EB6A5]/30 rounded-full blur-[100px] animate-pulse"></div>
+            <div class="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] bg-[#B8D4C8]/20 rounded-full blur-[120px]"></div>
+
+            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-20 w-full relative z-10">
                 <div class="max-w-3xl">
                     <h1
-                        class="text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 leading-tight mb-6"
+                        class="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 leading-[0.9] tracking-tighter mb-8"
                     >
                         Reservas<br />simples.
                     </h1>
-                    <p class="text-xl md:text-2xl text-gray-800 mb-8 max-w-xl">
-                        Tu tiempo es valioso. Reserva lo que necesitas sin
-                        complicaciones.
+                    <p class="text-xl md:text-2xl text-gray-800 mb-10 max-w-xl leading-relaxed">
+                        Tu tiempo es valioso. Reserva lo que necesitas de forma rápida y elegante.
                     </p>
-                    <Link
-                        href="/register"
-                        class="inline-block bg-gray-900 text-white px-8 py-4 rounded-full font-medium hover:bg-gray-800 transition-all duration-200"
-                    >
-                        Comenzar ahora
-                    </Link>
+                    <div class="flex flex-wrap gap-4">
+                        <Link
+                            href="/register"
+                            class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-semibold hover:bg-black transition-all duration-300 shadow-2xl shadow-gray-400/50 hover:-translate-y-1"
+                        >
+                            Comenzar ahora
+                        </Link>
+                    </div>
                 </div>
             </div>
         </section>
