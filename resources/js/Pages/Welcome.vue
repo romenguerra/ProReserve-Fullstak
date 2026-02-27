@@ -51,7 +51,7 @@ onMounted(() => {
                 const index = entry.target.getAttribute('data-index');
                 setTimeout(() => {
                     entry.target.classList.add('reveal-card');
-                }, index * 300); 
+                }, index * 200); 
                 observer.unobserve(entry.target);
             }
         });
@@ -237,8 +237,8 @@ onMounted(() => {
                         
                         <div class="relative rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_0_50px_-12px_rgba(255,255,255,0.1)] group-hover:border-[#8EB6A5]/30 transition-all duration-700">
                             <img
-                                src="/images/proreserve-user-cta.png"
-                                alt="ProReserve App Interface"
+                                src="/images/proreserve-lifestyle-v2.png"
+                                alt="ProReserve Lifestyle"
                                 class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-1000"
                             />
                         </div>

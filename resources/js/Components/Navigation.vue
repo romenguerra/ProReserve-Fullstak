@@ -1,10 +1,42 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { UserRound, Bell} from 'lucide-vue-next'; 
 
 const mobileMenuOpen = ref(false);
 const profileMenuOpen = ref(false);
+const isVisible = ref(true);
+const lastScrollY = ref(0);
+
+const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    
+    // Si estamos al principio de la página, siempre visible
+    if (currentScrollY < 10) {
+        isVisible.value = true;
+        lastScrollY.value = currentScrollY;
+        return;
+    }
+
+    // Si deslizamos hacia abajo, ocultar
+    if (currentScrollY > lastScrollY.value && currentScrollY > 100) {
+        isVisible.value = false;
+    } 
+    // Si deslizamos hacia arriba, mostrar
+    else if (currentScrollY < lastScrollY.value) {
+        isVisible.value = true;
+    }
+
+    lastScrollY.value = currentScrollY;
+};
+
+onMounted(() => {
+    window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+    window.removeEventListener("scroll", handleScroll);
+});
 
 const toggleMobileMenu = () => {
     mobileMenuOpen.value = !mobileMenuOpen.value;
@@ -24,7 +56,10 @@ defineProps({
 </script>
 
 <template>
-    <nav class="relative bg-white border-b border-gray-200">
+    <nav 
+        class="sticky top-0 z-50 bg-white border-b border-gray-200 transition-transform duration-300 ease-in-out"
+        :class="isVisible ? 'translate-y-0' : '-translate-y-full'"
+    >
         <div class="mx-auto max-w-7xl px-6 sm:px-12 lg:px-16">
             <div class="relative flex h-24 items-center justify-between">
                 <!-- Mobile menu button -->

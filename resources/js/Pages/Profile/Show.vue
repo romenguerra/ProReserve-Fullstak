@@ -109,7 +109,7 @@ const submitForm = () => {
                             <div class="mt-4 sm:mt-0">
                                 <button 
                                     @click="() => {}"
-                                    class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium shadow-sm"
+                                    class="px-6 py-2 bg-[#8EB6A5] text-white rounded-lg hover:bg-black transition font-medium shadow-sm shadow-[#8EB6A5]/20"
                                 >
                                     Editar Perfil
                                 </button>
@@ -174,8 +174,8 @@ const submitForm = () => {
                         </div>
 
                         <!-- Información Personal -->
-                        <div class="bg-white rounded-lg shadow-sm p-6">
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">Información Personal</h2>
+                        <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-50">
+                            <h2 class="text-lg font-bold text-gray-900 mb-4">Información Personal</h2>
                             <div class="space-y-3">
                                 <div class="flex items-center text-sm">
                                     <svg class="w-5 h-5 text-gray-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,6 +201,21 @@ const submitForm = () => {
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                     <span class="text-gray-600">Miembro desde {{ formatMemberSince(user?.created_at) }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mis Intereses Section -->
+                        <div v-if="user?.interests?.length" class="bg-white rounded-2xl shadow-sm p-6 border border-gray-50">
+                            <h2 class="text-lg font-bold text-gray-900 mb-4">Mis Intereses</h2>
+                            <div class="flex flex-wrap gap-2">
+                                <div 
+                                    v-for="interest in user.interests" 
+                                    :key="interest.id"
+                                    class="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-xl hover:border-[#8EB6A5]/50 transition-colors"
+                                >
+                                    <span>{{ interest.icon }}</span>
+                                    <span class="text-sm font-medium text-gray-700">{{ interest.name }}</span>
                                 </div>
                             </div>
                         </div>
@@ -289,7 +304,7 @@ const submitForm = () => {
                                     <button 
                                         type="submit" 
                                         :disabled="form.processing"
-                                        class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium shadow-sm disabled:opacity-50"
+                                        class="px-6 py-2 bg-[#8EB6A5] text-white rounded-lg hover:bg-black transition font-medium shadow-sm shadow-[#8EB6A5]/20 disabled:opacity-50"
                                     >
                                         Guardar Cambios
                                     </button>
