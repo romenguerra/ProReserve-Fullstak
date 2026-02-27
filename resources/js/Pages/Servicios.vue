@@ -50,25 +50,29 @@ const categorias = [
 
 <template>
     <MainLayout title="Servicios - ProReserve">
-        <!-- Hero Section -->
-        <section class="bg-white py-20 pt-32">
+        <div class="bg-[#F0EEE9] min-h-screen">
+            <!-- Hero Section -->
+            <section class="relative flex items-center overflow-hidden pt-32 pb-20">
+                <!-- Decorative colored element -->
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#8EB6A5]/10 rounded-full blur-[100px]"></div>
+                <div class="absolute top-1/2 -left-24 w-72 h-72 bg-white/40 rounded-full blur-[80px]"></div>
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                 <div class="max-w-4xl">
                     <h1
-                        class="text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 leading-tight mb-6"
+                        class="text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 leading-tight mb-6 tracking-tighter"
                     >
-                        Todos<br />los servicios.
+                        Todos los<br /><span class="text-[#8EB6A5]">servicios.</span>
                     </h1>
-                    <p class="text-xl md:text-2xl text-gray-600 max-w-2xl">
+                    <p class="text-xl md:text-2xl text-gray-600 max-w-2xl leading-relaxed">
                         Explora nuestra selección completa de servicios
                         disponibles para reservar.
                     </p>
                 </div>
             </div>
-        </section>
+            </section>
 
         <!-- Services Grid Section -->
-        <section class="bg-white py-20">
+        <section class="py-20">
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -95,11 +99,11 @@ const categorias = [
                             {{ categoria.descripcion }}
                         </p>
                         <span
-                            class="inline-flex items-center text-sm text-gray-900 font-medium group-hover:gap-1 transition-all"
+                            class="inline-flex items-center text-sm text-gray-900 font-bold group-hover:text-[#8EB6A5] transition-all"
                         >
                             Explorar
                             <svg
-                                class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1"
+                                class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -118,24 +122,28 @@ const categorias = [
         </section>
 
         <!-- CTA Section -->
-        <section class="bg-gray-900 text-white py-20">
-            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
+        <section class="bg-gray-950 text-white py-24 relative overflow-hidden">
+            <!-- Decorative blur layers -->
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#8EB6A5]/10 rounded-full blur-[120px]"></div>
+            
+            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
                 <div class="max-w-3xl">
-                    <h2 class="text-5xl md:text-6xl font-bold mb-6">
-                        ¿Tienes un negocio?
+                    <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tighter">
+                        ¿Tienes un <span class="text-[#8EB6A5]">negocio?</span>
                     </h2>
-                    <p class="text-xl text-gray-300 mb-8 max-w-2xl">
+                    <p class="text-xl text-gray-400 mb-10 leading-relaxed max-w-2xl">
                         Únete a ProReserve y empieza a gestionar las reservas de
-                        tu negocio de forma simple y eficiente.
+                        tu negocio de forma simple, eficiente y con estilo.
                     </p>
                     <Link
                         href="/register"
-                        class="inline-block bg-white text-gray-900 px-8 py-4 rounded-full font-medium hover:bg-gray-200 transition-all duration-200"
+                        class="inline-block bg-white text-gray-950 px-10 py-5 rounded-full font-bold hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 shadow-2xl shadow-white/5"
                     >
                         Comenzar ahora
                     </Link>
                 </div>
             </div>
         </section>
+        </div>
     </MainLayout>
 </template>

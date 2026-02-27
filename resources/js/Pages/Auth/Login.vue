@@ -82,11 +82,11 @@ const loginSlides = [
                     <!-- Login Tabs -->
                     <div class="flex gap-4 mb-8">
                         <button type="button"
-                            class="flex-1 py-3 text-center bg-[#111827] text-white rounded-xl font-medium">
+                            class="flex-1 py-3 text-center bg-[#8EB6A5] text-white rounded-xl font-medium">
                             Iniciar Sesión
                         </button>
                         <Link :href="route('register')"
-                            class="flex-1 py-3 text-center border-2 border-gray-300 text-gray-600 rounded-xl font-medium hover:border-[#b8d4c8] hover:text-[#b8d4c8] transition-all">
+                            class="flex-1 py-3 text-center border-2 border-gray-300 text-gray-600 rounded-xl font-medium hover:border-[#8EB6A5] hover:text-[#8EB6A5] transition-all">
                             Registrarse
                         </Link>
                     </div>
@@ -97,7 +97,7 @@ const loginSlides = [
                         <div>
                             <InputLabel for="email" value="Correo electrónico" class="text-gray-700 font-medium mb-2" />
                             <TextInput id="email" type="email"
-                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#b8d4c8] focus:border-transparent"
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.email" required autocomplete="username" placeholder="tu@email.com" />
                             <InputError class="mt-2" :message="form.errors.email" />
                         </div>
@@ -105,20 +105,20 @@ const loginSlides = [
                         <div>
                             <InputLabel for="password" value="Contraseña" class="text-gray-700 font-medium mb-2" />
                             <TextInput id="password" type="password"
-                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#b8d4c8] focus:border-transparent"
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.password" required autocomplete="new-password" placeholder="••••••••" />
                             <InputError class="mt-2" :message="form.errors.password" />
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-[#111827] hover:bg-[#1f2937] text-white font-semibold py-3 rounded-xl transition-colors duration-200 disabled:opacity-50"
+                            class="w-full bg-[#8EB6A5] hover:bg-[#7aa592] text-white font-semibold py-3 rounded-xl transition-colors duration-200 disabled:opacity-50"
                             :disabled="form.processing">
                             Iniciar Sesión
                         </button>
                     </form>
 
                     <div class="mt-6 text-center flex flex-col gap-4">
-                        <Link :href="route('register')" class="text-sm text-gray-600 hover:text-[#b8d4c8] font-medium">
+                        <Link :href="route('register')" class="text-sm text-gray-600 hover:text-[#8EB6A5] font-medium">
                             ¿No tienes cuenta? Registrate aquí
                         </Link>
                         

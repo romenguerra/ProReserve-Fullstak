@@ -62,7 +62,7 @@ const submit = () => {
                 <div class="mt-2 flex items-center gap-4">
                     <!-- Preview del avatar -->
                     <div
-                        class="w-20 h-20 rounded-full bg-gradient-to-br from-[#B8D4C8] to-[#A3C4B5] flex items-center justify-center text-white font-bold text-2xl shadow-md border-2 border-[#A3C4B5] overflow-hidden"
+                        class="w-20 h-20 rounded-full bg-gradient-to-br from-[#8EB6A5] to-[#4A6358] flex items-center justify-center text-white font-bold text-2xl shadow-md border-2 border-[#A3C4B5] overflow-hidden"
                     >
                         <img
                             v-if="avatarPreview"
@@ -82,7 +82,7 @@ const submit = () => {
                             type="file"
                             accept="image/*"
                             @change="handleAvatarChange"
-                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#B8D4C8] file:text-gray-900 hover:file:bg-[#A3C4B5] cursor-pointer"
+                            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#8EB6A5] file:text-white hover:file:bg-[#7aa592] cursor-pointer"
                         />
                         <p class="mt-1 text-xs text-gray-500">
                             PNG, JPG o GIF (MAX. 2MB)
@@ -99,7 +99,7 @@ const submit = () => {
                 <TextInput
                     id="name"
                     type="text"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                     v-model="form.name"
                     required
                     autofocus
@@ -115,7 +115,7 @@ const submit = () => {
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                     v-model="form.email"
                     required
                     autocomplete="username"
@@ -131,7 +131,7 @@ const submit = () => {
                         :href="route('verification.send')"
                         method="post"
                         as="button"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        class="rounded-md text-sm text-gray-600 underline hover:text-[#8EB6A5] focus:outline-none focus:ring-2 focus:ring-[#8EB6A5] focus:ring-offset-2"
                     >
                         Click here to re-send the verification email.
                     </Link>

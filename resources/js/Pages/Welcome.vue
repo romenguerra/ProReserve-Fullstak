@@ -68,10 +68,10 @@ onMounted(() => {
 <template>
     <MainLayout title="Inicio - ProReserve">
         <!-- Hero Section - Gradiente de Malla Premium (Verde Agua) -->
-        <section class="relative min-h-[75vh] flex items-center overflow-hidden bg-white">
+        <section class="relative min-h-[75vh] flex items-center overflow-hidden bg-[#F0EEE9]">
             <!-- Fondo de malla (Mesh Gradient) complejo con CSS -->
             <div class="absolute inset-0 opacity-80" style="
-                background-color: #ffffff;
+                background-color: #F0EEE9;
                 background-image: 
                     radial-gradient(at 0% 0%, #B8D4C8 0px, transparent 50%),
                     radial-gradient(at 100% 0%, #E8F3EF 0px, transparent 50%),
@@ -112,8 +112,8 @@ onMounted(() => {
             </div>
         </section>
 
-        <!-- Services Section - Blanco -->
-        <section class="bg-white py-20">
+        <!-- Services Section - Cloud Dancer -->
+        <section class="bg-[#F0EEE9] py-20">
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                 <div class="mb-10">
                     <h2
