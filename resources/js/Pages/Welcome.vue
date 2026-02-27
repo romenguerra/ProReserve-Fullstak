@@ -211,28 +211,6 @@ onMounted(() => {
                             <div class="flex items-start gap-4 group">
                                 <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#8EB6A5]/50 transition-all duration-300">
                                     <svg class="w-6 h-6 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg text-white mb-1 group-hover:text-[#8EB6A5] transition-colors">Reserva en Segundos</h4>
-                                    <p class="text-sm text-gray-500">Selecciona día y hora, confirma y ¡listo! Sin esperas ni confirmaciones tardías.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4 group">
-                                <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#8EB6A5]/50 transition-all duration-300">
-                                    <svg class="w-6 h-6 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-lg text-white mb-1 group-hover:text-[#8EB6A5] transition-colors">Todo en tu Mano</h4>
-                                    <p class="text-sm text-gray-500">Gestiona todas tus reservas desde un único perfil personal.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4 group">
-                                <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#8EB6A5]/50 transition-all duration-300">
-                                    <svg class="w-6 h-6 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                                     </svg>
                                 </div>
@@ -246,15 +224,9 @@ onMounted(() => {
                         <div class="flex flex-wrap gap-4">
                             <Link
                                 href="/register"
-                                class="inline-block bg-[#8EB6A5] text-white px-10 py-5 rounded-full font-bold hover:bg-white hover:text-gray-950 transition-all duration-500 shadow-2xl shadow-[#8EB6A5]/20"
+                                class="inline-block bg-white text-gray-950 px-10 py-5 rounded-full font-bold hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 shadow-2xl shadow-white/5"
                             >
-                                Crear mi cuenta gratis
-                            </Link>
-                            <Link
-                                href="/login"
-                                class="inline-block bg-white/5 text-white border border-white/10 px-10 py-5 rounded-full font-bold hover:bg-white/10 transition-all duration-300"
-                            >
-                                Entrar a mi perfil
+                                Comenzar ahora
                             </Link>
                         </div>
                     </div>
@@ -269,18 +241,6 @@ onMounted(() => {
                                 alt="ProReserve App Interface"
                                 class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-1000"
                             />
-                        </div>
-                        
-                        <!-- Floating feedback card -->
-                        <div class="absolute -top-6 -right-6 bg-white p-5 rounded-3xl shadow-2xl hidden sm:block transform group-hover:translate-y-2 transition-transform duration-500">
-                            <div class="flex items-center gap-3">
-                                <div class="flex -space-x-2">
-                                    <div class="w-8 h-8 rounded-full bg-gray-200 border-2 border-white"></div>
-                                    <div class="w-8 h-8 rounded-full bg-gray-300 border-2 border-white"></div>
-                                    <div class="w-8 h-8 rounded-full bg-[#8EB6A5] border-2 border-white flex items-center justify-center text-[10px] text-white font-bold">+12k</div>
-                                </div>
-                                <p class="text-gray-900 font-bold text-xs">Usuarios reservando hoy</p>
-                            </div>
                         </div>
                     </div>
                 </div>
