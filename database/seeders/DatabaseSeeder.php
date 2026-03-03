@@ -17,12 +17,17 @@ class DatabaseSeeder extends Seeder
     {
         // Ejecutar seeders en orden
         $this->call([
-            RoleSeeder::class , // Primero crear roles y permisos
-            AdminUserSeeder::class , // Luego crear usuario admin
-            InterestSeeder::class , // Añadir intereses
+            RoleSeeder::class, // Primero crear roles y permisos
+            AdminUserSeeder::class, // Luego crear usuario admin
+            InterestSeeder::class, // Añadir intereses
+            RestaurantSeeder::class,
+            BarbershopSeeder::class,
+            ServiceSeeder::class,
+            ReviewSeeder::class,
+            ReservationSeeder::class,
         ]);
 
-    // Opcional: Crear usuarios de prueba
-    // User::factory(10)->create();
+        // Opcional: Crear usuarios de prueba
+        // User::factory(10)->create();
     }
 }
