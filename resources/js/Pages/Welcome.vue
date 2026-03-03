@@ -68,7 +68,7 @@ onMounted(() => {
 <template>
     <MainLayout title="Inicio - ProReserve">
         <!-- Hero Section - Gradiente de Malla Premium (Verde Agua) -->
-        <section class="relative min-h-[75vh] flex items-center overflow-hidden bg-[#F0EEE9]">
+        <section class="relative min-h-[60vh] flex items-center overflow-hidden bg-[#F0EEE9]">
             <!-- Fondo de malla (Mesh Gradient) complejo con CSS -->
             <div class="absolute inset-0 opacity-80" style="
                 background-color: #F0EEE9;
