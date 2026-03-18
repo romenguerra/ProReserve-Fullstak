@@ -25,6 +25,18 @@ Route::get('/contacto', function () {
     return Inertia::render('Contacto');
 })->name('contacto');
 
+Route::get('/gastronomia', function () {
+    return Inertia::render('Gastronomia', [
+        'restaurants' => \App\Models\Restaurant::all(),
+    ]);
+})->name('gastronomia');
+
+Route::get('/deportes', function () {
+    return Inertia::render('Deportes', [
+        'sportCenters' => \App\Models\SportCenter::all(),
+    ]);
+})->name('deportes');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard-Example');
 })->middleware(['auth', 'verified'])->name('dashboard');
