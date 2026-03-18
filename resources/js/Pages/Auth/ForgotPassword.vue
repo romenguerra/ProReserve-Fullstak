@@ -49,20 +49,20 @@ const submit = () => {
                     <div>
                         <InputLabel for="email" value="Correo electrónico" class="text-gray-700 font-medium mb-2" />
                         <TextInput id="email" type="email"
-                            class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#b8d4c8] focus:border-transparent"
+                            class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                             v-model="form.email" required autofocus autocomplete="username" placeholder="tu@email.com" />
                         <InputError class="mt-2" :message="form.errors.email" />
                     </div>
 
                     <button type="submit"
-                        class="w-full bg-[#111827] hover:bg-[#1f2937] text-white font-semibold py-3 rounded-xl transition-colors duration-200 disabled:opacity-50"
+                        class="w-full bg-[#8EB6A5] hover:bg-[#7aa592] text-white font-semibold py-3 rounded-xl transition-colors duration-200 disabled:opacity-50"
                         :disabled="form.processing">
                         Enviar enlace
                     </button>
                 </form>
 
                 <div class="mt-8 text-center">
-                    <Link :href="route('login')" class="text-sm text-gray-600 hover:text-[#b8d4c8] font-medium transition-colors">
+                    <Link :href="route('login')" class="text-sm text-gray-600 hover:text-[#8EB6A5] font-medium transition-colors">
                         ← Volver al login
                     </Link>
                 </div>

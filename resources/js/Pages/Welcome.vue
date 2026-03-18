@@ -13,13 +13,13 @@ const categories = [
         title: "Gastronomía",
         description: "Reserva en tu restaurante",
         image: "/images/gastronomia.jpg",
-        link: "#",
+        link: "/gastronomia",
     },
     {
         title: "Deporte",
         description: "Entrena y mantente en forma",
         image: "/images/deporte.jpg",
-        link: "#",
+        link: "/deportes",
     },
     {
         title: "Salud",
@@ -68,10 +68,10 @@ onMounted(() => {
 <template>
     <MainLayout title="Inicio - ProReserve">
         <!-- Hero Section - Gradiente de Malla Premium (Verde Agua) -->
-        <section class="relative min-h-[75vh] flex items-center overflow-hidden bg-white">
+        <section class="relative min-h-[60vh] flex items-center overflow-hidden bg-[#F0EEE9]">
             <!-- Fondo de malla (Mesh Gradient) complejo con CSS -->
             <div class="absolute inset-0 opacity-80" style="
-                background-color: #ffffff;
+                background-color: #F0EEE9;
                 background-image: 
                     radial-gradient(at 0% 0%, #B8D4C8 0px, transparent 50%),
                     radial-gradient(at 100% 0%, #E8F3EF 0px, transparent 50%),
@@ -112,8 +112,8 @@ onMounted(() => {
             </div>
         </section>
 
-        <!-- Services Section - Blanco -->
-        <section class="bg-white py-20">
+        <!-- Services Section - Cloud Dancer -->
+        <section class="bg-[#F0EEE9] py-20">
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                 <div class="mb-10">
                     <h2
@@ -135,7 +135,7 @@ onMounted(() => {
                             :data-index="index"
                             class="group cursor-pointer card-animate category-card"
                         >
-                            <a :href="category.link" class="block">
+                            <Link :href="category.link" class="block">
                                 <div
                                     class="aspect-[4/5] overflow-hidden mb-4 bg-gray-100 rounded-2xl image-container"
                                 >
@@ -172,7 +172,7 @@ onMounted(() => {
                                         />
                                     </svg>
                                 </span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -180,43 +180,43 @@ onMounted(() => {
         </section>
 
         <!-- CTA Section - User Focused -->
-        <section class="bg-gray-950 text-white py-24 overflow-hidden relative">
-            <!-- Decorative blur layers -->
-            <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#8EB6A5]/10 rounded-full blur-[120px]"></div>
-            <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-white/5 rounded-full blur-[120px]"></div>
+        <section class="bg-[#B8D4C8] text-gray-900 py-24 overflow-hidden relative">
+            <!-- Decorative blur layers - Adjusted for light background -->
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-white/40 rounded-full blur-[120px]"></div>
+            <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-[#8EB6A5]/30 rounded-full blur-[120px]"></div>
 
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div class="max-w-xl">
                         <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tighter">
-                            Tus planes, <span class="text-[#8EB6A5]">a un solo toque.</span>
+                            Tus planes, <span class="text-white drop-shadow-sm">a un solo toque.</span>
                         </h2>
-                        <p class="text-xl text-gray-400 mb-10 leading-relaxed">
+                        <p class="text-xl text-gray-800 mb-10 leading-relaxed font-medium">
                             Olvida las esperas al teléfono y los mensajes sin respuesta. Con ProReserve, reservar tu lugar ideal es rápido, sencillo y elegante.
                         </p>
                         
                         <!-- Advantages Grid -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
                             <div class="flex items-start gap-4 group">
-                                <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#8EB6A5]/50 transition-all duration-300">
-                                    <svg class="w-6 h-6 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0 border border-white/30 group-hover:border-white/60 transition-all duration-300">
+                                    <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg text-white mb-1 group-hover:text-[#8EB6A5] transition-colors">Busca y Descubre</h4>
-                                    <p class="text-sm text-gray-500">Encuentra los mejores locales de tu zona con valoraciones reales.</p>
+                                    <h4 class="font-bold text-lg text-gray-900 mb-1">Busca y Descubre</h4>
+                                    <p class="text-sm text-gray-700">Encuentra los mejores locales de tu zona con valoraciones reales.</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-4 group">
-                                <div class="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center flex-shrink-0 border border-white/10 group-hover:border-[#8EB6A5]/50 transition-all duration-300">
-                                    <svg class="w-6 h-6 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0 border border-white/30 group-hover:border-white/60 transition-all duration-300">
+                                    <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg text-white mb-1 group-hover:text-[#8EB6A5] transition-colors">Recordatorios</h4>
-                                    <p class="text-sm text-gray-500">Recibe notificaciones automáticas para que nunca llegues tarde a tus planes.</p>
+                                    <h4 class="font-bold text-lg text-gray-900 mb-1">Recordatorios</h4>
+                                    <p class="text-sm text-gray-700">Recibe notificaciones automáticas para que nunca llegues tarde a tus planes.</p>
                                 </div>
                             </div>
                         </div>
@@ -224,7 +224,7 @@ onMounted(() => {
                         <div class="flex flex-wrap gap-4">
                             <Link
                                 href="/register"
-                                class="inline-block bg-white text-gray-950 px-10 py-5 rounded-full font-bold hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 shadow-2xl shadow-white/5"
+                                class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-bold hover:bg-black transition-all duration-500 shadow-2xl shadow-gray-900/10"
                             >
                                 Comenzar ahora
                             </Link>
@@ -233,9 +233,9 @@ onMounted(() => {
 
                     <div class="relative group lg:mt-0 mt-12">
                         <!-- Background decoration -->
-                        <div class="absolute inset-0 bg-gradient-to-tr from-[#8EB6A5]/30 to-transparent rounded-[3rem] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                        <div class="absolute inset-0 bg-gradient-to-tr from-white/40 to-transparent rounded-[3rem] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                         
-                        <div class="relative rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_0_50px_-12px_rgba(255,255,255,0.1)] group-hover:border-[#8EB6A5]/30 transition-all duration-700">
+                        <div class="relative rounded-[3rem] overflow-hidden border border-white/40 shadow-2xl group-hover:border-white/60 transition-all duration-700">
                             <img
                                 src="/images/proreserve-lifestyle-v2.png"
                                 alt="ProReserve Lifestyle"

@@ -80,13 +80,13 @@ const registerSlides = [
                     <div class="flex gap-4 mb-8">
                         <Link
                             :href="route('login')"
-                            class="flex-1 py-3 text-center border-2 border-gray-300 text-gray-600 rounded-xl font-medium hover:border-[#b8d4c8] hover:text-[#b8d4c8] transition-all"
+                            class="flex-1 py-3 text-center border-2 border-gray-300 text-gray-600 rounded-xl font-medium hover:border-[#8EB6A5] hover:text-[#8EB6A5] transition-all"
                         >
                             Iniciar Sesión
                         </Link>
                         <button
                             type="button"
-                            class="flex-1 py-3 text-center bg-[#111827] text-white rounded-xl font-medium"
+                            class="flex-1 py-3 text-center bg-[#8EB6A5] text-white rounded-xl font-medium"
                         >
                             Registrarse
                         </button>
@@ -103,7 +103,7 @@ const registerSlides = [
                             <TextInput
                                 id="name"
                                 type="text"
-                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#b8d4c8] focus:border-transparent"
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.name"
                                 required
                                 autofocus
@@ -125,7 +125,7 @@ const registerSlides = [
                             <TextInput
                                 id="email"
                                 type="email"
-                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#b8d4c8] focus:border-transparent"
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.email"
                                 required
                                 autocomplete="username"
@@ -146,7 +146,7 @@ const registerSlides = [
                             <TextInput
                                 id="password"
                                 type="password"
-                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#b8d4c8] focus:border-transparent"
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.password"
                                 required
                                 autocomplete="new-password"
@@ -167,7 +167,7 @@ const registerSlides = [
                             <TextInput
                                 id="password_confirmation"
                                 type="password"
-                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#b8d4c8] focus:border-transparent"
+                                class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.password_confirmation"
                                 required
                                 autocomplete="new-password"
@@ -181,7 +181,7 @@ const registerSlides = [
 
                         <button
                             type="submit"
-                            class="w-full bg-[#111827] hover:bg-[#1f2937] text-white font-semibold py-3 rounded-xl transition-colors duration-200 disabled:opacity-50"
+                            class="w-full bg-[#8EB6A5] hover:bg-[#7aa592] text-white font-semibold py-3 rounded-xl transition-colors duration-200 disabled:opacity-50"
                             :disabled="form.processing"
                         >
                             Crear Cuenta
@@ -191,7 +191,7 @@ const registerSlides = [
                     <div class="mt-6 text-center">
                         <Link
                             :href="route('login')"
-                            class="text-sm text-gray-600 hover:text-[#b8d4c8] font-medium"
+                            class="text-sm text-gray-600 hover:text-[#8EB6A5] font-medium"
                         >
                             ¿Ya tienes cuenta? Inicia sesión aquí
                         </Link>

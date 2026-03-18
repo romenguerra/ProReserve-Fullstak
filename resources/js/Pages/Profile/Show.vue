@@ -76,7 +76,7 @@ const submitForm = () => {
                 <!-- Header del Perfil -->
                 <div class="bg-white rounded-lg shadow-sm overflow-hidden mb-6">
                     <!-- Banner -->
-                    <div class="h-32 bg-gradient-to-r from-blue-500 to-purple-600"></div>
+                    <div class="h-32 bg-gradient-to-r from-[#8EB6A5] to-[#4A6358]"></div>
 
                     <!-- Información del Usuario -->
                     <div class="px-6 pb-6">
@@ -85,7 +85,7 @@ const submitForm = () => {
                             <div class="relative">
                                 <img 
                                     class="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
-                                    :src="`https://ui-avatars.com/api/?name=${user?.name || 'Usuario'}&size=128&background=6366f1&color=fff`"
+                                    :src="`https://ui-avatars.com/api/?name=${user?.name || 'Usuario'}&size=128&background=8EB6A5&color=fff`"
                                     alt="Foto de perfil"
                                 />
                                 <button class="absolute bottom-2 right-2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition">
@@ -128,8 +128,8 @@ const submitForm = () => {
                             <div class="space-y-4">
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-center">
-                                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div class="w-10 h-10 bg-[#8EB6A5]/10 rounded-lg flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                             </svg>
                                         </div>
@@ -238,7 +238,7 @@ const submitForm = () => {
                                             type="text"
                                             v-model="form.name"
                                             :placeholder="user?.name"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent outline-none transition"
                                         />
                                     </div>
 
@@ -250,7 +250,7 @@ const submitForm = () => {
                                             type="email"
                                             v-model="form.email"
                                             :placeholder="user?.email"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent outline-none transition"
                                         />
                                     </div>
                                 </div>
@@ -264,7 +264,7 @@ const submitForm = () => {
                                             type="tel"
                                             v-model="form.phone"
                                             placeholder="+34 600 000 000"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent outline-none transition"
                                         />
                                     </div>
 
@@ -276,7 +276,7 @@ const submitForm = () => {
                                             type="text"
                                             v-model="form.city"
                                             placeholder="Madrid"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent outline-none transition"
                                         />
                                     </div>
                                 </div>
@@ -289,7 +289,7 @@ const submitForm = () => {
                                         rows="4"
                                         v-model="form.bio"
                                         placeholder="Cuéntanos algo sobre ti..."
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition resize-none"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent outline-none transition resize-none"
                                     ></textarea>
                                 </div>
 

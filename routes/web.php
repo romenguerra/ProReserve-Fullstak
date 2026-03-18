@@ -8,22 +8,34 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
-    'canLogin' => Route::has('login'),
-    'canRegister' => Route::has('register'),
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
     ]);
 })->name('home');
 
 // Página de Servicios (pública)
 Route::get('/servicios', function () {
     return Inertia::render('Servicios', [
-    // Aquí podrías pasar datos desde la base de datos:
-    // 'servicios' => Servicio::all(),
+        // Aquí podrías pasar datos desde la base de datos:
+        // 'servicios' => Servicio::all(),
     ]);
 })->name('servicios');
 
 Route::get('/contacto', function () {
     return Inertia::render('Contacto');
 })->name('contacto');
+
+Route::get('/gastronomia', function () {
+    return Inertia::render('Gastronomia', [
+        'restaurants' => \App\Models\Restaurant::all(),
+    ]);
+})->name('gastronomia');
+
+Route::get('/deportes', function () {
+    return Inertia::render('Deportes', [
+        'sportCenters' => \App\Models\SportCenter::all(),
+    ]);
+})->name('deportes');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard-Example');
@@ -32,26 +44,26 @@ Route::get('/dashboard', function () {
 // Ruta para visualizar perfil (diferente de editar)
 Route::get('/perfil', function () {
     return Inertia::render('Profile/Show', [
-    'user' => auth()->user()->load("interests"),
+        'user' => auth()->user()->load("interests"),
     ]);
 })->middleware(['auth'])->name('profile.show');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class , 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class , 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class , 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/interests/setup', [App\Http\Controllers\InterestController::class , 'create'])->name('interests.create');
-    Route::post('/interests', [App\Http\Controllers\InterestController::class , 'store'])->name('interests.store');
+    Route::get('/interests/setup', [App\Http\Controllers\InterestController::class, 'create'])->name('interests.create');
+    Route::post('/interests', [App\Http\Controllers\InterestController::class, 'store'])->name('interests.store');
 });
 
 // Rutas protegidas por rol - EJEMPLOS
 // Descomenta cuando crees los controladores correspondientes
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class , 'index'])->name('admin.dashboard');
-    Route::get('/admin/usuarios', [AdminController::class , 'usuarios'])->name('admin.usuarios');
-    Route::get('/admin/servicios', [AdminController::class , 'servicios'])->name('admin.servicios');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
+    Route::get('/admin/servicios', [AdminController::class, 'servicios'])->name('admin.servicios');
 });
 
 // Route::middleware(['auth', 'role:admin|cliente'])->group(function () {
