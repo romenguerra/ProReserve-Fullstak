@@ -1,45 +1,53 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
+import { useI18n } from "@/Composables/useI18n";
+
+const { t } = useI18n();
 
 defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
 });
 
-const categories = [
+const categories = computed(() => [
     {
-        title: "Gastronomía",
-        description: "Reserva en tu restaurante",
+        id: "gastronomy",
+        title: t("home.categories.gastronomy"),
+        description: t("home.categories.gastronomy_desc"),
         image: "/images/gastronomia.jpg",
         link: "/gastronomia",
     },
     {
-        title: "Deporte",
-        description: "Entrena y mantente en forma",
+        id: "sport",
+        title: t("home.categories.sport"),
+        description: t("home.categories.sport_desc"),
         image: "/images/deporte.jpg",
         link: "/deportes",
     },
     {
-        title: "Salud",
-        description: "Cuida de tu bienestar físico",
+        id: "health",
+        title: t("home.categories.health"),
+        description: t("home.categories.health_desc"),
         image: "/images/salud.jpg",
         link: "#",
     },
     {
-        title: "Ocio",
-        description: "Disfruta de tu tiempo libre",
+        id: "leisure",
+        title: t("home.categories.leisure"),
+        description: t("home.categories.leisure_desc"),
         image: "/images/ocio.jpg",
         link: "#",
     },
     {
-        title: "Imagen personal",
-        description: "Servicios a tu medida",
+        id: "beauty",
+        title: t("home.categories.beauty"),
+        description: t("home.categories.beauty_desc"),
         image: "/images/personal.jpg",
         link: "#",
     },
-];
+]);
 
 const cardsRef = ref([]);
 
@@ -66,7 +74,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <MainLayout title="Inicio - ProReserve">
+    <MainLayout :title="$t('home.meta_title')">
         <!-- Hero Section - Gradiente de Malla Premium (Verde Agua) -->
         <section class="relative min-h-[60vh] flex items-center overflow-hidden bg-[#F0EEE9]">
             <!-- Fondo de malla (Mesh Gradient) complejo con CSS -->
@@ -91,21 +99,21 @@ onMounted(() => {
                         class="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 leading-[0.9] tracking-tighter mb-8"
                     >
                         <span class="title-reveal-wrapper">
-                            <span class="title-reveal-text title-delay-1">Reservas</span>
+                            <span class="title-reveal-text title-delay-1">{{ $t('home.hero_title_1') }}</span>
                         </span>
                         <span class="title-reveal-wrapper">
-                            <span class="title-reveal-text title-delay-2">simples.</span>
+                            <span class="title-reveal-text title-delay-2">{{ $t('home.hero_title_2') }}</span>
                         </span>
                     </h1>
                     <p class="text-xl md:text-2xl text-gray-800 mb-10 max-w-xl leading-relaxed hero-animate hero-delay-sub">
-                        Tu tiempo es valioso. Reserva lo que necesitas de forma rápida y elegante.
+                        {{ $t('home.hero_subtitle') }}
                     </p>
                     <div class="flex flex-wrap gap-4 hero-animate hero-delay-btn">
                         <Link
                             href="/register"
                             class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-semibold hover:bg-black transition-all duration-300 shadow-2xl shadow-gray-400/50 hover:-translate-y-1"
                         >
-                            Comenzar ahora
+                            {{ $t('home.hero_cta') }}
                         </Link>
                     </div>
                 </div>
@@ -118,11 +126,11 @@ onMounted(() => {
                 <div class="mb-10">
                     <h2
                         class="text-5xl md:text-6xl font-bold text-gray-900 mb-6"
+                        v-html="$t('home.services_title')"
                     >
-                        Qué podemos<br />hacer por ti.
                     </h2>
                     <p class="text-xl text-gray-600 max-w-2xl">
-                        Selecciona el servicio que necesitas y reserva tu cita.
+                        {{ $t('home.services_subtitle') }}
                     </p>
                 </div>
 
@@ -131,7 +139,7 @@ onMounted(() => {
                     <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-8 max-w-6xl">
                         <div
                             v-for="(category, index) in categories"
-                            :key="category.title"
+                            :key="category.id"
                             :data-index="index"
                             class="group cursor-pointer card-animate category-card"
                         >
@@ -157,7 +165,7 @@ onMounted(() => {
                                 <span
                                     class="inline-flex items-center text-sm text-gray-900 font-semibold group-hover:text-[#8EB6A5] transition-colors"
                                 >
-                                    Explorar
+                                    {{ $t('home.services_explore') }}
                                     <svg
                                         class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
                                         fill="none"
@@ -189,10 +197,10 @@ onMounted(() => {
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     <div class="max-w-xl">
                         <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tighter">
-                            Tus planes, <span class="text-white drop-shadow-sm">a un solo toque.</span>
+                            {{ $t('home.cta_title_1') }} <span class="text-white drop-shadow-sm">{{ $t('home.cta_title_2') }}</span>
                         </h2>
                         <p class="text-xl text-gray-800 mb-10 leading-relaxed font-medium">
-                            Olvida las esperas al teléfono y los mensajes sin respuesta. Con ProReserve, reservar tu lugar ideal es rápido, sencillo y elegante.
+                            {{ $t('home.cta_subtitle') }}
                         </p>
                         
                         <!-- Advantages Grid -->
@@ -204,8 +212,8 @@ onMounted(() => {
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg text-gray-900 mb-1">Busca y Descubre</h4>
-                                    <p class="text-sm text-gray-700">Encuentra los mejores locales de tu zona con valoraciones reales.</p>
+                                    <h4 class="font-bold text-lg text-gray-900 mb-1">{{ $t('home.cta_feature_1_title') }}</h4>
+                                    <p class="text-sm text-gray-700">{{ $t('home.cta_feature_1_desc') }}</p>
                                 </div>
                             </div>
                             <div class="flex items-start gap-4 group">
@@ -215,8 +223,8 @@ onMounted(() => {
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-lg text-gray-900 mb-1">Recordatorios</h4>
-                                    <p class="text-sm text-gray-700">Recibe notificaciones automáticas para que nunca llegues tarde a tus planes.</p>
+                                    <h4 class="font-bold text-lg text-gray-900 mb-1">{{ $t('home.cta_feature_2_title') }}</h4>
+                                    <p class="text-sm text-gray-700">{{ $t('home.cta_feature_2_desc') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -226,7 +234,7 @@ onMounted(() => {
                                 href="/register"
                                 class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-bold hover:bg-black transition-all duration-500 shadow-2xl shadow-gray-900/10"
                             >
-                                Comenzar ahora
+                                {{ $t('home.hero_cta') }}
                             </Link>
                         </div>
                     </div>
@@ -238,7 +246,7 @@ onMounted(() => {
                         <div class="relative rounded-[3rem] overflow-hidden border border-white/40 shadow-2xl group-hover:border-white/60 transition-all duration-700">
                             <img
                                 src="/images/proreserve-lifestyle-v2.png"
-                                alt="ProReserve Lifestyle"
+                                :alt="$t('home.cta_image_alt')"
                                 class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-1000"
                             />
                         </div>

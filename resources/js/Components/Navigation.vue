@@ -2,6 +2,14 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { UserRound, Bell} from 'lucide-vue-next'; 
+import { useI18n } from "@/Composables/useI18n";
+
+const { currentLocale, setLocale } = useI18n();
+
+const toggleLanguage = () => {
+    const nextLocale = currentLocale.value === 'es' ? 'en' : 'es';
+    setLocale(nextLocale);
+}; 
 
 const mobileMenuOpen = ref(false);
 const profileMenuOpen = ref(false);
@@ -72,7 +80,7 @@ defineProps({
                         class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-2 focus:-outline-offset-1 focus:outline-blue-500"
                     >
                         <span class="absolute -inset-0.5"></span>
-                        <span class="sr-only">Abrir menú principal</span>
+                        <span class="sr-only">{{ $t('nav.open_menu') }}</span>
                         <!-- Icon hamburger -->
                         <svg
                             v-if="!mobileMenuOpen"
@@ -132,7 +140,7 @@ defineProps({
                                     'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
-                                Inicio
+                                {{ $t('nav.home') }}
                             </Link>
                             <Link
                                 :href="route('servicios')"
@@ -143,7 +151,7 @@ defineProps({
                                     'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
-                                Servicios
+                                {{ $t('nav.services') }}
                             </Link>
                             <Link
                                 href="/contacto"
@@ -154,7 +162,7 @@ defineProps({
                                     'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
-                                Contacto
+                                {{ $t('nav.contact') }}
                             </Link>
                             <Link
                                 href="/calendario"
@@ -165,7 +173,7 @@ defineProps({
                                     'nav-link-item px-4 py-2 text-lg font-medium flex items-center',
                                 ]"
                             >
-                                Calendario
+                                {{ $t('nav.calendar') }}
                             </Link>
                         </div>
                     </div>
@@ -175,13 +183,22 @@ defineProps({
                 <div
                     class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
                 >
+                    <!-- Language Switcher -->
+                    <button
+                        @click="toggleLanguage"
+                        class="flex items-center justify-center w-10 h-10 mr-2 rounded-full border border-gray-200 text-[10px] font-black tracking-tighter text-gray-500 hover:bg-gray-50 hover:text-gray-900 transition-all duration-300 shadow-sm"
+                        title="Cambiar idioma"
+                    >
+                        {{ currentLocale.toUpperCase() }}
+                    </button>
+
                     <!-- Notifications -->
                     <button
                         type="button"
                         class="relative rounded-full p-1 text-gray-600 hover:text-gray-900 focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
                     >
                         <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">Ver notificaciones</span>
+                        <span class="sr-only">{{ $t('nav.view_notifications') }}</span>
 
                         <Bell 
         :size="24"
@@ -210,7 +227,7 @@ defineProps({
                             class="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                         >
                             <span class="absolute -inset-1.5"></span>
-                            <span class="sr-only">Abrir menú de usuario</span>
+                            <span class="sr-only">{{ $t('nav.open_user_menu') }}</span>
                             <img v-if="user?.name"
                                 :src="`https://ui-avatars.com/api/?name=${user.name}&background=9ca3af&color=fff&length=1`"
                                 alt=""
@@ -241,13 +258,13 @@ defineProps({
                                     :href="route('profile.edit')"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 >
-                                    Tu perfil
+                                    {{ $t('nav.profile') }}
                                 </Link>
                                 <Link
                                     href="/configuracion"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 >
-                                    Configuración
+                                    {{ $t('nav.settings') }}
                                 </Link>
                                 <Link
                                     :href="route('logout')"
@@ -255,7 +272,7 @@ defineProps({
                                     as="button"
                                     class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                 >
-                                    Cerrar sesión
+                                    {{ $t('nav.logout') }}
                                 </Link>
                             </div>
                         </Transition>
@@ -285,7 +302,7 @@ defineProps({
                             'block rounded-md px-4 py-3 text-base font-medium transition-all duration-200',
                         ]"
                     >
-                        Inicio
+                        {{ $t('nav.home') }}
                     </Link>
                     <Link
                         :href="route('servicios')"
@@ -297,21 +314,21 @@ defineProps({
                             'block rounded-md px-4 py-3 text-base font-medium transition-all duration-200',
                         ]"
                     >
-                        Servicios
+                        {{ $t('nav.services') }}
                     </Link>
                     <Link
                         href="/contacto"
                         @click="closeMobileMenu"
                         class="block rounded-md px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition-all duration-200"
                     >
-                        Contacto
+                        {{ $t('nav.contact') }}
                     </Link>
                     <Link
                         href="/calendario"
                         @click="closeMobileMenu"
                         class="block rounded-md px-4 py-3 text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-blue-600 transition-all duration-200"
                     >
-                        Calendario
+                        {{ $t('nav.calendar') }}
                     </Link>
                 </div>
             </div>
