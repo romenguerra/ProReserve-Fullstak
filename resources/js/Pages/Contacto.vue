@@ -2,6 +2,9 @@
 import { Head, useForm } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { onMounted, ref } from "vue";
+import { useI18n } from "@/Composables/useI18n";
+
+const { t } = useI18n();
 
 const form = useForm({
     name: "",
@@ -55,9 +58,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Contacto - ProReserve" />
+    <Head :title="$t('contact_page.meta_title')" />
 
-    <MainLayout title="Contacto - ProReserve">
+    <MainLayout :title="$t('contact_page.meta_title')">
         <div class="bg-[#F0EEE9] min-h-screen"> <!-- Pantone Cloud Dancer Background -->
             <!-- Hero Section -->
             <section class="relative min-h-[50vh] flex items-center overflow-hidden pt-24 pb-12">
@@ -68,11 +71,11 @@ onMounted(() => {
                 <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 w-full relative z-10">
                     <div class="max-w-4xl">
                         <h1 class="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 leading-[0.9] tracking-tighter mb-8 animate-on-scroll">
-                            <span class="block">Hablemos</span>
-                            <span class="text-[#8EB6A5]">contigo.</span>
+                            <span class="block">{{ $t('contact_page.hero_title_1') }}</span>
+                            <span class="text-[#8EB6A5]">{{ $t('contact_page.hero_title_2') }}</span>
                         </h1>
                         <p class="text-xl md:text-2xl text-gray-700 max-w-xl leading-relaxed animate-on-scroll" data-index="1">
-                            Ya seas un usuario buscando ayuda o un negocio con ganas de innovar, estamos aquí para escucharte.
+                            {{ $t('contact_page.hero_subtitle') }}
                         </p>
                     </div>
                 </div>
@@ -89,35 +92,35 @@ onMounted(() => {
                                 <div class="w-14 h-14 bg-[#8EB6A5] rounded-2xl flex items-center justify-center shadow-lg shadow-[#8EB6A5]/20 mb-6 group-hover:scale-110 transition-transform">
                                     <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                 </div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-1">Escríbenos</h3>
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">{{ $t('contact_page.info_email_title') }}</h3>
                                 <div class="relative inline-block">
                                     <button @click="copyEmail" class="text-[#4A6358] font-medium font-serif italic hover:text-[#8EB6A5] transition-colors flex items-center gap-2 group/btn">
                                         contacto@proreserve.com
                                         <svg class="w-4 h-4 opacity-0 group-hover/btn:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 002-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 00-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" /></svg>
                                     </button>
                                     <Transition name="fade">
-                                        <span v-if="isEmailCopied" class="absolute -top-10 left-0 bg-gray-900 text-white text-[10px] py-1 px-3 rounded-full font-bold whitespace-nowrap">¡Copiado!</span>
+                                        <span v-if="isEmailCopied" class="absolute -top-10 left-0 bg-gray-900 text-white text-[10px] py-1 px-3 rounded-full font-bold whitespace-nowrap">{{ $t('contact_page.info_email_copied') }}</span>
                                     </Transition>
                                 </div>
-                                <p class="text-xs text-[#8EB6A5] font-bold uppercase tracking-wider mt-3">24/7 Soporte digital</p>
+                                <p class="text-xs text-[#8EB6A5] font-bold uppercase tracking-wider mt-3">{{ $t('contact_page.info_email_support') }}</p>
                             </div>
 
                             <a href="https://maps.google.com/?q=Calle+Serrano+42+Madrid" target="_blank" class="block animate-on-scroll bg-white/60 backdrop-blur-md p-8 rounded-[2rem] border border-white/50 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-500 group" data-index="3">
                                 <div class="w-14 h-14 bg-gray-900 rounded-2xl flex items-center justify-center shadow-lg shadow-gray-200/50 mb-6 group-hover:scale-110 transition-transform">
                                     <svg class="w-7 h-7 text-[#8EB6A5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                 </div>
-                                <h3 class="text-xl font-bold text-gray-900 mb-1">Ubicación</h3>
-                                <p class="text-gray-600">Calle Serrano, 42</p>
-                                <p class="text-gray-600 mb-4">28001 Madrid, España</p>
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">{{ $t('contact_page.info_location_title') }}</h3>
+                                <p class="text-gray-600">{{ $t('contact_page.info_location_street') }}</p>
+                                <p class="text-gray-600 mb-4">{{ $t('contact_page.info_location_city') }}</p>
                                 <span class="text-xs text-[#8EB6A5] font-bold uppercase tracking-wider flex items-center gap-2">
-                                    Ver en mapa 
+                                    {{ $t('contact_page.info_location_link') }} 
                                     <svg class="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                                 </span>
                             </a>
 
                             <!-- Social links -->
                             <div class="animate-on-scroll pt-4" data-index="4">
-                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6 ml-1">Nuestra comunidad</p>
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6 ml-1">{{ $t('contact_page.info_social_title') }}</p>
                                 <div class="flex gap-4">
                                     <a href="#" class="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center text-gray-500 hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 border border-white shadow-sm hover:shadow-lg hover:shadow-[#8EB6A5]/20 hover:-translate-y-1" title="Twitter / X">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
@@ -147,47 +150,47 @@ onMounted(() => {
                                         <div class="w-20 h-20 bg-[#8EB6A5] rounded-full flex items-center justify-center mb-6 scale-up-center">
                                             <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
                                         </div>
-                                        <h3 class="text-3xl font-bold text-gray-900 mb-4">¡Mensaje enviado!</h3>
-                                        <p class="text-lg text-gray-600 max-w-sm">Gracias por contactar con nosotros. Te responderemos en menos de 24 horas.</p>
+                                        <h3 class="text-3xl font-bold text-gray-900 mb-4">{{ $t('contact_page.form_success_title') }}</h3>
+                                        <p class="text-lg text-gray-600 max-w-sm">{{ $t('contact_page.form_success_message') }}</p>
                                     </div>
                                 </Transition>
 
                                 <form @submit.prevent="submit" class="relative z-10 space-y-10" :class="{ 'opacity-20 pointer-events-none': isSubmitted }">
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                                         <div class="space-y-4">
-                                            <label class="text-sm font-black text-gray-900 tracking-wider uppercase ml-1">Tu Nombre</label>
+                                            <label class="text-sm font-black text-gray-900 tracking-wider uppercase ml-1">{{ $t('contact_page.form_name_label') }}</label>
                                             <input 
                                                 v-model="form.name"
                                                 type="text" 
                                                 required
-                                                placeholder="Cómo te llamas"
-                                                class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] transition-all outline-none text-lg placeholder:text-gray-300"
+                                                :placeholder="$t('contact_page.form_name_placeholder')"
+                                                class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] focus:ring-0 focus:outline-none transition-all outline-none text-lg placeholder:text-gray-300"
                                             />
                                         </div>
                                         <div class="space-y-4">
-                                            <label class="text-sm font-black text-gray-900 tracking-wider uppercase ml-1">Tu Email</label>
+                                            <label class="text-sm font-black text-gray-900 tracking-wider uppercase ml-1">{{ $t('contact_page.form_email_label') }}</label>
                                             <input 
                                                 v-model="form.email"
                                                 type="email" 
                                                 required
-                                                placeholder="tu@email.com"
-                                                class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] transition-all outline-none text-lg placeholder:text-gray-300"
+                                                :placeholder="$t('contact_page.form_email_placeholder')"
+                                                class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] focus:ring-0 focus:outline-none transition-all outline-none text-lg placeholder:text-gray-300"
                                             />
                                         </div>
                                     </div>
                                     
                                     <div class="space-y-4">
-                                        <label class="text-sm font-black text-gray-900 tracking-wider uppercase ml-1">Motivo del contacto</label>
+                                        <label class="text-sm font-black text-gray-900 tracking-wider uppercase ml-1">{{ $t('contact_page.form_subject_label') }}</label>
                                         <div class="relative">
                                             <select 
                                                 v-model="form.subject"
                                                 required
-                                                class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] transition-all outline-none text-lg appearance-none cursor-pointer"
+                                                class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] focus:ring-0 focus:outline-none transition-all outline-none text-lg appearance-none cursor-pointer"
                                             >
-                                                <option value="" disabled selected>Selecciona un motivo</option>
-                                                <option value="user">Soy usuario y necesito ayuda</option>
-                                                <option value="business">Tengo un negocio y quiero unirme</option>
-                                                <option value="other">Otro asunto</option>
+                                                <option value="" disabled selected>{{ $t('contact_page.form_subject_placeholder') }}</option>
+                                                <option value="user">{{ $t('contact_page.form_subject_user') }}</option>
+                                                <option value="business">{{ $t('contact_page.form_subject_business') }}</option>
+                                                <option value="other">{{ $t('contact_page.form_subject_other') }}</option>
                                             </select>
                                             <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
@@ -197,7 +200,7 @@ onMounted(() => {
 
                                     <div class="space-y-4">
                                         <div class="flex justify-between items-end ml-1">
-                                            <label class="text-sm font-black text-gray-900 tracking-wider uppercase">Tu Mensaje</label>
+                                            <label class="text-sm font-black text-gray-900 tracking-wider uppercase">{{ $t('contact_page.form_message_label') }}</label>
                                             <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest" :class="{ 'text-[#8EB6A5]': form.message.length > 0 }">
                                                 {{ form.message.length }} / 500
                                             </span>
@@ -207,8 +210,8 @@ onMounted(() => {
                                             rows="4" 
                                             required
                                             maxlength="500"
-                                            placeholder="Cuéntanos más detalles sobre lo que necesitas..."
-                                            class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] transition-all outline-none text-lg resize-none placeholder:text-gray-300"
+                                            :placeholder="$t('contact_page.form_message_placeholder')"
+                                            class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] focus:ring-0 focus:outline-none transition-all outline-none text-lg resize-none placeholder:text-gray-300"
                                         ></textarea>
                                     </div>
 
@@ -219,11 +222,11 @@ onMounted(() => {
                                                 id="privacy" 
                                                 type="checkbox" 
                                                 required
-                                                class="w-5 h-5 border-2 border-gray-200 rounded text-[#8EB6A5] focus:ring-[#8EB6A5] cursor-pointer transition-colors"
+                                                class="w-5 h-5 border-2 border-gray-200 rounded text-[#8EB6A5] focus:ring-[#8EB6A5] focus:ring-offset-0 focus:outline-none cursor-pointer transition-colors"
                                             />
                                         </div>
                                         <label for="privacy" class="text-sm text-gray-500 leading-tight cursor-pointer group-hover/check:text-gray-700 transition-colors">
-                                            Acepto la <a href="#" class="text-[#8EB6A5] font-bold hover:underline">política de privacidad</a> y el tratamiento de mis datos.
+                                            {{ $t('contact_page.form_privacy_accept') }} <a href="#" class="text-[#8EB6A5] font-bold hover:underline">{{ $t('contact_page.form_privacy_link') }}</a> {{ $t('contact_page.form_privacy_and') }}
                                         </label>
                                     </div>
 
@@ -233,7 +236,7 @@ onMounted(() => {
                                             :disabled="isProcessing"
                                             class="group bg-gray-900 text-white font-black px-12 py-6 rounded-full hover:bg-black transition-all duration-300 shadow-2xl shadow-gray-200 flex items-center gap-4 text-lg disabled:opacity-70 disabled:cursor-not-allowed"
                                         >
-                                            <span>{{ isProcessing ? 'Enviando...' : 'Enviar mensaje' }}</span>
+                                            <span>{{ isProcessing ? $t('contact_page.form_submitting') : $t('contact_page.form_submit') }}</span>
                                             
                                             <div class="w-8 h-8 bg-[#8EB6A5] rounded-full flex items-center justify-center transform group-hover:rotate-12 transition-transform relative">
                                                 <!-- Spinner -->
@@ -263,6 +266,32 @@ onMounted(() => {
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hide default select arrow */
+select {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-image: none !important; /* Override @tailwindcss/forms */
+}
+
+/* Fix for IE */
+select::-ms-expand {
+    display: none !important;
+}
+
+/* Global overide for form fields focus */
+input, select, textarea {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+input:focus, select:focus, textarea:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: transparent !important;
+    border-bottom-color: #8EB6A5 !important;
 }
 
 .reveal-card {

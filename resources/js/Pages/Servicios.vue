@@ -1,6 +1,10 @@
 <script setup>
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { Link } from "@inertiajs/vue3";
+import { computed } from "vue";
+import { useI18n } from "@/Composables/useI18n";
+
+const { t } = useI18n();
 
 defineProps({
     servicios: {
@@ -9,47 +13,47 @@ defineProps({
     },
 });
 
-const categorias = [
+const categorias = computed(() => [
     {
         id: 1,
-        nombre: "Gastronomía",
-        descripcion: "Reserva en tu restaurante",
+        nombre: t("home.categories.gastronomy"),
+        descripcion: t("home.categories.gastronomy_desc"),
         imagen: "/images/gastronomia.jpg",
         slug: "gastronomia",
     },
     {
         id: 2,
-        nombre: "Deporte",
-        descripcion: "Entrena y mantente en forma",
+        nombre: t("home.categories.sport"),
+        descripcion: t("home.categories.sport_desc"),
         imagen: "/images/deporte.jpg",
         slug: "deporte",
     },
     {
         id: 3,
-        nombre: "Salud",
-        descripcion: "Cuida de tu bienestar físico",
+        nombre: t("home.categories.health"),
+        descripcion: t("home.categories.health_desc"),
         imagen: "/images/salud.jpg",
         slug: "salud",
     },
     {
         id: 4,
-        nombre: "Ocio",
-        descripcion: "Disfruta de tu tiempo libre",
+        nombre: t("home.categories.leisure"),
+        descripcion: t("home.categories.leisure_desc"),
         imagen: "/images/ocio.jpg",
         slug: "ocio",
     },
     {
         id: 5,
-        nombre: "Imagen personal",
-        descripcion: "Servicios a tu medida",
+        nombre: t("home.categories.beauty"),
+        descripcion: t("home.categories.beauty_desc"),
         imagen: "/images/personal.jpg",
         slug: "imagen-personal",
     },
-];
+]);
 </script>
 
 <template>
-    <MainLayout title="Servicios - ProReserve">
+    <MainLayout :title="$t('services_page.meta_title')">
         <div class="bg-[#F0EEE9] min-h-screen">
             <!-- Hero Section -->
             <section class="relative flex items-center overflow-hidden pt-32 pb-20">
@@ -61,11 +65,10 @@ const categorias = [
                     <h1
                         class="text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 leading-tight mb-6 tracking-tighter"
                     >
-                        Todos los<br /><span class="text-[#8EB6A5]">servicios.</span>
+                        <span v-html="$t('services_page.hero_title')"></span>
                     </h1>
                     <p class="text-xl md:text-2xl text-gray-600 max-w-2xl leading-relaxed">
-                        Explora nuestra selección completa de servicios
-                        disponibles para reservar.
+                        {{ $t('services_page.hero_subtitle') }}
                     </p>
                 </div>
             </div>
@@ -101,7 +104,7 @@ const categorias = [
                         <span
                             class="inline-flex items-center text-sm text-gray-900 font-bold group-hover:text-[#8EB6A5] transition-all"
                         >
-                            Explorar
+                            {{ $t('services_page.explore') }}
                             <svg
                                 class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
                                 fill="none"
@@ -128,18 +131,16 @@ const categorias = [
             
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
                 <div class="max-w-3xl">
-                    <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tighter">
-                        ¿Tienes un <span class="text-[#8EB6A5]">negocio?</span>
+                    <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-tight tracking-tighter" v-html="$t('services_page.cta_title')">
                     </h2>
                     <p class="text-xl text-gray-400 mb-10 leading-relaxed max-w-2xl">
-                        Únete a ProReserve y empieza a gestionar las reservas de
-                        tu negocio de forma simple, eficiente y con estilo.
+                        {{ $t('services_page.cta_subtitle') }}
                     </p>
                     <Link
                         href="/register"
                         class="inline-block bg-white text-gray-950 px-10 py-5 rounded-full font-bold hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 shadow-2xl shadow-white/5"
                     >
-                        Comenzar ahora
+                        {{ $t('services_page.cta_button') }}
                     </Link>
                 </div>
             </div>
