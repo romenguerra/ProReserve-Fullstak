@@ -15,7 +15,7 @@ const isProcessing = ref(false);
 const isEmailCopied = ref(false);
 
 const copyEmail = () => {
-    navigator.clipboard.writeText('hola@proreserve.com');
+    navigator.clipboard.writeText('contacto@proreserve.com');
     isEmailCopied.value = true;
     setTimeout(() => {
         isEmailCopied.value = false;
@@ -92,7 +92,7 @@ onMounted(() => {
                                 <h3 class="text-xl font-bold text-gray-900 mb-1">Escríbenos</h3>
                                 <div class="relative inline-block">
                                     <button @click="copyEmail" class="text-[#4A6358] font-medium font-serif italic hover:text-[#8EB6A5] transition-colors flex items-center gap-2 group/btn">
-                                        hola@proreserve.com
+                                        contacto@proreserve.com
                                         <svg class="w-4 h-4 opacity-0 group-hover/btn:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 002-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 00-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" /></svg>
                                     </button>
                                     <Transition name="fade">
