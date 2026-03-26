@@ -76,7 +76,7 @@ onMounted(() => {
 <template>
     <MainLayout :title="$t('home.meta_title')">
         <!-- Hero Section - Gradiente de Malla Premium (Verde Agua) -->
-        <section class="relative min-h-[60vh] flex items-center overflow-hidden bg-[#F0EEE9]">
+        <section data-nav-theme="light" class="relative min-h-[60vh] flex items-center overflow-hidden bg-[#F0EEE9]">
             <!-- Fondo de malla (Mesh Gradient) complejo con CSS -->
             <div class="absolute inset-0 opacity-80" style="
                 background-color: #F0EEE9;
@@ -121,7 +121,7 @@ onMounted(() => {
         </section>
 
         <!-- Services Section - Cloud Dancer -->
-        <section class="bg-[#F0EEE9] py-20">
+        <section data-nav-theme="light" class="bg-[#F0EEE9] py-20">
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                 <div class="mb-10">
                     <h2
@@ -188,7 +188,7 @@ onMounted(() => {
         </section>
 
         <!-- CTA Section - User Focused -->
-        <section class="bg-[#B8D4C8] text-gray-900 py-24 overflow-hidden relative">
+        <section data-nav-theme="dark" class="bg-[#B8D4C8] text-gray-900 py-24 overflow-hidden relative">
             <!-- Decorative blur layers - Adjusted for light background -->
             <div class="absolute -top-24 -right-24 w-96 h-96 bg-white/40 rounded-full blur-[120px]"></div>
             <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-[#8EB6A5]/30 rounded-full blur-[120px]"></div>
@@ -255,7 +255,7 @@ onMounted(() => {
             </div>
         </section>
         <!-- Business Section - Professional Focused -->
-        <section class="bg-[#F0EEE9] text-[#0f172a] py-32 relative overflow-hidden">
+        <section data-nav-theme="light" class="bg-[#F0EEE9] text-[#0f172a] py-32 relative overflow-hidden">
             <!-- Decorative elements adapted for beige background -->
             <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-white/40 rounded-full blur-[120px]"></div>
             <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#8EB6A5]/10 rounded-full blur-[100px]"></div>
@@ -314,7 +314,7 @@ onMounted(() => {
                 <div class="flex justify-center flex-wrap gap-6 items-center">
                     <Link
                         href="/register"
-                        class="px-12 py-5 bg-[#0f172a] text-white rounded-full font-bold text-lg hover:bg-white hover:text-[#0f172a] transition-all duration-500 shadow-xl shadow-[#0f172a]/20"
+                        class="px-12 py-5 bg-[#0f172a] text-white rounded-full font-bold text-lg hover:bg-black hover:text-white transition-all duration-500 shadow-xl shadow-[#0f172a]/20"
                     >
                         {{ $t('home.business.cta') }}
                     </Link>
