@@ -37,6 +37,10 @@ Route::get('/deportes', function () {
     ]);
 })->name('deportes');
 
+Route::get('/calendario', function () {
+    return Inertia::render('Calendar/Index');
+})->name('calendario');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard-Example');
 })->middleware(['auth', 'verified'])->name('dashboard');
