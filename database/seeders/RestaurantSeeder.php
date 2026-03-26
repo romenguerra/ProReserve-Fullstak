@@ -20,6 +20,7 @@ class RestaurantSeeder extends Seeder
         $restaurants = [
             [
                 'name' => 'La Parrilla del Abuelo',
+                'type' => 'asador',
                 'description' => 'Las mejores carnes a la brasa con el sabor tradicional de leña.',
                 'image' => 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Calle Mayor, 10',
@@ -31,6 +32,7 @@ class RestaurantSeeder extends Seeder
             ],
             [
                 'name' => 'Sushi Master',
+                'type' => 'japones',
                 'description' => 'Auténtico sushi japonés preparado al momento por maestros artesanos.',
                 'image' => 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Gran Vía, 40',
@@ -42,6 +44,7 @@ class RestaurantSeeder extends Seeder
             ],
             [
                 'name' => 'El Rincón del Mediterráneo',
+                'type' => 'mediterraneo',
                 'description' => 'Sabores frescos del mar y la huerta en un ambiente acogedor frente al puerto.',
                 'image' => 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Passeig de Colom, 15',
@@ -53,6 +56,7 @@ class RestaurantSeeder extends Seeder
             ],
             [
                 'name' => 'Trattoria Bella Italia',
+                'type' => 'italiano',
                 'description' => 'Pasta fresca artesanal y pizzas al horno de piedra siguiendo recetas milenarias.',
                 'image' => 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Plaça de la Reina, 5',
@@ -64,6 +68,7 @@ class RestaurantSeeder extends Seeder
             ],
             [
                 'name' => 'Sakura Garden',
+                'type' => 'japones',
                 'description' => 'Un oasis de paz y gastronomía nipona en el corazón de la ciudad.',
                 'image' => 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Calle Sierpes, 24',
@@ -75,6 +80,7 @@ class RestaurantSeeder extends Seeder
             ],
             [
                 'name' => 'Steaks & Go',
+                'type' => 'steakhouse',
                 'description' => 'Especialistas en cortes premium madurados y cocina de autor.',
                 'image' => 'https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Alameda Mazarredo, 12',
@@ -86,6 +92,7 @@ class RestaurantSeeder extends Seeder
             ],
             [
                 'name' => 'Healthy Vibes',
+                'type' => 'saludable',
                 'description' => 'Cocina consciente, saludable y deliciosa con productos de proximidad.',
                 'image' => 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Calle Larios, 8',

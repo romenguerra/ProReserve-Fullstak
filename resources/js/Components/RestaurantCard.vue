@@ -9,6 +9,32 @@ defineProps({
         default: 0,
     },
 });
+
+// Ayudante para mostrar el nombre del tipo de cocina
+const getTypeName = (type) => {
+    switch (type) {
+        case 'asador': return 'Asador';
+        case 'japones': return 'Japonés';
+        case 'mediterraneo': return 'Mediterráneo';
+        case 'italiano': return 'Italiano';
+        case 'steakhouse': return 'Steakhouse';
+        case 'saludable': return 'Saludable';
+        default: return 'Restaurante';
+    }
+};
+
+// Color del badge basado en el tipo
+const getTypeColor = (type) => {
+    switch (type) {
+        case 'asador': return 'bg-orange-600/80';
+        case 'japones': return 'bg-red-600/80';
+        case 'mediterraneo': return 'bg-blue-500/80';
+        case 'italiano': return 'bg-emerald-600/80';
+        case 'steakhouse': return 'bg-stone-700/80';
+        case 'saludable': return 'bg-lime-600/80';
+        default: return 'bg-gray-500/80';
+    }
+}
 </script>
 
 <template>
@@ -35,8 +61,15 @@ defineProps({
                     <span class="text-xs font-bold text-gray-900">{{ restaurant.rating_average }}</span>
                 </div>
 
-                <!-- Open/Closed indicator tag -->
-                <div class="absolute bottom-4 left-4">
+                <!-- Type indicator tag -->
+                <div class="absolute bottom-4 left-4" v-if="restaurant.type">
+                    <span :class="getTypeColor(restaurant.type)" class="backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/10">
+                        {{ getTypeName(restaurant.type) }}
+                    </span>
+                </div>
+                
+                <!-- City indicator tag -->
+                <div class="absolute bottom-4 right-4">
                     <span class="bg-gray-900/40 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/10">
                         {{ restaurant.city }}
                     </span>

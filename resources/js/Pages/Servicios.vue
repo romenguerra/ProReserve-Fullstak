@@ -19,35 +19,35 @@ const categorias = computed(() => [
         nombre: t("home.categories.gastronomy"),
         descripcion: t("home.categories.gastronomy_desc"),
         imagen: "/images/gastronomia.jpg",
-        slug: "gastronomia",
+        link: "/gastronomia",
     },
     {
         id: 2,
         nombre: t("home.categories.sport"),
         descripcion: t("home.categories.sport_desc"),
         imagen: "/images/deporte.jpg",
-        slug: "deporte",
+        link: "/deportes",
     },
     {
         id: 3,
         nombre: t("home.categories.health"),
         descripcion: t("home.categories.health_desc"),
         imagen: "/images/salud.jpg",
-        slug: "salud",
+        link: "/salud",
     },
     {
         id: 4,
         nombre: t("home.categories.leisure"),
         descripcion: t("home.categories.leisure_desc"),
         imagen: "/images/ocio.jpg",
-        slug: "ocio",
+        link: "/ocio",
     },
     {
         id: 5,
         nombre: t("home.categories.beauty"),
         descripcion: t("home.categories.beauty_desc"),
         imagen: "/images/beauty-wellness.png",
-        slug: "belleza",
+        link: "/belleza",
     },
 ]);
 </script>
@@ -83,7 +83,7 @@ const categorias = computed(() => [
                     <Link
                         v-for="categoria in categorias"
                         :key="categoria.id"
-                        :href="`/${categoria.slug}`"
+                        :href="categoria.link"
                         class="group cursor-pointer"
                     >
                         <div

@@ -9,6 +9,30 @@ defineProps({
         default: 0,
     },
 });
+
+// Ayudante para mostrar el nombre del tipo de deporte
+const getTypeName = (type) => {
+    switch (type) {
+        case 'gimnasio': return 'Gimnasio';
+        case 'padel': return 'Pádel';
+        case 'natacion': return 'Natación';
+        case 'crossfit': return 'Crossfit';
+        case 'yoga': return 'Yoga';
+        default: return 'Deportes';
+    }
+};
+
+// Color del badge basado en el tipo
+const getTypeColor = (type) => {
+    switch (type) {
+        case 'gimnasio': return 'bg-blue-600/80';
+        case 'padel': return 'bg-cyan-600/80';
+        case 'natacion': return 'bg-sky-500/80';
+        case 'crossfit': return 'bg-orange-600/80';
+        case 'yoga': return 'bg-indigo-500/80';
+        default: return 'bg-gray-500/80';
+    }
+}
 </script>
 
 <template>
@@ -35,8 +59,15 @@ defineProps({
                     <span class="text-xs font-bold text-gray-900">{{ sportCenter.rating_average }}</span>
                 </div>
 
+                <!-- Type indicator tag -->
+                <div class="absolute bottom-4 left-4" v-if="sportCenter.type">
+                    <span :class="getTypeColor(sportCenter.type)" class="backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/10">
+                        {{ getTypeName(sportCenter.type) }}
+                    </span>
+                </div>
+                
                 <!-- City Tag -->
-                <div class="absolute bottom-4 left-4">
+                <div class="absolute bottom-4 right-4">
                     <span class="bg-gray-900/40 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest border border-white/10">
                         {{ sportCenter.city }}
                     </span>

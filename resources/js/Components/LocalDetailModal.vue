@@ -54,6 +54,36 @@ const getCategoryTheme = (cat) => {
         default: return { label: 'Servicio', color: 'bg-gray-800', textTitle: 'text-gray-900', textAccent: 'text-gray-800', bgMuted: 'bg-gray-100' };
     }
 };
+
+const formatTypeName = (type) => {
+    if (!type) return null;
+    // Capitalizar la primera letra y manejar tildes de forma sencilla para este demo
+    const titles = {
+        'asador': 'Asador',
+        'japones': 'Japonés',
+        'mediterraneo': 'Mediterráneo',
+        'italiano': 'Italiano',
+        'steakhouse': 'Steakhouse',
+        'saludable': 'Saludable',
+        'gimnasio': 'Gimnasio',
+        'padel': 'Pádel',
+        'natacion': 'Natación',
+        'crossfit': 'Crossfit',
+        'yoga': 'Yoga',
+        'clinica-estetica': 'Clínica Estética',
+        'clinica-medica': 'Clínica Médica',
+        'hospital': 'Hospital',
+        'barberia': 'Barbería',
+        'peluqueria': 'Peluquería',
+        'salon-belleza': 'Salón de Belleza',
+        'spa': 'Spa',
+        'cine': 'Cine',
+        'bolera': 'Bolera',
+        'parque-atracciones': 'Parque de Atracciones',
+        'museo': 'Museo'
+    };
+    return titles[type] || type.charAt(0).toUpperCase() + type.slice(1);
+};
 </script>
 
 <template>
@@ -113,7 +143,7 @@ const getCategoryTheme = (cat) => {
                                 
                                 <div class="absolute bottom-6 left-6 flex items-center gap-3">
                                     <span :class="['px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-white backdrop-blur-md shadow-lg', getCategoryTheme(category).color]">
-                                        {{ local.type || getCategoryTheme(category).label }}
+                                        {{ formatTypeName(local.type) || getCategoryTheme(category).label }}
                                     </span>
                                 </div>
                             </div>
