@@ -44,7 +44,7 @@ const categories = computed(() => [
         id: "beauty",
         title: t("home.categories.beauty"),
         description: t("home.categories.beauty_desc"),
-        image: "/images/personal.jpg",
+        image: "/images/beauty-wellness.png",
         link: "#",
     },
 ]);
