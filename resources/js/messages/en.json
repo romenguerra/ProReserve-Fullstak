@@ -34,6 +34,18 @@
             "leisure_desc": "Enjoy your free time",
             "beauty": "Personal care",
             "beauty_desc": "Services tailored to you"
+        },
+        "business": {
+            "title": "Are you a business?",
+            "subtitle": "Join the most advanced booking management platform.",
+            "desc": "ProReserve offers all the necessary tools for your business to grow smoothly.",
+            "feature_1_title": "Smart Management",
+            "feature_1_desc": "Interactive calendar and automated appointment management.",
+            "feature_2_title": "Analytics",
+            "feature_2_desc": "Get to know your customers better with detailed booking reports.",
+            "feature_3_title": "No hidden fees",
+            "feature_3_desc": "A transparent model designed for you to earn more.",
+            "cta": "Register your Business"
         }
     },
     "footer": {

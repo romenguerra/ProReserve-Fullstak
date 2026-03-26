@@ -34,6 +34,18 @@
             "leisure_desc": "Disfruta de tu tiempo libre",
             "beauty": "Imagen personal",
             "beauty_desc": "Servicios a tu medida"
+        },
+        "business": {
+            "title": "¿Eres una empresa?",
+            "subtitle": "Únete a la plataforma de gestión de reservas más avanzada.",
+            "desc": "ProReserve te ofrece todas las herramientas necesarias para que tu negocio crezca sin complicaciones.",
+            "feature_1_title": "Gestión Inteligente",
+            "feature_1_desc": "Calendario interactivo y gestión de citas automatizada.",
+            "feature_2_title": "Analíticas",
+            "feature_2_desc": "Conoce mejor a tus clientes con informes de reserva detallados.",
+            "feature_3_title": "Sin comisiones ocultas",
+            "feature_3_desc": "Un modelo transparente diseñado para que ganes más.",
+            "cta": "Registra tu Negocio"
         }
     },
     "footer": {
