@@ -46,8 +46,8 @@ const categorias = computed(() => [
         id: 5,
         nombre: t("home.categories.beauty"),
         descripcion: t("home.categories.beauty_desc"),
-        imagen: "/images/personal.jpg",
-        slug: "imagen-personal",
+        imagen: "/images/beauty-wellness.png",
+        slug: "belleza",
     },
 ]);
 </script>
@@ -83,7 +83,7 @@ const categorias = computed(() => [
                     <Link
                         v-for="categoria in categorias"
                         :key="categoria.id"
-                        :href="`/servicios/${categoria.slug}`"
+                        :href="`/${categoria.slug}`"
                         class="group cursor-pointer"
                     >
                         <div

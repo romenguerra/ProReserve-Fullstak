@@ -21,9 +21,12 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class, // Luego crear usuario admin
             InterestSeeder::class, // Añadir intereses
             RestaurantSeeder::class,
-            BarbershopSeeder::class,
+            SportCenterSeeder::class,
+            BeautyCenterSeeder::class,
+            LeisureCenterSeeder::class,
+            HealthCenterSeeder::class,
             ServiceSeeder::class,
-            ReviewSeeder::class,
+            // ReviewSeeder::class, // Comentado temporalmente hasta implementar el sistema frontal
             ReservationSeeder::class,
         ]);
 

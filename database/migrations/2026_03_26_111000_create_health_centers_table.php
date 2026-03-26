@@ -10,15 +10,23 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('barbershops', function (Blueprint $table) {
+        Schema::create('health_centers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('type'); // clinica estetica, clinica medica, hospital, etc.
+            $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->string('address');
             $table->string('city');
+            $table->string('postal_code')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
+            $table->string('website')->nullable();
+
+            $table->boolean('has_emergency')->default(false);
+            $table->boolean('wheelchair_access')->default(true);
+            $table->boolean('has_parking')->default(false);
 
             $table->time('opening_time')->nullable();
             $table->time('closing_time')->nullable();
@@ -39,6 +47,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('barbershops');
+        Schema::dropIfExists('health_centers');
     }
 };

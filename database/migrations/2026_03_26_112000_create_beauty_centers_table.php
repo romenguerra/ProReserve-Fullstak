@@ -10,10 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('restaurants', function (Blueprint $table) {
+        Schema::create('beauty_centers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('type'); // barberia, peluqueria, centro de estetica, masajes, etc.
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->string('address');
@@ -23,8 +24,6 @@ return new class extends Migration {
             $table->string('email')->nullable();
             $table->string('website')->nullable();
 
-            $table->boolean('has_terrace')->default(false);
-            $table->boolean('smoking_area')->default(false);
             $table->boolean('wheelchair_access')->default(false);
 
             $table->time('opening_time')->nullable();
@@ -46,6 +45,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('restaurants');
+        Schema::dropIfExists('beauty_centers');
     }
 };

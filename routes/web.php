@@ -37,6 +37,25 @@ Route::get('/deportes', function () {
     ]);
 })->name('deportes');
 
+Route::get('/ocio', function () {
+    return Inertia::render('Ocio', [
+        'leisureCenters' => \App\Models\LeisureCenter::all(),
+    ]);
+})->name('ocio');
+
+Route::get('/salud', function () {
+    return Inertia::render('Salud', [
+        'healthCenters' => \App\Models\HealthCenter::all(),
+    ]);
+})->name('salud');
+
+Route::get('/belleza', function () {
+    return Inertia::render('Belleza', [
+        'beautyCenters' => \App\Models\BeautyCenter::all(),
+    ]);
+})->name('belleza');
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard-Example');
 })->middleware(['auth', 'verified'])->name('dashboard');

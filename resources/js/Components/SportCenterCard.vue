@@ -1,6 +1,4 @@
 <script setup>
-import { Link } from "@inertiajs/vue3";
-
 defineProps({
     sportCenter: {
         type: Object,
@@ -18,7 +16,7 @@ defineProps({
         class="group cursor-pointer card-animate sport-card"
         :data-index="index"
     >
-        <Link :href="`/deportes/${sportCenter.slug}`" class="block">
+        <div @click="$emit('open-modal', sportCenter)" class="block">
             <div
                 class="aspect-[4/5] overflow-hidden mb-6 bg-gray-100 rounded-[2rem] image-container shadow-sm group-hover:shadow-2xl transition-all duration-700 relative"
             >
@@ -80,7 +78,7 @@ defineProps({
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     </div>
 </template>
 

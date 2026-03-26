@@ -31,21 +31,21 @@ const categories = computed(() => [
         title: t("home.categories.health"),
         description: t("home.categories.health_desc"),
         image: "/images/salud.jpg",
-        link: "#",
+        link: "/salud",
     },
     {
         id: "leisure",
         title: t("home.categories.leisure"),
         description: t("home.categories.leisure_desc"),
         image: "/images/ocio.jpg",
-        link: "#",
+        link: "/ocio",
     },
     {
         id: "beauty",
         title: t("home.categories.beauty"),
         description: t("home.categories.beauty_desc"),
         image: "/images/beauty-wellness.png",
-        link: "#",
+        link: "/belleza",
     },
 ]);
 

@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\Barbershop;
+use App\Models\BeautyCenter;
 use Illuminate\Database\Seeder;
 
 class ServiceSeeder extends Seeder
 {
     public function run(): void
     {
-        $barbershop = Barbershop::first();
-        if (!$barbershop)
+        $beautyCenter = BeautyCenter::first();
+        if (!$beautyCenter)
             return;
 
         $services = [
@@ -32,7 +32,7 @@ class ServiceSeeder extends Seeder
         ];
 
         foreach ($services as $data) {
-            $barbershop->services()->create($data);
+            $beautyCenter->services()->create($data);
         }
     }
 }
