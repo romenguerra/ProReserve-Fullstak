@@ -59,7 +59,10 @@
         "subscribe_title": "Register now",
         "subscribe_desc": "Join ProReserve and start making your bookings quickly, easily, and with style.",
         "subscribe_placeholder": "your@email.com",
-        "subscribe_button": "Register",
+        "subscribe_button": "Register Now",
+        "dashboard_title": "Manage your account",
+        "dashboard_desc": "Access your panel to see your statistics and reservations at a glance.",
+        "dashboard_button": "Go to Dashboard",
         "copyright": "ProReserve. All rights reserved.",
         "social_instagram": "Instagram",
         "social_twitter": "Twitter"
@@ -69,12 +72,36 @@
         "services": "Services",
         "contact": "Contact",
         "calendar": "Calendar",
+        "dashboard": "Dashboard",
         "profile": "Your profile",
         "settings": "Settings",
         "logout": "Logout",
         "open_menu": "Open main menu",
         "view_notifications": "View notifications",
         "open_user_menu": "Open user menu"
+    },
+    "calendar": {
+        "meta_title": "My Calendar - ProReserve",
+        "badge": "Your Reservations",
+        "title": "My Calendar",
+        "subtitle": "Manage and view all your upcoming reservations in one place.",
+        "tabs": {
+            "upcoming": "Upcoming",
+            "past": "Past",
+            "cancelled": "Cancelled"
+        },
+        "date": "Date",
+        "time": "Time",
+        "guests": "Guests",
+        "empty_title": "No upcoming reservations",
+        "empty_subtitle": "When you book a service, it will appear here so you can easily manage it.",
+        "explore_cta": "Explore Services",
+        "summary_today": "Today's Summary",
+        "upcoming": "Upcoming",
+        "completed": "Completed",
+        "confirm_cancel": "Are you sure you want to cancel this reservation?",
+        "cancel_action": "Cancel",
+        "details_action": "View details"
     },
     "services_page": {
         "meta_title": "Services - ProReserve",

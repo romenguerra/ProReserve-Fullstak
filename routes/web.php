@@ -60,6 +60,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard-Example');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/calendario', function () {
+    return Inertia::render('Calendar/Index');
+})->middleware(['auth', 'verified'])->name('calendario');
+
 // Ruta para visualizar perfil (diferente de editar)
 Route::get('/perfil', function () {
     return Inertia::render('Profile/Show', [
