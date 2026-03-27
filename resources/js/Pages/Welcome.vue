@@ -121,7 +121,7 @@ onMounted(() => {
         </section>
 
         <!-- Services Section - Cloud Dancer -->
-        <section data-nav-theme="light" class="bg-[#F0EEE9] py-20">
+        <section data-nav-theme="light" class="bg-[#F0EEE9] py-16 md:py-20">
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                 <div class="mb-10">
                     <h2
@@ -143,9 +143,9 @@ onMounted(() => {
                             :data-index="index"
                             class="group cursor-pointer card-animate category-card"
                         >
-                            <Link :href="category.link" class="block">
+                            <Link :href="category.link" class="flex items-center gap-4 sm:block">
                                 <div
-                                    class="aspect-[4/5] overflow-hidden mb-4 bg-gray-100 rounded-2xl image-container"
+                                    class="w-24 h-24 shrink-0 sm:w-full sm:h-auto sm:aspect-[4/5] overflow-hidden sm:mb-4 bg-gray-100 rounded-2xl image-container"
                                 >
                                     <img
                                         class="w-full h-full object-cover"
@@ -154,32 +154,34 @@ onMounted(() => {
                                         loading="lazy"
                                     />
                                 </div>
-                                <h3
-                                    class="text-xl font-bold text-gray-900 mb-1 card-title"
-                                >
-                                    {{ category.title }}
-                                </h3>
-                                <p class="text-sm text-gray-500 mb-3 line-clamp-2">
-                                    {{ category.description }}
-                                </p>
-                                <span
-                                    class="inline-flex items-center text-sm text-gray-900 font-semibold group-hover:text-[#8EB6A5] transition-colors"
-                                >
-                                    {{ $t('home.services_explore') }}
-                                    <svg
-                                        class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
+                                <div class="flex-1">
+                                    <h3
+                                        class="text-xl font-bold text-gray-900 mb-1 card-title"
                                     >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2.5"
-                                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                        />
-                                    </svg>
-                                </span>
+                                        {{ category.title }}
+                                    </h3>
+                                    <p class="text-sm text-gray-500 mb-3 line-clamp-2">
+                                        {{ category.description }}
+                                    </p>
+                                    <span
+                                        class="inline-flex items-center text-sm text-gray-900 font-semibold group-hover:text-[#8EB6A5] transition-colors"
+                                    >
+                                        {{ $t('home.services_explore') }}
+                                        <svg
+                                            class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2.5"
+                                                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                            />
+                                        </svg>
+                                    </span>
+                                </div>
                             </Link>
                         </div>
                     </div>
@@ -188,7 +190,7 @@ onMounted(() => {
         </section>
 
         <!-- CTA Section - User Focused -->
-        <section data-nav-theme="dark" class="bg-[#B8D4C8] text-gray-900 py-24 overflow-hidden relative">
+        <section data-nav-theme="dark" class="bg-[#B8D4C8] text-gray-900 py-16 md:py-24 overflow-hidden relative">
             <!-- Decorative blur layers - Adjusted for light background -->
             <div class="absolute -top-24 -right-24 w-96 h-96 bg-white/40 rounded-full blur-[120px]"></div>
             <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-[#8EB6A5]/30 rounded-full blur-[120px]"></div>
@@ -255,7 +257,7 @@ onMounted(() => {
             </div>
         </section>
         <!-- Business Section - Professional Focused -->
-        <section data-nav-theme="light" class="bg-[#F0EEE9] text-[#0f172a] py-32 relative overflow-hidden">
+        <section data-nav-theme="light" class="bg-[#F0EEE9] text-[#0f172a] py-16 md:py-24 relative overflow-hidden">
             <!-- Decorative elements adapted for beige background -->
             <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-white/40 rounded-full blur-[120px]"></div>
             <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#8EB6A5]/10 rounded-full blur-[100px]"></div>

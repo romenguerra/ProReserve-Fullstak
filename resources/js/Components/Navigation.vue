@@ -19,6 +19,9 @@ const isVisible = ref(true);
 const lastScrollY = ref(0);
 
 const handleScroll = () => {
+    // Si el menú u otro elemento interactivo importante está abierto, evitar ocultar el navbar
+    if (mobileMenuOpen.value || profileMenuOpen.value) return;
+
     const currentScrollY = window.scrollY;
     
     // Si estamos al principio de la página, siempre visible
@@ -107,7 +110,7 @@ defineProps({
             <div class="relative flex h-24 items-center justify-between">
                 <!-- Mobile menu button -->
                 <div
-                    class="absolute inset-y-0 left-0 flex items-center sm:hidden"
+                    class="absolute inset-y-0 left-0 flex items-center lg:hidden"
                 >
                     <button
                         type="button"
@@ -153,7 +156,7 @@ defineProps({
                 </div>
 
                 <div
-                    class="flex flex-1 items-center justify-start pl-10 sm:pl-0 sm:items-center sm:justify-start"
+                    class="flex flex-1 items-center justify-start pl-10 sm:pl-0 sm:items-center lg:justify-start"
                 >
                     <!-- Logo -->
                     <div class="flex shrink-0 items-center">
@@ -168,8 +171,8 @@ defineProps({
                     </div>
 
                     <!-- Desktop Navigation -->
-                    <div class="hidden sm:ml-10 sm:flex sm:items-center">
-                        <div class="flex items-center space-x-8">
+                    <div class="hidden lg:ml-8 lg:flex lg:items-center">
+                        <div class="flex items-center space-x-6">
                             <Link
                                 href="/"
                                 :class="[
@@ -234,7 +237,7 @@ defineProps({
 
                 <!-- Right side: Notifications & Profile -->
                 <div
-                    class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+                    class="absolute inset-y-0 right-0 flex items-center pr-2 lg:static lg:inset-auto lg:ml-6 lg:pr-0"
                 >
                     <!-- Language Switcher -->
                     <button
@@ -360,7 +363,7 @@ defineProps({
             leave-from-class="transform opacity-100 scale-100"
             leave-to-class="transform opacity-0 scale-95"
         >
-            <div v-if="mobileMenuOpen" class="sm:hidden border-t" :class="currentTheme === 'navy' ? 'border-white/5' : 'border-[#0f172a]/5'">
+            <div v-if="mobileMenuOpen" class="lg:hidden border-t absolute top-full left-0 w-full shadow-2xl" :class="currentTheme === 'navy' ? 'border-white/5' : 'border-[#0f172a]/5'">
                 <div class="space-y-1 px-4 pt-2 pb-6 transition-all duration-500" :class="currentTheme === 'navy' ? 'bg-[#0f172a]' : 'bg-[#F0EEE9]'">
                     <Link
                         href="/"

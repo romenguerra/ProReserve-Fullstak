@@ -67,27 +67,32 @@ const categorias = computed(() => [
 <template>
     <MainLayout :title="$t('services_page.meta_title')">
         <div class="bg-[#F0EEE9] min-h-screen">
-            <!-- Hero Section -->
-            <section data-nav-theme="light" class="relative flex items-center overflow-hidden pt-32 pb-20">
-                <!-- Decorative colored element -->
-                <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#8EB6A5]/10 rounded-full blur-[100px]"></div>
-                <div class="absolute top-1/2 -left-24 w-72 h-72 bg-white/40 rounded-full blur-[80px]"></div>
-            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
-                <div class="max-w-4xl">
-                    <h1
-                        class="text-6xl md:text-7xl lg:text-8xl font-bold text-[#0f172a] leading-tight mb-6 tracking-tighter"
-                    >
-                        <span v-html="$t('services_page.hero_title')"></span>
-                    </h1>
-                    <p class="text-xl md:text-2xl text-[#0f172a]/70 max-w-2xl leading-relaxed">
-                        {{ $t('services_page.hero_subtitle') }}
-                    </p>
+            <!-- Hero Section con Mesh Gradient -->
+            <section data-nav-theme="dark" class="relative overflow-hidden pt-12 md:pt-16 pb-12 bg-[#E8F3EF]">
+                <!-- Mesh Gradient Background optimized for visibility -->
+                <div class="absolute inset-0 opacity-80" style="
+                    background: 
+                        radial-gradient(at 0% 0%, #B8D4C8 0%, transparent 60%),
+                        radial-gradient(at 100% 100%, #F0EEE9 0%, transparent 60%);
+                "></div>
+                
+                <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
+                    <div class="max-w-3xl">
+                        <span class="inline-block px-4 py-1.5 rounded-full bg-[#8EB6A5]/10 text-[#5D8A77] text-xs font-bold uppercase tracking-widest mb-6 border border-[#8EB6A5]/20 animate-fade-in">
+                            Explora ProReserve
+                        </span>
+                        <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-[1.1] tracking-tighter mb-6">
+                            <span v-html="$t('services_page.hero_title')"></span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed">
+                            {{ $t('services_page.hero_subtitle') }}
+                        </p>
+                    </div>
                 </div>
-            </div>
             </section>
 
         <!-- Services Grid Section -->
-        <section data-nav-theme="light" class="py-20">
+        <section data-nav-theme="light" class="py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -96,10 +101,10 @@ const categorias = computed(() => [
                         v-for="categoria in categorias"
                         :key="categoria.id"
                         :href="categoria.link"
-                        class="group cursor-pointer"
+                        class="group cursor-pointer flex items-center gap-4 md:block"
                     >
                         <div
-                            class="aspect-[4/3] overflow-hidden mb-4 bg-gray-100 rounded-lg"
+                            class="w-24 h-24 shrink-0 md:w-full md:h-auto md:aspect-[4/3] overflow-hidden md:mb-4 bg-gray-100 rounded-2xl md:rounded-lg"
                         >
                             <img
                                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -107,43 +112,45 @@ const categorias = computed(() => [
                                 :alt="categoria.nombre"
                             />
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">
-                            {{ categoria.nombre }}
-                        </h3>
-                        <p class="text-base text-gray-600 mb-3">
-                            {{ categoria.descripcion }}
-                        </p>
-                        <span
-                            class="inline-flex items-center text-sm text-gray-900 font-bold group-hover:text-[#8EB6A5] transition-all"
-                        >
-                            {{ $t('services_page.explore') }}
-                            <svg
-                                class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                        <div class="flex-1">
+                            <h3 class="text-xl md:text-2xl font-bold text-gray-900 mb-1 md:mb-2">
+                                {{ categoria.nombre }}
+                            </h3>
+                            <p class="text-sm md:text-base text-gray-600 mb-2 md:mb-3 line-clamp-2 md:line-clamp-none">
+                                {{ categoria.descripcion }}
+                            </p>
+                            <span
+                                class="inline-flex items-center text-xs md:text-sm text-gray-900 font-bold group-hover:text-[#8EB6A5] transition-all"
                             >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                />
-                            </svg>
-                        </span>
+                                {{ $t('services_page.explore') }}
+                                <svg
+                                    class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                    />
+                                </svg>
+                            </span>
+                        </div>
                     </Link>
                 </div>
             </div>
         </section>
 
         <!-- How it Works Section -->
-        <section data-nav-theme="dark" class="py-32 bg-[#0f172a] text-[#F0EEE9] relative overflow-hidden">
+        <section data-nav-theme="dark" class="py-16 md:py-24 bg-[#0f172a] text-[#F0EEE9] relative overflow-hidden">
             <!-- Decorative blur layers -->
             <div class="absolute -top-24 -right-24 w-96 h-96 bg-[#8EB6A5]/10 rounded-full blur-[120px]"></div>
             <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-white/5 rounded-full blur-[120px]"></div>
 
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
-                <div class="text-center mb-20">
+                <div class="text-center mb-12">
                     <h2 class="text-5xl md:text-6xl font-bold mb-6 tracking-tighter" v-html="$t('services_page.steps_title')"></h2>
                 </div>
 
@@ -182,31 +189,31 @@ const categorias = computed(() => [
         </section>
 
         <!-- FAQ Section -->
-        <section data-nav-theme="dark" class="py-32 bg-[#8EB6A5]">
+        <section data-nav-theme="dark" class="py-16 md:py-24 bg-[#8EB6A5]">
             <div class="max-w-4xl mx-auto px-6 sm:px-12">
-                <div class="text-center mb-20">
+                <div class="text-center mb-12">
                     <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-[#0f172a] text-[#F0EEE9] font-bold text-sm mb-6 shadow-lg shadow-[#0f172a]/20">
                         <HelpCircle class="w-4 h-4" />
                         FAQ
                     </div>
-                    <h2 class="text-5xl md:text-6xl font-bold text-[#0f172a] tracking-tighter" v-html="$t('services_page.faq_title')"></h2>
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-[#0f172a] tracking-tighter" v-html="$t('services_page.faq_title')"></h2>
                 </div>
 
-                <div class="space-y-6">
+                <div class="space-y-4 sm:space-y-6">
                     <div 
                         v-for="(faq, index) in faqs" 
                         :key="index"
-                        class="group rounded-3xl bg-[#F0EEE9] transition-all duration-300 overflow-hidden"
+                        class="group rounded-2xl sm:rounded-3xl bg-[#F0EEE9] transition-all duration-300 overflow-hidden"
                         :class="activeFaq === index ? 'shadow-xl' : 'hover:shadow-lg'"
                     >
                         <button 
                             @click="toggleFaq(index)"
-                            class="w-full flex items-center justify-between p-8 text-left transition-colors"
+                            class="w-full flex items-center justify-between p-6 sm:p-8 text-left transition-colors"
                             :class="activeFaq === index ? 'bg-white/20' : ''"
                         >
-                            <span class="text-xl font-bold text-[#0f172a]">{{ faq.q }}</span>
+                            <span class="text-lg sm:text-xl font-bold text-[#0f172a] pr-4">{{ faq.q }}</span>
                             <ChevronDown 
-                                class="w-6 h-6 text-[#0f172a] transition-transform duration-500"
+                                class="w-5 h-5 sm:w-6 sm:h-6 shrink-0 text-[#0f172a] transition-transform duration-500"
                                 :class="activeFaq === index ? 'rotate-180' : ''"
                             />
                         </button>
@@ -218,7 +225,7 @@ const categorias = computed(() => [
                             leave-from-class="opacity-100 max-h-96"
                             leave-to-class="opacity-0 max-h-0"
                         >
-                            <div v-if="activeFaq === index" class="px-8 pb-8 text-[#0f172a] text-lg leading-relaxed font-medium">
+                            <div v-if="activeFaq === index" class="px-6 pb-6 sm:px-8 sm:pb-8 text-[#0f172a]/80 text-base sm:text-lg leading-relaxed font-medium">
                                 {{ faq.a }}
                             </div>
                         </Transition>
