@@ -292,7 +292,7 @@ const cancelReservation = (id) => {
                                     <!-- Main Actionable Card -->
                                     <div class="bg-white rounded-[2.5rem] overflow-hidden border border-white/20 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 hover:-translate-y-2 flex flex-col lg:flex-row h-full">
                                         <!-- Image Section -->
-                                        <div class="lg:w-72 shrink-0 relative overflow-hidden h-48 lg:h-auto">
+                                        <div class="lg:w-72 shrink-0 relative overflow-hidden h-48 lg:h-auto rounded-t-[2.5rem] lg:rounded-l-[2.5rem] lg:rounded-tr-none isolate">
                                             <img 
                                                 :src="reservation.image" 
                                                 class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
