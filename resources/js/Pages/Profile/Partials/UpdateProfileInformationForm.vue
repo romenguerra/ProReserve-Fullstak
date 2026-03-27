@@ -46,20 +46,20 @@ const submit = () => {
     <section>
         <header>
             <h2 class="text-lg font-medium text-gray-900">
-                Profile Information
+                {{ $t('profile.information.title') }}
             </h2>
 
             <p class="mt-1 text-sm text-gray-600">
-                Update your account's profile information and email address.
+                {{ $t('profile.information.description') }}
             </p>
         </header>
 
         <form @submit.prevent="submit" class="mt-6 space-y-6">
             <!-- Avatar Upload -->
             <div>
-                <InputLabel for="avatar" value="Avatar" />
+                <InputLabel for="avatar" :value="$t('profile.information.avatar')" />
 
-                <div class="mt-2 flex items-center gap-4">
+                <div class="mt-4 flex flex-col sm:flex-row items-start sm:items-center gap-6">
                     <!-- Preview del avatar -->
                     <div
                         class="w-20 h-20 rounded-full bg-gradient-to-br from-[#8EB6A5] to-[#4A6358] flex items-center justify-center text-white font-bold text-2xl shadow-md border-2 border-[#A3C4B5] overflow-hidden"
@@ -84,8 +84,8 @@ const submit = () => {
                             @change="handleAvatarChange"
                             class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#8EB6A5] file:text-white hover:file:bg-[#7aa592] cursor-pointer"
                         />
-                        <p class="mt-1 text-xs text-gray-500">
-                            PNG, JPG o GIF (MAX. 2MB)
+                        <p class="mt-1 text-xs text-gray-500 text-left">
+                            {{ $t('profile.information.avatar_help') }}
                         </p>
                     </div>
                 </div>
@@ -94,12 +94,12 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="name" :value="$t('profile.information.name')" />
 
                 <TextInput
                     id="name"
                     type="text"
-                    class="mt-1 block w-full focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
+                    class="mt-1 block w-full"
                     v-model="form.name"
                     required
                     autofocus
@@ -110,12 +110,12 @@ const submit = () => {
             </div>
 
             <div>
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="email" :value="$t('profile.information.email')" />
 
                 <TextInput
                     id="email"
                     type="email"
-                    class="mt-1 block w-full focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
+                    class="mt-1 block w-full"
                     v-model="form.email"
                     required
                     autocomplete="username"
@@ -126,14 +126,14 @@ const submit = () => {
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">
                 <p class="mt-2 text-sm text-gray-800">
-                    Your email address is unverified.
+                    {{ $t('profile.information.unverified') }}
                     <Link
                         :href="route('verification.send')"
                         method="post"
                         as="button"
                         class="rounded-md text-sm text-gray-600 underline hover:text-[#8EB6A5] focus:outline-none focus:ring-2 focus:ring-[#8EB6A5] focus:ring-offset-2"
                     >
-                        Click here to re-send the verification email.
+                        {{ $t('profile.information.resend_verification') }}
                     </Link>
                 </p>
 
@@ -141,12 +141,12 @@ const submit = () => {
                     v-show="status === 'verification-link-sent'"
                     class="mt-2 text-sm font-medium text-green-600"
                 >
-                    A new verification link has been sent to your email address.
+                    {{ $t('profile.information.verification_sent') }}
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+                <PrimaryButton :disabled="form.processing">{{ $t('profile.information.save') }}</PrimaryButton>
 
                 <Transition
                     enter-active-class="transition ease-in-out"
@@ -158,7 +158,7 @@ const submit = () => {
                         v-if="form.recentlySuccessful"
                         class="text-sm text-gray-600"
                     >
-                        Saved.
+                        {{ $t('profile.information.saved') }}
                     </p>
                 </Transition>
             </div>

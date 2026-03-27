@@ -10,11 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('sport_centers', function (Blueprint $table) {
+        Schema::create('leisure_centers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->string('type')->nullable();
+            $table->string('type'); // cine, bar, bolera, discoteca, etc.
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->string('address');
@@ -24,8 +24,8 @@ return new class extends Migration {
             $table->string('email')->nullable();
             $table->string('website')->nullable();
 
-            $table->boolean('has_parking')->default(false);
             $table->boolean('wheelchair_access')->default(false);
+            $table->boolean('has_parking')->default(false);
 
             $table->time('opening_time')->nullable();
             $table->time('closing_time')->nullable();
@@ -46,6 +46,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('sport_centers');
+        Schema::dropIfExists('leisure_centers');
     }
 };

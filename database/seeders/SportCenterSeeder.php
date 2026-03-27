@@ -20,6 +20,7 @@ class SportCenterSeeder extends Seeder
         $sportCenters = [
             [
                 'name' => 'Gimnasio Fit Life',
+                'type' => 'gimnasio',
                 'description' => 'Tu centro de entrenamiento con la última tecnología y entrenadores expertos.',
                 'image' => 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Avenida de la Libertad, 45',
@@ -31,6 +32,7 @@ class SportCenterSeeder extends Seeder
             ],
             [
                 'name' => 'Pádel Club Central',
+                'type' => 'padel',
                 'description' => 'Las mejores pistas de pádel de la ciudad con servicio de cafetería.',
                 'image' => 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Calle Deportiva, 2',
@@ -42,6 +44,7 @@ class SportCenterSeeder extends Seeder
             ],
             [
                 'name' => 'Piscina Olímpica Aqua',
+                'type' => 'natacion',
                 'description' => 'Disfruta de la natación en nuestras instalaciones de nivel profesional.',
                 'image' => 'https://images.unsplash.com/photo-1519315901367-f34ff9154487?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Paseo Marítimo, 100',
@@ -53,6 +56,7 @@ class SportCenterSeeder extends Seeder
             ],
             [
                 'name' => 'Crossfit Box Red',
+                'type' => 'crossfit',
                 'description' => 'Supera tus límites en nuestro box de crossfit con comunidad única.',
                 'image' => 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Polígono Industrial, Nave 4',
@@ -64,6 +68,7 @@ class SportCenterSeeder extends Seeder
             ],
             [
                 'name' => 'Centro de Yoga Zen',
+                'type' => 'yoga',
                 'description' => 'Encuentra tu equilibrio y paz mental con nuestras clases de yoga y meditación.',
                 'image' => 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800',
                 'address' => 'Calle de la Calma, 12',

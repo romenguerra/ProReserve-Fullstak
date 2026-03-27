@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class SportCenter extends Model
+class HealthCenter extends Model
 {
     use HasFactory;
 
@@ -23,8 +23,9 @@ class SportCenter extends Model
         'phone',
         'email',
         'website',
-        'has_parking',
+        'has_emergency',
         'wheelchair_access',
+        'has_parking',
         'opening_time',
         'closing_time',
         'online_booking',

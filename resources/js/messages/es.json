@@ -34,6 +34,18 @@
             "leisure_desc": "Disfruta de tu tiempo libre",
             "beauty": "Imagen personal",
             "beauty_desc": "Servicios a tu medida"
+        },
+        "business": {
+            "title": "¿Eres una empresa?",
+            "subtitle": "Únete a la plataforma de gestión de reservas más avanzada.",
+            "desc": "ProReserve te ofrece todas las herramientas necesarias para que tu negocio crezca sin complicaciones.",
+            "feature_1_title": "Gestión Inteligente",
+            "feature_1_desc": "Calendario interactivo y gestión de citas automatizada.",
+            "feature_2_title": "Analíticas",
+            "feature_2_desc": "Conoce mejor a tus clientes con informes de reserva detallados.",
+            "feature_3_title": "Sin comisiones ocultas",
+            "feature_3_desc": "Un modelo transparente diseñado para que ganes más.",
+            "cta": "Registra tu Negocio"
         }
     },
     "footer": {
@@ -44,10 +56,10 @@
         "nav_home": "Inicio",
         "nav_services": "Servicios",
         "nav_contact": "Contacto",
-        "subscribe_title": "Suscríbete",
-        "subscribe_desc": "Recibe las últimas novedades y actualizaciones directamente en tu bandeja de entrada.",
+        "subscribe_title": "Regístrate ahora",
+        "subscribe_desc": "Únete a ProReserve y empieza a hacer tus reservas de forma rápida, sencilla y con estilo.",
         "subscribe_placeholder": "tu@email.com",
-        "subscribe_button": "Suscribirse",
+        "subscribe_button": "Registrarse",
         "copyright": "ProReserve. Todos los derechos reservados.",
         "social_instagram": "Instagram",
         "social_twitter": "Twitter"
@@ -69,9 +81,20 @@
         "hero_title": "Todos los<br /><span class='text-[#8EB6A5]'>servicios.</span>",
         "hero_subtitle": "Explora nuestra selección completa de servicios disponibles para reservar.",
         "explore": "Explorar",
-        "cta_title": "¿Tienes un <span class='text-[#8EB6A5]'>negocio?</span>",
-        "cta_subtitle": "Únete a ProReserve y empieza a gestionar las reservas de tu negocio de forma simple, eficiente y con estilo.",
-        "cta_button": "Comenzar ahora"
+        "steps_title": "Reserva en <span class='text-[#8EB6A5]'>3 pasos.</span>",
+        "step_1_title": "Explora",
+        "step_1_desc": "Navega por las categorías y encuentra el local o servicio que necesitas.",
+        "step_2_title": "Agenda",
+        "step_2_desc": "Elige la fecha y hora que mejor te convenga en tiempo real.",
+        "step_3_title": "Disfruta",
+        "step_3_desc": "Confirma tu reserva y prepárate para disfrutar de tu experiencia.",
+        "faq_title": "Preguntas <span class='text-white'>Frecuentes.</span>",
+        "faq_1_q": "¿Es gratis para los usuarios?",
+        "faq_1_a": "Sí, ProReserve es totalmente gratuito para realizar reservas.",
+        "faq_2_q": "¿Cómo cancelo una reserva?",
+        "faq_2_a": "Puedes cancelar o reprogramar desde tu perfil personal de usuario.",
+        "faq_3_q": "¿Recibo algún recordatorio?",
+        "faq_3_a": "Sí, te enviaremos notificaciones para que no olvides tus citas."
     },
     "contact_page": {
         "meta_title": "Contacto - ProReserve",
@@ -104,5 +127,41 @@
         "form_privacy_and": "y el tratamiento de mis datos.",
         "form_submit": "Enviar mensaje",
         "form_submitting": "Enviando..."
+    },
+    "profile": {
+        "title": "Perfil",
+        "edit_title": "Editar Perfil",
+        "information": {
+            "title": "Información del Perfil",
+            "description": "Actualiza la información de tu cuenta y tu dirección de correo electrónico.",
+            "name": "Nombre",
+            "email": "Email",
+            "avatar": "Fotografía de perfil",
+            "avatar_help": "PNG, JPG o GIF (MAX. 2MB)",
+            "unverified": "Tu dirección de correo no está verificada.",
+            "resend_verification": "Haz clic aquí para reenviar el email de verificación.",
+            "verification_sent": "Se ha enviado un nuevo enlace de verificación a tu dirección de correo electrónico.",
+            "save": "Guardar",
+            "saved": "Guardado."
+        },
+        "password": {
+            "title": "Actualizar Contraseña",
+            "description": "Asegúrate de que tu cuenta use una contraseña larga y aleatoria para mantener la seguridad.",
+            "current": "Contraseña Actual",
+            "new": "Nueva Contraseña",
+            "confirm": "Confirmar Contraseña",
+            "save": "Guardar",
+            "saved": "Guardado."
+        },
+        "delete": {
+            "title": "Eliminar Cuenta",
+            "description": "Una vez que se elimine tu cuenta, todos sus recursos y datos se eliminarán de forma permanente.",
+            "warning": "Antes de eliminar tu cuenta, descarga cualquier dato o información que desees conservar.",
+            "button": "Eliminar Cuenta",
+            "modal_title": "¿Estás seguro de que quieres eliminar tu cuenta?",
+            "modal_description": "Una vez que se elimine tu cuenta, todos sus recursos y datos se eliminarán de forma permanente. Por favor, introduce tu contraseña para confirmar que deseas eliminar tu cuenta de forma permanente.",
+            "password_placeholder": "Contraseña",
+            "cancel": "Cancelar"
+        }
     }
 }

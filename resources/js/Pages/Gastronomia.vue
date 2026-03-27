@@ -1,8 +1,17 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { Link } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import RestaurantCard from "@/Components/RestaurantCard.vue";
+import LocalDetailModal from "@/Components/LocalDetailModal.vue";
+
+const showModal = ref(false);
+const selectedRestaurant = ref(null);
+
+const openDetailModal = (restaurant) => {
+    selectedRestaurant.value = restaurant;
+    showModal.value = true;
+};
 
 const props = defineProps({
     restaurants: {
@@ -82,6 +91,7 @@ onMounted(() => {
                         :key="restaurant.id" 
                         :restaurant="restaurant"
                         :index="index"
+                        @open-modal="openDetailModal"
                     />
                 </div>
 
@@ -111,6 +121,14 @@ onMounted(() => {
                 </div>
             </div>
         </section>
+
+        <!-- Modal de detalle -->
+        <LocalDetailModal
+            :show="showModal"
+            :local="selectedRestaurant"
+            category="gastronomia"
+            @close="showModal = false"
+        />
     </MainLayout>
 </template>
 

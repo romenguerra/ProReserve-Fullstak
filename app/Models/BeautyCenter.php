@@ -7,19 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class Barbershop extends Model
+class BeautyCenter extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
         'slug',
+        'type',
         'image',
         'description',
         'address',
         'city',
+        'postal_code',
         'phone',
         'email',
+        'website',
+        'wheelchair_access',
         'opening_time',
         'closing_time',
         'online_booking',

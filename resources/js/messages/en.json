@@ -34,6 +34,18 @@
             "leisure_desc": "Enjoy your free time",
             "beauty": "Personal care",
             "beauty_desc": "Services tailored to you"
+        },
+        "business": {
+            "title": "Are you a business?",
+            "subtitle": "Join the most advanced booking management platform.",
+            "desc": "ProReserve offers all the necessary tools for your business to grow smoothly.",
+            "feature_1_title": "Smart Management",
+            "feature_1_desc": "Interactive calendar and automated appointment management.",
+            "feature_2_title": "Analytics",
+            "feature_2_desc": "Get to know your customers better with detailed booking reports.",
+            "feature_3_title": "No hidden fees",
+            "feature_3_desc": "A transparent model designed for you to earn more.",
+            "cta": "Register your Business"
         }
     },
     "footer": {
@@ -44,10 +56,10 @@
         "nav_home": "Home",
         "nav_services": "Services",
         "nav_contact": "Contact",
-        "subscribe_title": "Subscribe",
-        "subscribe_desc": "Receive the latest news and updates directly in your inbox.",
+        "subscribe_title": "Register now",
+        "subscribe_desc": "Join ProReserve and start making your bookings quickly, easily, and with style.",
         "subscribe_placeholder": "your@email.com",
-        "subscribe_button": "Subscribe",
+        "subscribe_button": "Register",
         "copyright": "ProReserve. All rights reserved.",
         "social_instagram": "Instagram",
         "social_twitter": "Twitter"
@@ -69,9 +81,20 @@
         "hero_title": "All the<br /><span class='text-[#8EB6A5]'>services.</span>",
         "hero_subtitle": "Explore our complete selection of available services to book.",
         "explore": "Explore",
-        "cta_title": "Do you have a <span class='text-[#8EB6A5]'>business?</span>",
-        "cta_subtitle": "Join ProReserve and start managing your business bookings simply, efficiently, and with style.",
-        "cta_button": "Start now"
+        "steps_title": "Book in <span class='text-[#8EB6A5]'>3 steps.</span>",
+        "step_1_title": "Explore",
+        "step_1_desc": "Browse through the categories and find the venue or service you need.",
+        "step_2_title": "Schedule",
+        "step_2_desc": "Choose the date and time that suits you best in real time.",
+        "step_3_title": "Enjoy",
+        "step_3_desc": "Confirm your booking and get ready to enjoy your experience.",
+        "faq_title": "Frequently <span class='text-white'>Asked Questions.</span>",
+        "faq_1_q": "Is it free for users?",
+        "faq_1_a": "Yes, ProReserve is completely free for making reservations.",
+        "faq_2_q": "How do I cancel a booking?",
+        "faq_2_a": "You can cancel or reschedule from your personal user profile.",
+        "faq_3_q": "Will I receive reminders?",
+        "faq_3_a": "Yes, we'll send you notifications so you don't forget your appointments."
     },
     "contact_page": {
         "meta_title": "Contact - ProReserve",
@@ -104,5 +127,41 @@
         "form_privacy_and": "and the processing of my data.",
         "form_submit": "Send message",
         "form_submitting": "Sending..."
+    },
+    "profile": {
+        "title": "Profile",
+        "edit_title": "Edit Profile",
+        "information": {
+            "title": "Profile Information",
+            "description": "Update your account's profile information and email address.",
+            "name": "Name",
+            "email": "Email",
+            "avatar": "Profile picture",
+            "avatar_help": "PNG, JPG or GIF (MAX. 2MB)",
+            "unverified": "Your email address is unverified.",
+            "resend_verification": "Click here to re-send the verification email.",
+            "verification_sent": "A new verification link has been sent to your email address.",
+            "save": "Save",
+            "saved": "Saved."
+        },
+        "password": {
+            "title": "Update Password",
+            "description": "Ensure your account is using a long, random password to stay secure.",
+            "current": "Current Password",
+            "new": "New Password",
+            "confirm": "Confirm Password",
+            "save": "Save",
+            "saved": "Saved."
+        },
+        "delete": {
+            "title": "Delete Account",
+            "description": "Once your account is deleted, all of its resources and data will be permanently deleted.",
+            "warning": "Before deleting your account, please download any data or information that you wish to retain.",
+            "button": "Delete Account",
+            "modal_title": "Are you sure you want to delete your account?",
+            "modal_description": "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
+            "password_placeholder": "Password",
+            "cancel": "Cancel"
+        }
     }
 }

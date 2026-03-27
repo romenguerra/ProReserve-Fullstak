@@ -31,21 +31,21 @@ const categories = computed(() => [
         title: t("home.categories.health"),
         description: t("home.categories.health_desc"),
         image: "/images/salud.jpg",
-        link: "#",
+        link: "/salud",
     },
     {
         id: "leisure",
         title: t("home.categories.leisure"),
         description: t("home.categories.leisure_desc"),
         image: "/images/ocio.jpg",
-        link: "#",
+        link: "/ocio",
     },
     {
         id: "beauty",
         title: t("home.categories.beauty"),
         description: t("home.categories.beauty_desc"),
         image: "/images/beauty-wellness.png",
-        link: "#",
+        link: "/belleza",
     },
 ]);
 
@@ -76,7 +76,7 @@ onMounted(() => {
 <template>
     <MainLayout :title="$t('home.meta_title')">
         <!-- Hero Section - Gradiente de Malla Premium (Verde Agua) -->
-        <section class="relative min-h-[60vh] flex items-center overflow-hidden bg-[#F0EEE9]">
+        <section data-nav-theme="light" class="relative min-h-[60vh] flex items-center overflow-hidden bg-[#F0EEE9]">
             <!-- Fondo de malla (Mesh Gradient) complejo con CSS -->
             <div class="absolute inset-0 opacity-80" style="
                 background-color: #F0EEE9;
@@ -121,7 +121,7 @@ onMounted(() => {
         </section>
 
         <!-- Services Section - Cloud Dancer -->
-        <section class="bg-[#F0EEE9] py-20">
+        <section data-nav-theme="light" class="bg-[#F0EEE9] py-16 md:py-20">
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                 <div class="mb-10">
                     <h2
@@ -143,9 +143,9 @@ onMounted(() => {
                             :data-index="index"
                             class="group cursor-pointer card-animate category-card"
                         >
-                            <Link :href="category.link" class="block">
+                            <Link :href="category.link" class="flex items-center gap-4 sm:block">
                                 <div
-                                    class="aspect-[4/5] overflow-hidden mb-4 bg-gray-100 rounded-2xl image-container"
+                                    class="w-24 h-24 shrink-0 sm:w-full sm:h-auto sm:aspect-[4/5] overflow-hidden sm:mb-4 bg-gray-100 rounded-2xl image-container"
                                 >
                                     <img
                                         class="w-full h-full object-cover"
@@ -154,32 +154,34 @@ onMounted(() => {
                                         loading="lazy"
                                     />
                                 </div>
-                                <h3
-                                    class="text-xl font-bold text-gray-900 mb-1 card-title"
-                                >
-                                    {{ category.title }}
-                                </h3>
-                                <p class="text-sm text-gray-500 mb-3 line-clamp-2">
-                                    {{ category.description }}
-                                </p>
-                                <span
-                                    class="inline-flex items-center text-sm text-gray-900 font-semibold group-hover:text-[#8EB6A5] transition-colors"
-                                >
-                                    {{ $t('home.services_explore') }}
-                                    <svg
-                                        class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
+                                <div class="flex-1">
+                                    <h3
+                                        class="text-xl font-bold text-gray-900 mb-1 card-title"
                                     >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2.5"
-                                            d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                        />
-                                    </svg>
-                                </span>
+                                        {{ category.title }}
+                                    </h3>
+                                    <p class="text-sm text-gray-500 mb-3 line-clamp-2">
+                                        {{ category.description }}
+                                    </p>
+                                    <span
+                                        class="inline-flex items-center text-sm text-gray-900 font-semibold group-hover:text-[#8EB6A5] transition-colors"
+                                    >
+                                        {{ $t('home.services_explore') }}
+                                        <svg
+                                            class="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                stroke-width="2.5"
+                                                d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                            />
+                                        </svg>
+                                    </span>
+                                </div>
                             </Link>
                         </div>
                     </div>
@@ -188,7 +190,7 @@ onMounted(() => {
         </section>
 
         <!-- CTA Section - User Focused -->
-        <section class="bg-[#B8D4C8] text-gray-900 py-24 overflow-hidden relative">
+        <section data-nav-theme="dark" class="bg-[#B8D4C8] text-gray-900 py-16 md:py-24 overflow-hidden relative">
             <!-- Decorative blur layers - Adjusted for light background -->
             <div class="absolute -top-24 -right-24 w-96 h-96 bg-white/40 rounded-full blur-[120px]"></div>
             <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-[#8EB6A5]/30 rounded-full blur-[120px]"></div>
@@ -251,6 +253,79 @@ onMounted(() => {
                             />
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+        <!-- Business Section - Professional Focused -->
+        <section data-nav-theme="light" class="bg-[#F0EEE9] text-[#0f172a] py-16 md:py-24 relative overflow-hidden">
+            <!-- Decorative elements adapted for beige background -->
+            <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-white/40 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#8EB6A5]/10 rounded-full blur-[100px]"></div>
+            
+            <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 relative z-10">
+                <div class="text-center max-w-3xl mx-auto mb-20">
+                    <h2 class="text-5xl md:text-7xl font-bold mb-6 tracking-tighter leading-tight text-[#0f172a]">
+                        {{ $t('home.business.title') }}
+                    </h2>
+                    <p class="text-xl text-[#0f172a]/80 leading-relaxed font-medium">
+                        {{ $t('home.business.subtitle') }}
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                    <!-- Feature 1 -->
+                    <div class="group p-10 rounded-[3rem] bg-white/30 backdrop-blur-sm border border-white/40 hover:bg-white hover:border-[#8EB6A5] transition-all duration-700 hover:shadow-[0_20px_50px_-15px_rgba(15,23,42,0.05)]">
+                        <div class="w-16 h-16 rounded-3xl bg-[#8EB6A5]/20 flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                            <svg class="w-8 h-8 text-[#0f172a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-[#0f172a]">{{ $t('home.business.feature_1_title') }}</h3>
+                        <p class="text-[#0f172a]/70 leading-relaxed font-medium">
+                            {{ $t('home.business.feature_1_desc') }}
+                        </p>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="group p-10 rounded-[3rem] bg-white/30 backdrop-blur-sm border border-white/40 hover:bg-white hover:border-[#8EB6A5] transition-all duration-700 hover:shadow-[0_20px_50px_-15px_rgba(15,23,42,0.05)]">
+                        <div class="w-16 h-16 rounded-3xl bg-blue-100 flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                            <svg class="w-8 h-8 text-blue-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-[#0f172a]">{{ $t('home.business.feature_2_title') }}</h3>
+                        <p class="text-[#0f172a]/70 leading-relaxed font-medium">
+                            {{ $t('home.business.feature_2_desc') }}
+                        </p>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="group p-10 rounded-[3rem] bg-white/30 backdrop-blur-sm border border-white/40 hover:bg-white hover:border-[#8EB6A5] transition-all duration-700 hover:shadow-[0_20px_50px_-15px_rgba(15,23,42,0.05)]">
+                        <div class="w-16 h-16 rounded-3xl bg-amber-100 flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                            <svg class="w-8 h-8 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-[#0f172a]">{{ $t('home.business.feature_3_title') }}</h3>
+                        <p class="text-[#0f172a]/70 leading-relaxed font-medium">
+                            {{ $t('home.business.feature_3_desc') }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center flex-wrap gap-6 items-center">
+                    <Link
+                        href="/register"
+                        class="px-12 py-5 bg-[#0f172a] text-white rounded-full font-bold text-lg hover:bg-black hover:text-white transition-all duration-500 shadow-xl shadow-[#0f172a]/20"
+                    >
+                        {{ $t('home.business.cta') }}
+                    </Link>
+                    <Link
+                        href="/contacto"
+                        class="px-12 py-5 bg-white/50 border border-white/80 text-[#0f172a] rounded-full font-bold text-lg hover:bg-white transition-all duration-300"
+                    >
+                        {{ $t('home.services_explore') }}
+                    </Link>
                 </div>
             </div>
         </section>
