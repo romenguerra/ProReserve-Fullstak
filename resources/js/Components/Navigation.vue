@@ -1,10 +1,12 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import { Link } from "@inertiajs/vue3";
-import { UserRound, Bell} from 'lucide-vue-next'; 
+import { UserRound, Bell, LayoutDashboard } from 'lucide-vue-next'; 
 import { useI18n } from "@/Composables/useI18n";
+import { usePermissions } from "@/Composables/usePermissions";
 
 const { currentLocale, setLocale } = useI18n();
+const { isAdmin } = usePermissions();
 
 const toggleLanguage = () => {
     const nextLocale = currentLocale.value === 'es' ? 'en' : 'es';
@@ -151,7 +153,7 @@ defineProps({
                 </div>
 
                 <div
-                    class="flex flex-1 items-center justify-center sm:items-center sm:justify-start"
+                    class="flex flex-1 items-center justify-start pl-10 sm:pl-0 sm:items-center sm:justify-start"
                 >
                     <!-- Logo -->
                     <div class="flex shrink-0 items-center">
@@ -174,7 +176,7 @@ defineProps({
                                     $page.url === '/'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
                                         : (currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:text-[#0f172a]'),
-                                    'nav-link-item px-4 py-2 text-lg font-bold flex items-center transition-all duration-500',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center transition-all duration-500',
                                 ]"
                             >
                                 {{ $t('nav.home') }}
@@ -185,7 +187,7 @@ defineProps({
                                     $page.url.startsWith('/servicios')
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
                                         : (currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:text-[#0f172a]'),
-                                    'nav-link-item px-4 py-2 text-lg font-bold flex items-center transition-all duration-500',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center transition-all duration-500',
                                 ]"
                             >
                                 {{ $t('nav.services') }}
@@ -196,7 +198,7 @@ defineProps({
                                     $page.url === '/contacto'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
                                         : (currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:text-[#0f172a]'),
-                                    'nav-link-item px-4 py-2 text-lg font-bold flex items-center transition-all duration-500',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center transition-all duration-500',
                                 ]"
                             >
                                 {{ $t('nav.contact') }}
@@ -207,10 +209,24 @@ defineProps({
                                     $page.url === '/calendario'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
                                         : (currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:text-[#0f172a]'),
-                                    'nav-link-item px-4 py-2 text-lg font-bold flex items-center transition-all duration-500',
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center transition-all duration-500',
                                 ]"
                             >
                                 {{ $t('nav.calendar') }}
+                            </Link>
+                            <!-- Admin Dashboard Link -->
+                            <Link
+                                v-if="isAdmin()"
+                                :href="route('dashboard')"
+                                :class="[
+                                    $page.url === '/dashboard'
+                                        ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
+                                        : (currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:text-[#0f172a]'),
+                                    'nav-link-item px-4 py-2 text-lg font-medium flex items-center transition-all duration-500',
+                                ]"
+                            >
+                                <LayoutDashboard class="w-5 h-5 mr-2" />
+                                Dashboard
                             </Link>
                         </div>
                     </div>
@@ -288,6 +304,16 @@ defineProps({
                                 @click="profileMenuOpen = false"
                             >
                                 <Link
+                                    v-if="isAdmin()"
+                                    :href="route('dashboard')"
+                                    class="block px-4 py-2 text-sm transition-colors duration-500"
+                                    :class="currentTheme === 'navy' 
+                                        ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
+                                        : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
+                                >
+                                    Dashboard
+                                </Link>
+                                <Link
                                     :href="route('profile.edit')"
                                     class="block px-4 py-2 text-sm transition-colors duration-500"
                                     :class="currentTheme === 'navy' 
@@ -343,7 +369,7 @@ defineProps({
                             $page.url === '/'
                                 ? (currentTheme === 'navy' ? 'bg-white/5 text-[#F0EEE9]' : 'bg-[#0f172a]/5 text-[#0f172a]')
                                 : (currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:bg-white/5 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'),
-                            'block rounded-xl px-4 py-4 text-base font-bold transition-all duration-500',
+                            'block rounded-xl px-4 py-4 text-base font-medium transition-all duration-500',
                         ]"
                     >
                         {{ $t('nav.home') }}
@@ -355,7 +381,7 @@ defineProps({
                             $page.url.startsWith('/servicios')
                                 ? (currentTheme === 'navy' ? 'bg-white/5 text-[#F0EEE9]' : 'bg-[#0f172a]/5 text-[#0f172a]')
                                 : (currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:bg-white/5 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'),
-                            'block rounded-xl px-4 py-4 text-base font-bold transition-all duration-500',
+                            'block rounded-xl px-4 py-4 text-base font-medium transition-all duration-500',
                         ]"
                     >
                         {{ $t('nav.services') }}
@@ -365,7 +391,7 @@ defineProps({
                         @click="closeMobileMenu"
                         :class="[
                             currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:bg-white/5 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:bg-[#0f172a]/5 hover:text-[#0f172a]',
-                             'block rounded-xl px-4 py-4 text-base font-bold transition-all duration-500'
+                             'block rounded-xl px-4 py-4 text-base font-medium transition-all duration-500'
                         ]"
                     >
                         {{ $t('nav.contact') }}
@@ -375,10 +401,22 @@ defineProps({
                         @click="closeMobileMenu"
                          :class="[
                             currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:bg-white/5 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:bg-[#0f172a]/5 hover:text-[#0f172a]',
-                             'block rounded-xl px-4 py-4 text-base font-bold transition-all duration-500'
+                             'block rounded-xl px-4 py-4 text-base font-medium transition-all duration-500'
                         ]"
                     >
                         {{ $t('nav.calendar') }}
+                    </Link>
+                    <!-- Mobile Admin Dashboard -->
+                    <Link
+                        v-if="isAdmin()"
+                        :href="route('dashboard')"
+                        @click="closeMobileMenu"
+                         :class="[
+                            currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:bg-white/5 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:bg-[#0f172a]/5 hover:text-[#0f172a]',
+                             'block rounded-xl px-4 py-4 text-base font-medium transition-all duration-500'
+                        ]"
+                    >
+                        Dashboard
                     </Link>
                 </div>
             </div>
