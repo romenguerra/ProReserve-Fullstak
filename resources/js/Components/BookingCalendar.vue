@@ -36,6 +36,11 @@ const selectedDate = ref(null);
 const selectedTime = ref(null);
 const guests = ref(2);
 
+// --- Computed ---
+const isIndividualService = computed(() => {
+    return ["salud", "belleza"].includes(props.category);
+});
+
 // --- Data Generation ---
 const days = computed(() => {
     const arr = [];
@@ -118,7 +123,7 @@ const confirmBooking = () => {
             service: selectedService.value,
             date: selectedDate.value,
             time: selectedTime.value,
-            guests: guests.value,
+            guests: isIndividualService.value ? 1 : guests.value,
         });
     }
 };
@@ -329,8 +334,8 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <!-- Guests -->
-                <div class="mb-8">
+                <!-- Guests (Only if not individual) -->
+                <div v-if="!isIndividualService" class="mb-8">
                     <div class="flex items-center justify-between mb-4">
                         <span
                             class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400"

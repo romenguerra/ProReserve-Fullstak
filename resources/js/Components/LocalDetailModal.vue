@@ -216,7 +216,7 @@ const formatDate = (dateString) => {
                                         ? 'md:w-1/2'
                                         : 'md:w-1/3 hidden md:block',
                                 ]"
-                                class="relative min-h-[300px] md:min-h-0 bg-gray-100 shrink-0 transition-all duration-700 ease-in-out"
+                                class="relative min-h-[300px] md:min-h-0 bg-gray-100 shrink-0 transition-[width] duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-[width]"
                             >
                                 <img
                                     :src="local.image || '/images/salud.jpg'"
@@ -255,7 +255,7 @@ const formatDate = (dateString) => {
                                 :class="[
                                     step === 0 ? 'md:w-1/2' : 'md:w-2/3 w-full',
                                 ]"
-                                class="p-8 sm:p-12 md:p-16 flex flex-col overflow-y-auto transition-all duration-700 ease-in-out bg-white"
+                                class="p-8 sm:p-12 md:p-16 flex flex-col overflow-y-auto transition-[width] duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-[width] bg-white"
                             >
                                 <Transition mode="out-in">
                                     <!-- PASO 0: DETALLES -->
@@ -568,6 +568,12 @@ const formatDate = (dateString) => {
                                                     </div>
                                                 </div>
                                                 <div
+                                                    v-if="
+                                                        ![
+                                                            'salud',
+                                                            'belleza',
+                                                        ].includes(category)
+                                                    "
                                                     class="flex items-center gap-4"
                                                 >
                                                     <Users
@@ -610,8 +616,9 @@ const formatDate = (dateString) => {
 .v-enter-active,
 .v-leave-active {
     transition:
-        opacity 0.5s ease,
-        transform 0.5s ease;
+        opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
 }
 
 .v-enter-from,
