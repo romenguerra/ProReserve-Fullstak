@@ -27,31 +27,31 @@ Route::get('/contacto', function () {
 
 Route::get('/gastronomia', function () {
     return Inertia::render('Gastronomia', [
-        'restaurants' => \App\Models\Restaurant::all(),
+        'restaurants' => \App\Models\Restaurant::with('services')->get(),
     ]);
 })->name('gastronomia');
 
 Route::get('/deportes', function () {
     return Inertia::render('Deportes', [
-        'sportCenters' => \App\Models\SportCenter::all(),
+        'sportCenters' => \App\Models\SportCenter::with('services')->get(),
     ]);
 })->name('deportes');
 
 Route::get('/ocio', function () {
     return Inertia::render('Ocio', [
-        'leisureCenters' => \App\Models\LeisureCenter::all(),
+        'leisureCenters' => \App\Models\LeisureCenter::with('services')->get(),
     ]);
 })->name('ocio');
 
 Route::get('/salud', function () {
     return Inertia::render('Salud', [
-        'healthCenters' => \App\Models\HealthCenter::all(),
+        'healthCenters' => \App\Models\HealthCenter::with('services')->get(),
     ]);
 })->name('salud');
 
 Route::get('/belleza', function () {
     return Inertia::render('Belleza', [
-        'beautyCenters' => \App\Models\BeautyCenter::all(),
+        'beautyCenters' => \App\Models\BeautyCenter::with('services')->get(),
     ]);
 })->name('belleza');
 
