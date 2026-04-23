@@ -13,7 +13,7 @@ class ServiceSeeder extends Seeder
 {
     public function run(): void
     {
-        // Servicios básicos y directos por local
+        // Servicios básicos y directos por local (ASEGURANDO QUE LOS NOMBRES COINCIDAN EXACTAMENTE)
         $customServices = [
             // --- GASTRONOMÍA ---
             'La Parrilla del Abuelo' => [
@@ -26,26 +26,58 @@ class ServiceSeeder extends Seeder
             'Healthy Vibes' => [
                 ['name' => 'Reserva de Mesa', 'duration_minutes' => 60, 'price' => 0]
             ],
+            'El Rincón del Mediterráneo' => [
+                ['name' => 'Reserva de Mesa', 'duration_minutes' => 90, 'price' => 0]
+            ],
+            'Trattoria Bella Italia' => [
+                ['name' => 'Reserva de Mesa', 'duration_minutes' => 90, 'price' => 0]
+            ],
 
             // --- DEPORTES ---
-            'Gimnasio FitLife' => [
-                ['name' => 'Entrenamiento Libre', 'duration_minutes' => 120, 'price' => 10]
+            'Gimnasio Fit Life' => [
+                ['name' => 'Entrenamiento Libre', 'duration_minutes' => 120, 'price' => 10],
+                ['name' => 'Sesión con Entrenador Personal', 'duration_minutes' => 60, 'price' => 30]
             ],
-            'Club de Tenis Victoria' => [
-                ['name' => 'Alquiler de Pista', 'duration_minutes' => 60, 'price' => 15]
+            'Pádel Club Central' => [
+                ['name' => 'Alquiler de Pista (1h)', 'duration_minutes' => 60, 'price' => 15],
+                ['name' => 'Clase de Pádel', 'duration_minutes' => 60, 'price' => 25]
+            ],
+            'Centro de Yoga Zen' => [
+                ['name' => 'Clase de Hatha Yoga', 'duration_minutes' => 75, 'price' => 12],
+                ['name' => 'Sesión de Meditación', 'duration_minutes' => 45, 'price' => 8]
             ],
 
             // --- BELLEZA ---
-            'Barbería El Elegante' => [
-                ['name' => 'Corte de Pelo', 'duration_minutes' => 30, 'price' => 15]
+            'Barbería Clásica' => [
+                ['name' => 'Corte de Pelo Clásico', 'duration_minutes' => 30, 'price' => 15],
+                ['name' => 'Arreglo de Barba', 'duration_minutes' => 20, 'price' => 10],
+                ['name' => 'Corte + Barba', 'duration_minutes' => 45, 'price' => 22]
             ],
-            'Glow Beauty & Spa' => [
-                ['name' => 'Masaje Relajante', 'duration_minutes' => 60, 'price' => 45]
+            'Salón de Belleza Aura' => [
+                ['name' => 'Corte y Peinado', 'duration_minutes' => 60, 'price' => 35],
+                ['name' => 'Manicura Completa', 'duration_minutes' => 45, 'price' => 20]
+            ],
+            'Oasis Wellness & Masajes' => [
+                ['name' => 'Masaje Relajante', 'duration_minutes' => 60, 'price' => 45],
+                ['name' => 'Circuito Spa', 'duration_minutes' => 90, 'price' => 30]
             ],
 
             // --- SALUD ---
-            'Clínica Dental Sonrisas' => [
-                ['name' => 'Limpieza Dental', 'duration_minutes' => 45, 'price' => 50]
+            'Centro Médico Dental Sonrisas' => [
+                ['name' => 'Limpieza Dental', 'duration_minutes' => 45, 'price' => 50],
+                ['name' => 'Revisión General', 'duration_minutes' => 30, 'price' => 0]
+            ],
+            'Clínica Médica Integral' => [
+                ['name' => 'Consulta Medicina General', 'duration_minutes' => 20, 'price' => 40],
+                ['name' => 'Analítica Completa', 'duration_minutes' => 15, 'price' => 30]
+            ],
+
+            // --- OCIO ---
+            'Cines Splendid' => [
+                ['name' => 'Entrada de Cine', 'duration_minutes' => 120, 'price' => 9]
+            ],
+            'Bolera Pin Strike' => [
+                ['name' => 'Partida de Bolos', 'duration_minutes' => 45, 'price' => 7]
             ],
         ];
 
@@ -57,10 +89,10 @@ class ServiceSeeder extends Seeder
                   ?? LeisureCenter::where('name', $localName)->first();
 
             if ($local) {
-                // Limpiar servicios anteriores
+                // Limpiar servicios anteriores para evitar duplicados si se corre varias veces
                 $local->services()->delete();
                 
-                // Crear los nuevos servicios simples
+                // Crear los nuevos servicios
                 foreach ($services as $serviceData) {
                     $local->services()->create($serviceData);
                 }
