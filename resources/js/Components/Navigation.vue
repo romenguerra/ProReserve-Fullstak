@@ -316,56 +316,70 @@ defineProps({
                                     : 'bg-[#F0EEE9]/95 border-[#0f172a]/10'"
                                 @click="profileMenuOpen = false"
                             >
-                                <Link
-                                    v-if="isAdmin()"
-                                    :href="route('dashboard')"
-                                    class="block px-4 py-2 text-sm transition-colors duration-500"
-                                    :class="currentTheme === 'navy' 
-                                        ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
-                                        : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
-                                >
-                                    Dashboard
-                                </Link>
-                                <Link
-                                    :href="route('profile.edit')"
-                                    class="block px-4 py-2 text-sm transition-colors duration-500"
-                                    :class="currentTheme === 'navy' 
-                                        ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
-                                        : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
-                                >
-                                    {{ $t('nav.profile') }}
-                                </Link>
-                                <Link
-                                    href="/reservas"
-                                    class="block px-4 py-2 text-sm transition-colors duration-500"
-                                    :class="currentTheme === 'navy' 
-                                        ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
-                                        : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
-                                >
-                                    {{ $t('nav.calendar') }}
-                                </Link>
-                                <Link
-                                    href="/configuracion"
-                                    class="block px-4 py-2 text-sm transition-colors duration-500"
-                                    :class="currentTheme === 'navy' 
-                                        ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
-                                        : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
-                                >
-                                    {{ $t('nav.settings') }}
-                                </Link>
-                                <div 
-                                    class="h-px my-1 mx-2"
-                                    :class="currentTheme === 'navy' ? 'bg-white/10' : 'bg-[#0f172a]/10'"
-                                ></div>
-                                <Link
-                                    :href="route('logout')"
-                                    method="post"
-                                    as="button"
-                                    class="block w-full text-left px-4 py-2 text-sm transition-colors duration-500"
-                                    :class="currentTheme === 'navy' ? 'text-red-400 hover:bg-red-500/10' : 'text-red-600 hover:bg-red-50'"
-                                >
-                                    {{ $t('nav.logout') }}
-                                </Link>
+                                <template v-if="user?.name">
+                                    <Link
+                                        v-if="isAdmin()"
+                                        :href="route('dashboard')"
+                                        class="block px-4 py-2 text-sm transition-colors duration-500"
+                                        :class="currentTheme === 'navy' 
+                                            ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
+                                            : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
+                                    >
+                                        Dashboard
+                                    </Link>
+                                    <Link
+                                        :href="route('profile.edit')"
+                                        class="block px-4 py-2 text-sm transition-colors duration-500"
+                                        :class="currentTheme === 'navy' 
+                                            ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
+                                            : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
+                                    >
+                                        {{ $t('nav.profile') }}
+                                    </Link>
+                                    <Link
+                                        href="/reservas"
+                                        class="block px-4 py-2 text-sm transition-colors duration-500"
+                                        :class="currentTheme === 'navy' 
+                                            ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
+                                            : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
+                                    >
+                                        {{ $t('nav.calendar') }}
+                                    </Link>
+
+                                    <div 
+                                        class="h-px my-1 mx-2"
+                                        :class="currentTheme === 'navy' ? 'bg-white/10' : 'bg-[#0f172a]/10'"
+                                    ></div>
+                                    <Link
+                                        :href="route('logout')"
+                                        method="post"
+                                        as="button"
+                                        class="block w-full text-left px-4 py-2 text-sm transition-colors duration-500"
+                                        :class="currentTheme === 'navy' ? 'text-red-400 hover:bg-red-500/10' : 'text-red-600 hover:bg-red-50'"
+                                    >
+                                        {{ $t('nav.logout') }}
+                                    </Link>
+                                </template>
+                                <template v-else>
+                                    <Link
+                                        :href="route('login')"
+                                        class="block px-4 py-2 text-sm transition-colors duration-500 font-semibold"
+                                        :class="currentTheme === 'navy' 
+                                            ? 'text-[#F0EEE9] hover:bg-white/5' 
+                                            : 'text-[#0f172a] hover:bg-[#0f172a]/5'"
+                                    >
+                                        {{ $t('login') || 'Iniciar sesión' }}
+                                    </Link>
+                                    <Link
+                                        :href="route('register')"
+                                        class="block px-4 py-2 text-sm transition-colors duration-500"
+                                        :class="currentTheme === 'navy' 
+                                            ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
+                                            : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
+                                    >
+                                        {{ $t('register') || 'Registrarse' }}
+                                    </Link>
+                                </template>
                             </div>
                         </Transition>
                     </div>

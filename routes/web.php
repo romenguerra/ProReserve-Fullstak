@@ -58,7 +58,7 @@ Route::get('/belleza', function () {
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard-Example');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
 
 
 

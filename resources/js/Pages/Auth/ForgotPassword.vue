@@ -62,8 +62,11 @@ const submit = () => {
                 </form>
 
                 <div class="mt-8 text-center">
-                    <Link :href="route('login')" class="text-sm text-gray-600 hover:text-[#8EB6A5] font-medium transition-colors">
-                        ← Volver al login
+                    <Link 
+                        :href="$page.props.auth?.user ? route('profile.edit') : route('login')" 
+                        class="text-sm text-gray-600 hover:text-[#8EB6A5] font-medium transition-colors"
+                    >
+                        {{ $page.props.auth?.user ? '← Volver a mi perfil' : '← Volver al login' }}
                     </Link>
                 </div>
             </div>
