@@ -40,7 +40,7 @@ const submit = () => {
                     No hay problema. Solo indícanos tu dirección de correo electrónico y te enviaremos un enlace para restablecerla.
                 </p>
 
-                <div v-if="status" class="mb-6 p-4 rounded-xl bg-green-50 text-green-700 text-sm font-medium border border-green-100 italic text-center">
+                <div v-if="status" class="mb-6 p-4 rounded-xl bg-green-50 text-green-700 text-sm font-medium border border-green-100 text-center">
                     {{ status }}
                 </div>
 
