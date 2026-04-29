@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReservationConfirmed;
 
 class ReservaController extends Controller
 {
@@ -43,7 +45,7 @@ class ReservaController extends Controller
 
         $reservableType = $categoryMap[$validated['category']];
 
-        Reservation::create([
+        $reservation = Reservation::create([
             'user_id' => auth()->id(),
             'reservable_id' => $validated['local_id'],
             'reservable_type' => $reservableType,
@@ -54,6 +56,9 @@ class ReservaController extends Controller
             'special_request' => $validated['special_request'] ?? null,
             'status' => 'confirmed',
         ]);
+
+        // Enviar email de confirmación
+        Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
 
         return back()->with('success', 'Reserva realizada correctamente.');
     }

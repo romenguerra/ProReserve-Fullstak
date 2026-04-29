@@ -379,7 +379,7 @@ onMounted(() => {
                         :disabled="!selectedDate || !selectedTime"
                         :class="[
                             selectedDate && selectedTime
-                                ? 'bg-gray-950 text-white shadow-2xl shadow-gray-950/20 hover:scale-[1.02]'
+                                ? 'bg-gray-950 text-white'
                                 : 'bg-gray-100 text-gray-400 cursor-not-allowed',
                         ]"
                         class="w-full relative group inline-flex items-center justify-center gap-3 px-8 py-6 rounded-[2rem] overflow-hidden transition-all duration-500"

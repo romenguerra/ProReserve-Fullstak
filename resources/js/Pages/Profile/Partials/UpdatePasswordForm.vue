@@ -3,7 +3,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { useForm, Link } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const passwordInput = ref(null);
@@ -102,12 +102,7 @@ const updatePassword = () => {
             <div class="flex items-center gap-4">
                 <PrimaryButton :disabled="form.processing">{{ $t('profile.password.save') }}</PrimaryButton>
 
-                <Link
-                    :href="route('password.request')"
-                    class="text-sm text-[#0f172a] font-medium hover:underline"
-                >
-                    ¿Olvidaste tu contraseña?
-                </Link>
+
 
                 <Transition
                     enter-active-class="transition ease-in-out"
