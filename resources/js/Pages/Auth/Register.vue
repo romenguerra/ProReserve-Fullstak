@@ -93,7 +93,7 @@ const registerSlides = [
                     </div>
 
                     <!-- Form -->
-                    <form @submit.prevent="submit" class="space-y-5">
+                    <form @submit.prevent="submit" novalidate class="space-y-5">
                         <div>
                             <InputLabel
                                 for="name"
@@ -103,9 +103,9 @@ const registerSlides = [
                             <TextInput
                                 id="name"
                                 type="text"
+                                :class="{'border-red-500 focus:ring-red-500 focus:border-red-500': form.errors.name}"
                                 class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.name"
-                                required
                                 autofocus
                                 autocomplete="name"
                                 placeholder="Ingresa tu nombre"
@@ -125,9 +125,9 @@ const registerSlides = [
                             <TextInput
                                 id="email"
                                 type="email"
+                                :class="{'border-red-500 focus:ring-red-500 focus:border-red-500': form.errors.email}"
                                 class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.email"
-                                required
                                 autocomplete="username"
                                 placeholder="tu@email.com"
                             />
@@ -146,9 +146,9 @@ const registerSlides = [
                             <TextInput
                                 id="password"
                                 type="password"
+                                :class="{'border-red-500 focus:ring-red-500 focus:border-red-500': form.errors.password}"
                                 class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.password"
-                                required
                                 autocomplete="new-password"
                                 placeholder="••••••••"
                             />
@@ -167,9 +167,9 @@ const registerSlides = [
                             <TextInput
                                 id="password_confirmation"
                                 type="password"
+                                :class="{'border-red-500 focus:ring-red-500 focus:border-red-500': form.errors.password_confirmation}"
                                 class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
                                 v-model="form.password_confirmation"
-                                required
                                 autocomplete="new-password"
                                 placeholder="••••••••"
                             />

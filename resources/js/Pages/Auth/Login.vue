@@ -92,21 +92,23 @@ const loginSlides = [
                     </div>
 
                     <!-- Form -->
-                    <form @submit.prevent="submit" class="space-y-5">
+                    <form @submit.prevent="submit" novalidate class="space-y-5">
 
                         <div>
                             <InputLabel for="email" value="Correo electrónico" class="text-gray-700 font-medium mb-2" />
                             <TextInput id="email" type="email"
+                                :class="{'border-red-500 focus:ring-red-500 focus:border-red-500': form.errors.email}"
                                 class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
-                                v-model="form.email" required autocomplete="username" placeholder="tu@email.com" />
+                                v-model="form.email" autocomplete="username" placeholder="tu@email.com" />
                             <InputError class="mt-2" :message="form.errors.email" />
                         </div>
 
                         <div>
                             <InputLabel for="password" value="Contraseña" class="text-gray-700 font-medium mb-2" />
                             <TextInput id="password" type="password"
+                                :class="{'border-red-500 focus:ring-red-500 focus:border-red-500': form.errors.password}"
                                 class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#8EB6A5] focus:border-transparent"
-                                v-model="form.password" required autocomplete="new-password" placeholder="••••••••" />
+                                v-model="form.password" autocomplete="new-password" placeholder="••••••••" />
                             <InputError class="mt-2" :message="form.errors.password" />
                         </div>
 

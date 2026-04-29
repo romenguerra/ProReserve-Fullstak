@@ -12,7 +12,7 @@ class ReservaController extends Controller
     {
         $reservations = auth()->user()->reservations()->with(['service', 'reservable'])->latest()->get();
         
-        return Inertia::render('Calendar/Index', [
+        return Inertia::render('Reservas/Index', [
             'reservations' => $reservations
         ]);
     }
