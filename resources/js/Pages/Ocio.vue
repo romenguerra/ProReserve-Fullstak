@@ -70,10 +70,10 @@ onMounted(() => {
         </section>
 
         <!-- Leisure Grid -->
-        <section class="bg-[#F0EFE9] py-24 min-h-screen">
+        <section class="bg-[#F0EFE9] pt-12 pb-24 min-h-screen">
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                 <!-- Toolbar/Filters Placeholder -->
-                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
                     <div>
                         <h2 class="text-4xl font-bold text-gray-900 mb-2">Centros de Ocio</h2>
                         <p class="text-gray-500">Descubre {{ leisureCenters.length }} planes increíbles para ti.</p>
