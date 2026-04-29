@@ -71,7 +71,7 @@
         "home": "Home",
         "services": "Services",
         "contact": "Contact",
-        "calendar": "Calendar",
+        "calendar": "My bookings",
         "dashboard": "Dashboard",
         "profile": "Your profile",
         "settings": "Settings",
@@ -81,9 +81,9 @@
         "open_user_menu": "Open user menu"
     },
     "calendar": {
-        "meta_title": "My Calendar - ProReserve",
+        "meta_title": "My bookings - ProReserve",
         "badge": "Your Reservations",
-        "title": "My Calendar",
+        "title": "My bookings",
         "subtitle": "Manage and view all your upcoming reservations in one place.",
         "tabs": {
             "upcoming": "Upcoming",

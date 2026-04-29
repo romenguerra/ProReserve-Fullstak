@@ -60,7 +60,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard-Example');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/calendario', [\App\Http\Controllers\ReservaController::class, 'index'])->middleware(['auth', 'verified'])->name('calendario');
+
 
 // Ruta para visualizar perfil (diferente de editar)
 Route::get('/perfil', function () {

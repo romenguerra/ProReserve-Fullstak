@@ -46,8 +46,17 @@ const handleScroll = () => {
 const currentTheme = ref('navy'); // 'navy' or 'beige'
 let observer = null;
 
+const dropdownRef = ref(null);
+
+const closeDropdownOnClickOutside = (e) => {
+    if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
+        profileMenuOpen.value = false;
+    }
+};
+
 onMounted(() => {
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("click", closeDropdownOnClickOutside);
 
     // Smart Navbar Logic
     const options = {
@@ -76,6 +85,7 @@ onMounted(() => {
 
 onUnmounted(() => {
     window.removeEventListener("scroll", handleScroll);
+    window.removeEventListener("click", closeDropdownOnClickOutside);
     if (observer) observer.disconnect();
 });
 
@@ -207,9 +217,9 @@ defineProps({
                                 {{ $t('nav.contact') }}
                             </Link>
                             <Link
-                                href="/calendario"
+                                href="/reservas"
                                 :class="[
-                                    $page.url === '/calendario'
+                                    $page.url === '/reservas'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
                                         : (currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:text-[#0f172a]'),
                                     'nav-link-item px-4 py-2 text-lg font-medium flex items-center transition-all duration-500',
@@ -268,7 +278,7 @@ defineProps({
                     </button>
 
                     <!-- Profile dropdown -->
-                    <div class="relative ml-3">
+                    <div class="relative ml-3" ref="dropdownRef">
                         <button
                             @click="toggleProfileMenu"
                             class="relative flex rounded-full focus:outline-none"
@@ -324,6 +334,15 @@ defineProps({
                                         : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
                                 >
                                     {{ $t('nav.profile') }}
+                                </Link>
+                                <Link
+                                    href="/reservas"
+                                    class="block px-4 py-2 text-sm transition-colors duration-500"
+                                    :class="currentTheme === 'navy' 
+                                        ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
+                                        : 'text-[#0f172a]/80 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'"
+                                >
+                                    {{ $t('nav.calendar') }}
                                 </Link>
                                 <Link
                                     href="/configuracion"
@@ -400,10 +419,12 @@ defineProps({
                         {{ $t('nav.contact') }}
                     </Link>
                     <Link
-                        href="/calendario"
+                        href="/reservas"
                         @click="closeMobileMenu"
                          :class="[
-                            currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:bg-white/5 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:bg-[#0f172a]/5 hover:text-[#0f172a]',
+                            $page.url === '/reservas'
+                                ? (currentTheme === 'navy' ? 'bg-white/5 text-[#F0EEE9]' : 'bg-[#0f172a]/5 text-[#0f172a]')
+                                : (currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:bg-white/5 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:bg-[#0f172a]/5 hover:text-[#0f172a]'),
                              'block rounded-xl px-4 py-4 text-base font-medium transition-all duration-500'
                         ]"
                     >
