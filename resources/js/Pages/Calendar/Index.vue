@@ -1,6 +1,6 @@
 <script setup>
 import MainLayout from "@/Layouts/MainLayout.vue";
-import { Head, Link } from "@inertiajs/vue3";
+import { Head, Link, router } from "@inertiajs/vue3";
 import { 
     Calendar as CalendarIcon, 
     Clock, 
@@ -23,65 +23,38 @@ import { useI18n } from "@/Composables/useI18n";
 
 const { currentLocale, t } = useI18n();
 
+const props = defineProps({
+    reservations: {
+        type: Array,
+        default: () => []
+    }
+});
+
 const activeTab = ref('upcoming'); // upcoming, past, cancelled
 
-const allReservations = ref([
-    {
-        id: 1,
-        title: "Cena Aniversario",
-        venue_name: "La Tasca de Don Pedro",
-        date: "2026-04-10",
-        time: "20:30",
-        guests: 2,
-        status: "confirmed",
-        type: "restaurant",
-        image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=600",
-    },
-    {
-        id: 2,
-        title: "Pista de Pádel",
-        venue_name: "Club Polideportivo El Valle",
-        date: "2026-04-12",
-        time: "10:00",
-        guests: 4,
-        status: "pending",
-        type: "sport",
-        image: "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?q=80&w=600&auto=format&fit=crop",
-    },
-    {
-        id: 3,
-        title: "Masaje Relajante",
-        venue_name: "Zen Spa & Wellness",
-        date: "2026-04-15",
-        time: "17:00",
-        guests: 1,
-        status: "confirmed",
-        type: "health",
-        image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=600",
-    },
-    {
-        id: 4,
-        title: "Cata de Vinos",
-        venue_name: "Bodegas del Marqués",
-        date: "2026-04-20",
-        time: "19:00",
-        guests: 2,
-        status: "cancelled",
-        type: "restaurant",
-        image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&q=80&w=600",
-    },
-    {
-        id: 5,
-        title: "Entrenamiento Personal",
-        venue_name: "Fit Pro Elite",
-        date: "2026-03-15",
-        time: "09:00",
-        guests: 1,
-        status: "confirmed",
-        type: "sport",
-        image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=600",
-    }
-]);
+const mapType = (type) => {
+    if (!type) return 'default';
+    if (type.includes('Restaurant')) return 'restaurant';
+    if (type.includes('SportCenter')) return 'sport';
+    if (type.includes('HealthCenter')) return 'health';
+    if (type.includes('BeautyCenter')) return 'beauty';
+    if (type.includes('LeisureCenter')) return 'leisure';
+    return 'default';
+};
+
+const allReservations = computed(() => {
+    return props.reservations.map(r => ({
+        id: r.id,
+        title: r.service ? r.service.name : "Reserva",
+        venue_name: r.reservable ? r.reservable.name : "Local",
+        date: r.reservation_date,
+        time: r.reservation_time.substring(0, 5),
+        guests: r.guests,
+        status: r.status,
+        type: mapType(r.reservable_type),
+        image: r.reservable && r.reservable.image ? r.reservable.image : "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=600",
+    }));
+});
 
 const filteredReservations = computed(() => {
     if (activeTab.value === 'upcoming') {
@@ -138,11 +111,27 @@ const counts = computed(() => ({
     cancelled: allReservations.value.filter(r => r.status === 'cancelled').length
 }));
 
+const confirmingCancellation = ref(null);
+let resetTimeout = null;
+
 const cancelReservation = (id) => {
-    // In a real app we'd call an API
-    if (confirm(t('calendar.confirm_cancel') || '¿Estás seguro de que quieres cancelar esta reserva?')) {
-        const res = allReservations.value.find(r => r.id === id);
-        if (res) res.status = 'cancelled';
+    if (confirmingCancellation.value === id) {
+        router.delete(`/reservas/${id}`, {
+            preserveState: true,
+            onSuccess: () => {
+                confirmingCancellation.value = null;
+            }
+        });
+    } else {
+        confirmingCancellation.value = id;
+        
+        if (resetTimeout) clearTimeout(resetTimeout);
+        
+        resetTimeout = setTimeout(() => {
+            if (confirmingCancellation.value === id) {
+                confirmingCancellation.value = null;
+            }
+        }, 4000);
     }
 };
 </script>
@@ -373,10 +362,15 @@ const cancelReservation = (id) => {
                                                 <button 
                                                     v-if="reservation.status !== 'cancelled' && activeTab === 'upcoming'"
                                                     @click="cancelReservation(reservation.id)"
-                                                    class="group/btn inline-flex items-center gap-2 text-red-500/80 hover:text-red-600 font-black text-[10px] uppercase tracking-widest transition-all px-3 py-2 hover:bg-red-50 rounded-xl whitespace-nowrap"
+                                                    :class="[
+                                                        confirmingCancellation === reservation.id 
+                                                            ? 'bg-red-600 text-white hover:bg-red-700 shadow-lg shadow-red-600/30 animate-pulse' 
+                                                            : 'text-red-500/80 hover:text-red-600 hover:bg-red-50'
+                                                    ]"
+                                                    class="group/btn inline-flex items-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all px-4 py-2.5 rounded-xl whitespace-nowrap"
                                                 >
-                                                    <Trash2 class="w-3.5 h-3.5 transition-transform group-hover/btn:scale-110" />
-                                                    {{ $t('calendar.cancel_action') || 'Cancelar' }}
+                                                    <Trash2 class="w-3.5 h-3.5" />
+                                                    {{ confirmingCancellation === reservation.id ? '¿Seguro? Clic para confirmar' : ($t('calendar.cancel_action') || 'Cancelar') }}
                                                 </button>
                                                 <div class="flex-1 hidden sm:block"></div>
                                                 <Link

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted, computed } from "vue";
 import BookingCalendar from "@/Components/BookingCalendar.vue";
+import { usePage, router } from "@inertiajs/vue3";
 import {
     CheckCircle2,
     Calendar as CalendarIcon,
@@ -145,12 +146,36 @@ const formatTypeName = (type) => {
     return titles[type] || type.charAt(0).toUpperCase() + type.slice(1);
 };
 
+const page = usePage();
+const isAuthenticated = computed(() => !!page.props.auth.user);
+
+const handleStartBooking = () => {
+    if (!isAuthenticated.value) {
+        router.visit(route('login'));
+    } else {
+        step.value = 1;
+    }
+};
+
 const handleConfirmBooking = (data) => {
     bookingData.value = data;
-    // Simulamos una carga
-    setTimeout(() => {
-        step.value = 2; // Success
-    }, 300);
+    
+    router.post('/reservas', {
+        local_id: props.local.id,
+        category: props.category,
+        service_id: data.service.id,
+        reservation_date: data.date,
+        reservation_time: data.time,
+        guests: data.guests,
+    }, {
+        preserveState: true,
+        onSuccess: () => {
+            step.value = 2; // Success
+        },
+        onError: (errors) => {
+            console.error(errors);
+        }
+    });
 };
 
 const formatDate = (dateString) => {
@@ -395,7 +420,7 @@ const formatDate = (dateString) => {
                                         <!-- Botón CTA -->
                                         <div class="mt-auto">
                                             <button
-                                                @click="step = 1"
+                                                @click="handleStartBooking"
                                                 class="w-full relative group inline-flex items-center justify-center gap-3 px-8 py-6 bg-gray-950 text-white rounded-[2rem] overflow-hidden transition-all duration-500 shadow-2xl shadow-gray-950/20 hover:scale-[1.02]"
                                             >
                                                 <span

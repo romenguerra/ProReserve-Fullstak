@@ -60,9 +60,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard-Example');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/calendario', function () {
-    return Inertia::render('Calendar/Index');
-})->middleware(['auth', 'verified'])->name('calendario');
+Route::get('/calendario', [\App\Http\Controllers\ReservaController::class, 'index'])->middleware(['auth', 'verified'])->name('calendario');
 
 // Ruta para visualizar perfil (diferente de editar)
 Route::get('/perfil', function () {
@@ -78,6 +76,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/interests/setup', [App\Http\Controllers\InterestController::class, 'create'])->name('interests.create');
     Route::post('/interests', [App\Http\Controllers\InterestController::class, 'store'])->name('interests.store');
+
+    Route::resource('reservas', App\Http\Controllers\ReservaController::class)->only(['index', 'store', 'destroy']);
 });
 
 // Rutas protegidas por rol - EJEMPLOS
