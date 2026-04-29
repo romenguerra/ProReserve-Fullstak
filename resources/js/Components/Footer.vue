@@ -55,20 +55,28 @@
                     </ul>
                 </div>
 
-                <!-- Columna 3: Boletín -->
+                <!-- Columna 3: Boletín / Dashboard CTA -->
                 <div>
                     <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-6">
-                        {{ $t('footer.subscribe_title') }}
+                        {{ !$page.props.auth?.user ? $t('footer.subscribe_title') : $t('footer.dashboard_title') }}
                     </h3>
-                    <p class="text-sm text-gray-400 mb-6">
-                        {{ $t('footer.subscribe_desc') }}
+                    <p class="text-sm text-gray-400 mb-6 font-medium">
+                        {{ !$page.props.auth?.user ? $t('footer.subscribe_desc') : $t('footer.dashboard_desc') }}
                     </p>
                     <div class="flex flex-col space-y-4">
                         <Link
+                            v-if="!$page.props.auth?.user"
                             href="/register"
                             class="bg-[#8EB6A5] hover:bg-[#7aa592] text-white text-center font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-xl shadow-[#8EB6A5]/20 hover:-translate-y-1 block w-full"
                         >
                             {{ $t('footer.subscribe_button') }}
+                        </Link>
+                        <Link
+                            v-else
+                            :href="route('dashboard')"
+                            class="bg-[#8EB6A5] hover:bg-[#7aa592] text-white text-center font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-xl shadow-[#8EB6A5]/20 hover:-translate-y-1 block w-full"
+                        >
+                            {{ $t('footer.dashboard_button') }}
                         </Link>
                     </div>
                 </div>

@@ -27,31 +27,31 @@ Route::get('/contacto', function () {
 
 Route::get('/gastronomia', function () {
     return Inertia::render('Gastronomia', [
-        'restaurants' => \App\Models\Restaurant::all(),
+        'restaurants' => \App\Models\Restaurant::with('services')->get(),
     ]);
 })->name('gastronomia');
 
 Route::get('/deportes', function () {
     return Inertia::render('Deportes', [
-        'sportCenters' => \App\Models\SportCenter::all(),
+        'sportCenters' => \App\Models\SportCenter::with('services')->get(),
     ]);
 })->name('deportes');
 
 Route::get('/ocio', function () {
     return Inertia::render('Ocio', [
-        'leisureCenters' => \App\Models\LeisureCenter::all(),
+        'leisureCenters' => \App\Models\LeisureCenter::with('services')->get(),
     ]);
 })->name('ocio');
 
 Route::get('/salud', function () {
     return Inertia::render('Salud', [
-        'healthCenters' => \App\Models\HealthCenter::all(),
+        'healthCenters' => \App\Models\HealthCenter::with('services')->get(),
     ]);
 })->name('salud');
 
 Route::get('/belleza', function () {
     return Inertia::render('Belleza', [
-        'beautyCenters' => \App\Models\BeautyCenter::all(),
+        'beautyCenters' => \App\Models\BeautyCenter::with('services')->get(),
     ]);
 })->name('belleza');
 
@@ -59,6 +59,8 @@ Route::get('/belleza', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard-Example');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/calendario', [\App\Http\Controllers\ReservaController::class, 'index'])->middleware(['auth', 'verified'])->name('calendario');
 
 // Ruta para visualizar perfil (diferente de editar)
 Route::get('/perfil', function () {
@@ -74,6 +76,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/interests/setup', [App\Http\Controllers\InterestController::class, 'create'])->name('interests.create');
     Route::post('/interests', [App\Http\Controllers\InterestController::class, 'store'])->name('interests.store');
+
+    Route::resource('reservas', App\Http\Controllers\ReservaController::class)->only(['index', 'store', 'destroy']);
 });
 
 // Rutas protegidas por rol - EJEMPLOS
