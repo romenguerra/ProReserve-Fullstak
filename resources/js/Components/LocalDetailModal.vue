@@ -496,13 +496,7 @@ const formatDate = (dateString) => {
                                                     ]"
                                                 ></div>
                                             </div>
-                                            <div
-                                                class="absolute -top-4 -right-4"
-                                            >
-                                                <Sparkles
-                                                    class="w-10 h-10 text-yellow-400 animate-bounce"
-                                                />
-                                            </div>
+
                                         </div>
 
                                         <h2
