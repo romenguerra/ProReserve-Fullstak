@@ -172,7 +172,7 @@ defineProps({
                     <div class="flex shrink-0 items-center">
                         <Link href="/">
                             <img
-                                src="/images/logo-proreserve.png"
+                                src="/images/logo-proreserve.avif"
                                 alt="ProReserve"
                                 class="h-14 w-auto transition-all duration-500"
                                 :class="currentTheme === 'navy' ? 'brightness-0 invert' : ''"

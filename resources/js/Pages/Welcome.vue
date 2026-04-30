@@ -16,35 +16,35 @@ const categories = computed(() => [
         id: "gastronomy",
         title: t("home.categories.gastronomy"),
         description: t("home.categories.gastronomy_desc"),
-        image: "/images/gastronomia.jpg",
+        image: "/images/gastronomia.avif",
         link: "/gastronomia",
     },
     {
         id: "sport",
         title: t("home.categories.sport"),
         description: t("home.categories.sport_desc"),
-        image: "/images/deporte.jpg",
+        image: "/images/deporte.avif",
         link: "/deportes",
     },
     {
         id: "health",
         title: t("home.categories.health"),
         description: t("home.categories.health_desc"),
-        image: "/images/salud.jpg",
+        image: "/images/salud.avif",
         link: "/salud",
     },
     {
         id: "leisure",
         title: t("home.categories.leisure"),
         description: t("home.categories.leisure_desc"),
-        image: "/images/ocio.jpg",
+        image: "/images/ocio.avif",
         link: "/ocio",
     },
     {
         id: "beauty",
         title: t("home.categories.beauty"),
         description: t("home.categories.beauty_desc"),
-        image: "/images/beauty-wellness.png",
+        image: "/images/beauty-wellness.avif",
         link: "/belleza",
     },
 ]);
@@ -247,7 +247,7 @@ onMounted(() => {
                         
                         <div class="relative rounded-[3rem] overflow-hidden border border-white/40 shadow-2xl group-hover:border-white/60 transition-all duration-700">
                             <img
-                                src="/images/proreserve-lifestyle-v2.png"
+                                src="/images/proreserve-lifestyle-cta.avif"
                                 :alt="$t('home.cta_image_alt')"
                                 class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-1000"
                             />

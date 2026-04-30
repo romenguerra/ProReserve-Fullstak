@@ -244,7 +244,7 @@ const formatDate = (dateString) => {
                                 class="relative min-h-[300px] md:min-h-0 bg-gray-100 shrink-0 transition-[width] duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-[width]"
                             >
                                 <img
-                                    :src="local.image || '/images/salud.jpg'"
+                                    :src="local.image || '/images/salud.avif'"
                                     :alt="local.name"
                                     class="absolute inset-0 w-full h-full object-cover"
                                 />
