@@ -704,22 +704,6 @@ const cancelReservation = (id) => {
                                                               ) || "Cancelar"
                                                     }}
                                                 </button>
-                                                <div
-                                                    class="flex-1 hidden sm:block"
-                                                ></div>
-                                                <Link
-                                                    :href="route('servicios')"
-                                                    class="flex-1 sm:flex-none inline-flex items-center justify-center gap-3 bg-gray-50 text-[#0f172a] px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-[#0f172a] hover:text-white transition-all shadow-sm whitespace-nowrap"
-                                                >
-                                                    {{
-                                                        $t(
-                                                            "calendar.details_action",
-                                                        ) || "Ver detalles"
-                                                    }}
-                                                    <ChevronRight
-                                                        class="w-4 h-4"
-                                                    />
-                                                </Link>
                                             </div>
                                         </div>
                                     </div>
