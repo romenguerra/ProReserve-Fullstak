@@ -89,8 +89,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/servicios', [AdminController::class, 'servicios'])->name('admin.servicios');
 });
 
-// Route::middleware(['auth', 'role:admin|cliente'])->group(function () {
-//     Route::resource('reservas', App\Http\Controllers\ReservaController::class);
-// });
+Route::middleware(['auth'])->group(function () {
+    Route::post('/reservations', [App\Http\Controllers\ReservationController::class, 'store'])->name('reservations.store');
+});
 
+Route::get('/api/availability', [App\Http\Controllers\ReservationController::class, 'getAvailableSlots'])->name('availability');
 require __DIR__ . '/auth.php';

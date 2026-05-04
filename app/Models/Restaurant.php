@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Restaurant extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Traits\HasSchedules;
 
     protected $fillable = [
         'name',
