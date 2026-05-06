@@ -9,15 +9,23 @@ class ScheduleSeeder extends Seeder
 {
     public function run(): void
     {
-        $centers = BeautyCenter::all();
+        $allCenters = collect()
+            ->merge(\App\Models\BeautyCenter::all())
+            ->merge(\App\Models\HealthCenter::all())
+            ->merge(\App\Models\LeisureCenter::all())
+            ->merge(\App\Models\Restaurant::all())
+            ->merge(\App\Models\SportCenter::all());
         
-        foreach ($centers as $center) {
+        foreach ($allCenters as $center) {
+            // Check if schedules already exist to prevent duplicates
+            if ($center->schedules()->count() > 0) continue;
+
             // Monday to Friday
             for ($i = 1; $i <= 5; $i++) {
                 $center->schedules()->create([
                     'day_of_week' => $i,
                     'opening_time' => '09:00:00',
-                    'closing_time' => '18:00:00',
+                    'closing_time' => '22:00:00',
                     'is_closed' => false
                 ]);
             }

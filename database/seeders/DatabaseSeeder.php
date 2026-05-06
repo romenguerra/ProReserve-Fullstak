@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             ServiceSeeder::class,
             // ReviewSeeder::class, // Comentado temporalmente hasta implementar el sistema frontal
             ReservationSeeder::class,
+            ScheduleSeeder::class,
+            ResourceSeeder::class,
         ]);
 
         // Opcional: Crear usuarios de prueba

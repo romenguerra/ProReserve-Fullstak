@@ -1,5 +1,6 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted, computed } from "vue";
+import axios from "axios";
 import BookingCalendar from "@/Components/BookingCalendar.vue";
 import { usePage, router } from "@inertiajs/vue3";
 import {
@@ -157,25 +158,33 @@ const handleStartBooking = () => {
     }
 };
 
-const handleConfirmBooking = (data) => {
+const categoryToModel = {
+    'gastronomia': 'Restaurant',
+    'deportes': 'SportCenter',
+    'ocio': 'LeisureCenter',
+    'salud': 'HealthCenter',
+    'belleza': 'BeautyCenter'
+};
+
+const handleConfirmBooking = async (data) => {
     bookingData.value = data;
     
-    router.post('/reservas', {
-        local_id: props.local.id,
-        category: props.category,
-        service_id: data.service.id,
-        reservation_date: data.date,
-        reservation_time: data.time,
-        guests: data.guests,
-    }, {
-        preserveState: true,
-        onSuccess: () => {
-            step.value = 2; // Success
-        },
-        onError: (errors) => {
-            console.error(errors);
-        }
-    });
+    try {
+        await axios.post('/reservations', {
+            type: categoryToModel[props.category],
+            id: props.local.id,
+            service_id: data.service.id,
+            resource_id: data.resource ? data.resource.id : null,
+            date: data.date,
+            time: data.time,
+            guests: data.guests,
+        });
+        
+        step.value = 2; // Success
+    } catch (error) {
+        console.error("Error creating reservation:", error.response?.data || error);
+        alert(error.response?.data?.message || "Hubo un error al crear la reserva. Por favor, inténtalo de nuevo.");
+    }
 };
 
 const formatDate = (dateString) => {
@@ -555,6 +564,34 @@ const formatDate = (dateString) => {
                                                                 bookingData
                                                                     .service
                                                                     .name
+                                                            }}</span
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    v-if="bookingData.resource"
+                                                    class="flex items-center gap-4"
+                                                >
+                                                    <div
+                                                        :class="[
+                                                            'p-3 rounded-xl text-white',
+                                                            getCategoryTheme(
+                                                                category,
+                                                            ).color,
+                                                        ]"
+                                                    >
+                                                        <Users class="w-5 h-5" />
+                                                    </div>
+                                                    <div>
+                                                        <p
+                                                            class="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1"
+                                                        >
+                                                            Opción Elegida
+                                                        </p>
+                                                        <span
+                                                            class="font-bold text-gray-900"
+                                                            >{{
+                                                                bookingData.resource.name
                                                             }}</span
                                                         >
                                                     </div>

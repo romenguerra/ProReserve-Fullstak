@@ -13,6 +13,7 @@ class Schedule extends Model
         'opening_time',
         'closing_time',
         'is_closed',
+        'capacity',
     ];
 
     public function schedulable()

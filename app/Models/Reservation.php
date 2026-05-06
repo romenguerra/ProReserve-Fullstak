@@ -15,6 +15,7 @@ class Reservation extends Model
         'user_id',
         'reservable_id',
         'reservable_type',
+        'resource_id',
         'service_id',
         'reservation_date',
         'reservation_time',
@@ -36,5 +37,10 @@ class Reservation extends Model
     public function service(): BelongsTo
     {
         return $this->belongsTo(Service::class);
+    }
+
+    public function resource(): BelongsTo
+    {
+        return $this->belongsTo(Resource::class);
     }
 }

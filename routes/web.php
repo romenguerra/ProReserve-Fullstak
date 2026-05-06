@@ -27,31 +27,31 @@ Route::get('/contacto', function () {
 
 Route::get('/gastronomia', function () {
     return Inertia::render('Gastronomia', [
-        'restaurants' => \App\Models\Restaurant::with('services')->get(),
+        'restaurants' => \App\Models\Restaurant::with(['services', 'resources'])->get(),
     ]);
 })->name('gastronomia');
 
 Route::get('/deportes', function () {
     return Inertia::render('Deportes', [
-        'sportCenters' => \App\Models\SportCenter::with('services')->get(),
+        'sportCenters' => \App\Models\SportCenter::with(['services', 'resources'])->get(),
     ]);
 })->name('deportes');
 
 Route::get('/ocio', function () {
     return Inertia::render('Ocio', [
-        'leisureCenters' => \App\Models\LeisureCenter::with('services')->get(),
+        'leisureCenters' => \App\Models\LeisureCenter::with(['services', 'resources'])->get(),
     ]);
 })->name('ocio');
 
 Route::get('/salud', function () {
     return Inertia::render('Salud', [
-        'healthCenters' => \App\Models\HealthCenter::with('services')->get(),
+        'healthCenters' => \App\Models\HealthCenter::with(['services', 'resources'])->get(),
     ]);
 })->name('salud');
 
 Route::get('/belleza', function () {
     return Inertia::render('Belleza', [
-        'beautyCenters' => \App\Models\BeautyCenter::with('services')->get(),
+        'beautyCenters' => \App\Models\BeautyCenter::with(['services', 'resources'])->get(),
     ]);
 })->name('belleza');
 

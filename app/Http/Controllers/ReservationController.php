@@ -47,8 +47,10 @@ class ReservationController extends Controller
 
         $service = Service::find($request->service_id);
         $duration = $service ? $service->duration_minutes : 30;
+        $guests = $request->guests ?? 1;
+        $resourceId = $request->resource_id ?? null;
 
-        $slots = $this->scheduleService->getAvailableSlots($place, $request->date, $duration);
+        $slots = $this->scheduleService->getAvailableSlots($place, $request->date, $duration, $guests, $resourceId);
 
         return response()->json([
             'date' => $request->date,
@@ -67,6 +69,7 @@ class ReservationController extends Controller
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
             'service_id' => 'required|exists:services,id',
+            'resource_id' => 'nullable|exists:resources,id',
             'guests' => 'nullable|integer|min:1',
             'special_request' => 'nullable|string'
         ]);
@@ -74,9 +77,11 @@ class ReservationController extends Controller
         $typeClass = "App\\Models\\" . $request->type;
         $place = $typeClass::findOrFail($request->id);
         $service = Service::findOrFail($request->service_id);
+        $guests = $request->guests ?? 1;
+        $resourceId = $request->resource_id ?? null;
 
         // Double check availability to prevent race conditions
-        $slots = $this->scheduleService->getAvailableSlots($place, $request->date, $service->duration_minutes);
+        $slots = $this->scheduleService->getAvailableSlots($place, $request->date, $service->duration_minutes, $guests, $resourceId);
         
         $slotValid = false;
         // In the format "H:i", make sure times match
@@ -97,10 +102,11 @@ class ReservationController extends Controller
             'user_id' => auth()->id(),
             'reservable_type' => $typeClass,
             'reservable_id' => $place->id,
+            'resource_id' => $resourceId,
             'service_id' => $service->id,
             'reservation_date' => $request->date,
             'reservation_time' => $request->time,
-            'guests' => $request->guests ?? 1,
+            'guests' => $guests,
             'status' => 'pending',
             'special_request' => $request->special_request
         ]);
