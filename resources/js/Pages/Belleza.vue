@@ -60,7 +60,7 @@ onMounted(() => {
                         Cuidado Exclusivo
                     </span>
                     <h1 class="text-6xl md:text-8xl font-bold text-gray-900 leading-[0.95] tracking-tighter mb-6">
-                        Pura<br /><span class="text-rose-600">belleza.</span>
+                        Pura<br /><span class="text-rose-600">{{ $t('beauty.title_2') }}</span>
                     </h1>
                     <p class="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed">
                         Peluquerías, barberías y centros estéticos. Reserva tu momento para cuidarte.
@@ -100,7 +100,7 @@ onMounted(() => {
                         href="/"
                         class="group relative inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-full overflow-hidden hover:pr-12 transition-all duration-500 shadow-xl hover:shadow-gray-400/20"
                     >
-                        <span class="relative z-10 font-bold tracking-tight">Volver al inicio</span>
+                        <span class="relative z-10 font-bold tracking-tight">{{ $t('common.back_to_home') }}</span>
                         <div class="absolute inset-0 bg-gradient-to-r from-rose-500 to-pink-500 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                         <svg class="w-5 h-5 relative z-10 transition-transform duration-500 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />

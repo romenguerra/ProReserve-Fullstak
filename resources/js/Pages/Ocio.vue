@@ -75,7 +75,7 @@ onMounted(() => {
                 <!-- Toolbar/Filters Placeholder -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
                     <div>
-                        <h2 class="text-4xl font-bold text-gray-900 mb-2">Centros de Ocio</h2>
+                        <h2 class="text-4xl font-bold text-gray-900 mb-2">{{ $t('leisure.section_title') }}</h2>
                         <p class="text-gray-500">Descubre {{ leisureCenters.length }} planes increíbles para ti.</p>
                     </div>
                     <div class="flex gap-4">
@@ -101,7 +101,7 @@ onMounted(() => {
                         href="/"
                         class="group relative inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white rounded-full overflow-hidden hover:pr-12 transition-all duration-500 shadow-xl hover:shadow-gray-400/20"
                     >
-                        <span class="relative z-10 font-bold tracking-tight">Volver al inicio</span>
+                        <span class="relative z-10 font-bold tracking-tight">{{ $t('common.back_to_home') }}</span>
                         <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
                         <svg class="w-5 h-5 relative z-10 transition-transform duration-500 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -116,8 +116,8 @@ onMounted(() => {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">No se encontraron centros de ocio</h3>
-                    <p class="text-gray-500 max-w-sm">Estamos trabajando para añadir más opciones de ocio a ProReserve muy pronto.</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $t('leisure.empty_title') }}</h3>
+                    <p class="text-gray-500 max-w-sm">{{ $t('leisure.empty_desc') }}</p>
                 </div>
             </div>
         </section>
