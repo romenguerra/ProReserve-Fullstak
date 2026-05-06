@@ -46,7 +46,7 @@ const getTypeColor = (type) => {
             >
                 <img
                     class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
-                    :src="sportCenter.image || '/images/deportes.jpg'"
+                    :src="sportCenter.image || '/images/deporte.avif'"
                     :alt="sportCenter.name"
                     loading="lazy"
                 />

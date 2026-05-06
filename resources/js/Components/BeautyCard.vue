@@ -44,7 +44,7 @@ const getTypeColor = (type) => {
             >
                 <img
                     class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
-                    :src="center.image || '/images/beauty-wellness.png'"
+                    :src="center.image || '/images/beauty-wellness.avif'"
                     :alt="center.name"
                     loading="lazy"
                 />

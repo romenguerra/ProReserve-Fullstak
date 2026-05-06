@@ -28,7 +28,7 @@ const submit = () => {
             <!-- Logo -->
             <div class="flex justify-center mb-8">
                 <Link href="/">
-                    <img src="/images/logo-proreserve.png" alt="ProReserve" class="h-16 w-auto" />
+                    <img src="/images/logo-proreserve.avif" alt="ProReserve" class="h-16 w-auto" />
                 </Link>
             </div>
 

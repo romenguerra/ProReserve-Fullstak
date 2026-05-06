@@ -48,7 +48,7 @@ const getTypeColor = (type) => {
             >
                 <img
                     class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
-                    :src="restaurant.image || '/images/gastronomia.jpg'"
+                    :src="restaurant.image || '/images/gastronomia.avif'"
                     :alt="restaurant.name"
                     loading="lazy"
                 />

@@ -244,7 +244,7 @@ const formatDate = (dateString) => {
                                 class="relative min-h-[300px] md:min-h-0 bg-gray-100 shrink-0 transition-[width] duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-[width]"
                             >
                                 <img
-                                    :src="local.image || '/images/salud.jpg'"
+                                    :src="local.image || '/images/salud.avif'"
                                     :alt="local.name"
                                     class="absolute inset-0 w-full h-full object-cover"
                                 />
@@ -496,13 +496,7 @@ const formatDate = (dateString) => {
                                                     ]"
                                                 ></div>
                                             </div>
-                                            <div
-                                                class="absolute -top-4 -right-4"
-                                            >
-                                                <Sparkles
-                                                    class="w-10 h-10 text-yellow-400 animate-bounce"
-                                                />
-                                            </div>
+
                                         </div>
 
                                         <h2

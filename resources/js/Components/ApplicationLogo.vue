@@ -1,6 +1,6 @@
 <template>
     <img
-        src="/images/logo-proreserve.png"
+        src="/images/logo-proreserve.avif"
         alt="ProReserve Logo"
         class="w-auto"
     />

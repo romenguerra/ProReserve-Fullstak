@@ -27,17 +27,17 @@ const submit = () => {
 
 const registerSlides = [
     {
-        image: '/images/register-hero.png',
+        image: '/images/register-hero.avif',
         title: 'Gestiona tus reservas de forma profesional',
         description: 'Sistema diseñado para negocios que valoran la simplicidad y la eficiencia'
     },
     {
-        image: '/images/gastronomia.jpg',
+        image: '/images/gastronomia.avif',
         title: 'Potencia tu restaurante',
         description: 'Optimiza tus mesas y ofrece la mejor experiencia a tus comensales'
     },
     {
-        image: '/images/bienestar.jpg',
+        image: '/images/bienestar.avif',
         title: 'Tu centro de bienestar organizado',
         description: 'Gestiona citas y clientes con total facilidad desde un solo lugar'
     }
@@ -59,7 +59,7 @@ const registerSlides = [
                 <div class="flex justify-center mb-8">
                     <Link href="/">
                         <img
-                            src="/images/logo-proreserve.png"
+                            src="/images/logo-proreserve.avif"
                             alt="ProReserve"
                             class="h-16 w-auto"
                         />

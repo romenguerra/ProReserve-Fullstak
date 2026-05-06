@@ -6,7 +6,7 @@
                 <div class="flex flex-col space-y-6">
                     <div class="flex items-center space-x-3">
                         <img
-                            src="/images/logo-proreserve.png"
+                            src="/images/logo-proreserve.avif"
                             :alt="$t('footer.logo_alt')"
                             class="h-10 w-auto brightness-0 invert"
                         />
