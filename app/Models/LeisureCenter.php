@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class LeisureCenter extends Model
 {
-    use HasFactory;
+    use HasFactory, \App\Traits\HasSchedules, \App\Traits\HasResources;
 
     protected $fillable = [
         'name',

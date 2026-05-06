@@ -1,5 +1,6 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
+import axios from "axios";
 import {
     ChevronLeft,
     ChevronRight,
@@ -32,6 +33,7 @@ const emit = defineEmits(["back", "confirm"]);
 // --- State ---
 const bookingStep = ref(0); // 0: Select Service, 1: Select Date/Time/Guests
 const selectedService = ref(null);
+const selectedResource = ref(null);
 const selectedDate = ref(null);
 const selectedTime = ref(null);
 const guests = ref(2);
@@ -61,37 +63,65 @@ const days = computed(() => {
     return arr;
 });
 
-const timeSlots = [
-    "09:00",
-    "09:30",
-    "10:00",
-    "10:30",
-    "11:00",
-    "11:30",
-    "12:00",
-    "12:30",
-    "13:00",
-    "13:30",
-    "14:00",
-    "14:30",
-    "17:00",
-    "17:30",
-    "18:00",
-    "18:30",
-    "19:00",
-    "19:30",
-    "20:00",
-    "20:30",
-    "21:00",
-    "21:30",
-    "22:00",
-    "22:30",
-];
+const availableTimeSlots = ref([]);
+const isLoadingSlots = ref(false);
+
+const categoryToModel = {
+    'gastronomia': 'Restaurant',
+    'deportes': 'SportCenter',
+    'ocio': 'LeisureCenter',
+    'salud': 'HealthCenter',
+    'belleza': 'BeautyCenter'
+};
+
+const fetchSlots = async () => {
+    if (!selectedDate.value || !selectedService.value) return;
+    if (props.local.resources && props.local.resources.length > 0 && !selectedResource.value) return;
+    
+    isLoadingSlots.value = true;
+    
+    try {
+        const response = await axios.get('/api/availability', {
+            params: {
+                type: categoryToModel[props.category],
+                id: props.local.id,
+                date: selectedDate.value,
+                service_id: selectedService.value.id,
+                guests: isIndividualService.value ? 1 : guests.value,
+                resource_id: selectedResource.value ? selectedResource.value.id : null
+            }
+        });
+        availableTimeSlots.value = response.data.available_slots;
+        
+        if (selectedTime.value && !availableTimeSlots.value.includes(selectedTime.value)) {
+            selectedTime.value = null;
+        }
+    } catch (error) {
+        console.error("Error fetching available slots:", error);
+        availableTimeSlots.value = [];
+    } finally {
+        isLoadingSlots.value = false;
+    }
+};
+
+watch([selectedDate, selectedService, guests, selectedResource], () => {
+    if (bookingStep.value === 1) {
+        fetchSlots();
+    }
+});
 
 // --- Methods ---
 const selectService = (service) => {
     selectedService.value = service;
+    if (props.local.resources && props.local.resources.length > 0) {
+        selectedResource.value = props.local.resources[0];
+    }
     bookingStep.value = 1;
+    fetchSlots();
+};
+
+const selectResource = (resource) => {
+    selectedResource.value = resource;
 };
 
 const selectDate = (date) => {
@@ -119,8 +149,11 @@ const handleBack = () => {
 
 const confirmBooking = () => {
     if (selectedDate.value && selectedTime.value && selectedService.value) {
+        if (props.local.resources && props.local.resources.length > 0 && !selectedResource.value) return;
+        
         emit("confirm", {
             service: selectedService.value,
+            resource: selectedResource.value,
             date: selectedDate.value,
             time: selectedTime.value,
             guests: isIndividualService.value ? 1 : guests.value,
@@ -267,12 +300,34 @@ onMounted(() => {
                     </p>
                 </div>
 
+                <!-- Resource Selection -->
+                <div v-if="local.resources && local.resources.length > 0" class="mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">1. Opciones (Obligatorio)</span>
+                    </div>
+                    <div class="flex gap-3 overflow-x-auto px-2 py-2 -mx-2 -mt-2 pb-4 hide-scrollbar">
+                        <button
+                            v-for="resource in local.resources"
+                            :key="resource.id"
+                            @click="selectResource(resource)"
+                            :class="[
+                                selectedResource?.id === resource.id
+                                    ? theme.color + ' text-white shadow-lg'
+                                    : 'bg-white border border-gray-100 text-gray-600 hover:border-gray-300',
+                            ]"
+                            class="px-5 py-3 rounded-xl text-sm font-black transition-all duration-500 whitespace-nowrap"
+                        >
+                            {{ resource.name }}
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Date Selection -->
                 <div class="mb-10">
                     <div class="flex items-center justify-between mb-4">
                         <span
                             class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400"
-                            >1. Selecciona Fecha</span
+                            >{{ local.resources && local.resources.length > 0 ? '2' : '1' }}. Selecciona Fecha</span
                         >
                         <span
                             class="text-[10px] font-black px-2 py-1 bg-gray-100 rounded-md text-gray-500 uppercase"
@@ -282,7 +337,7 @@ onMounted(() => {
                     </div>
 
                     <div
-                        class="flex gap-3 overflow-x-auto pb-4 hide-scrollbar snap-x"
+                        class="flex gap-3 overflow-x-auto px-2 py-2 -mx-2 -mt-2 pb-4 hide-scrollbar snap-x"
                     >
                         <button
                             v-for="day in days"
@@ -291,7 +346,7 @@ onMounted(() => {
                             :class="[
                                 selectedDate === day.iso
                                     ? theme.color +
-                                      ' text-white shadow-lg scale-105'
+                                      ' text-white shadow-lg'
                                     : 'bg-white border border-gray-100 text-gray-600 hover:border-gray-300',
                             ]"
                             class="flex flex-col items-center justify-center min-w-[75px] h-24 rounded-2xl transition-all duration-500 snap-start"
@@ -312,14 +367,20 @@ onMounted(() => {
                     <div class="flex items-center justify-between mb-4">
                         <span
                             class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400"
-                            >2. Selecciona Hora</span
+                            >{{ local.resources && local.resources.length > 0 ? '3' : '2' }}. Selecciona Hora</span
                         >
                         <Clock class="w-4 h-4 text-gray-300" />
                     </div>
 
-                    <div class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                    <div v-if="isLoadingSlots && availableTimeSlots.length === 0" class="flex justify-center py-8">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2" :class="theme.textAccent"></div>
+                    </div>
+                    <div v-else-if="availableTimeSlots.length === 0" class="text-center py-8 text-gray-500">
+                        No hay horas disponibles para este día.
+                    </div>
+                    <div v-else class="grid grid-cols-3 sm:grid-cols-4 gap-3 transition-opacity duration-300" :class="{ 'opacity-50 pointer-events-none': isLoadingSlots }">
                         <button
-                            v-for="time in timeSlots"
+                            v-for="time in availableTimeSlots"
                             :key="time"
                             @click="selectTime(time)"
                             :class="[
@@ -339,7 +400,7 @@ onMounted(() => {
                     <div class="flex items-center justify-between mb-4">
                         <span
                             class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400"
-                            >3. ¿Para cuántos?</span
+                            >{{ local.resources && local.resources.length > 0 ? '4' : '3' }}. ¿Para cuántos?</span
                         >
                         <Users class="w-4 h-4 text-gray-300" />
                     </div>
