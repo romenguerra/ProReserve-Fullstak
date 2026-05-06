@@ -270,10 +270,7 @@ const formatDate = (dateString) => {
                                             getCategoryTheme(category).color,
                                         ]"
                                     >
-                                        {{
-                                            formatTypeName(local.type) ||
-                                            getCategoryTheme(category).label
-                                        }}
+                                        {{ $t('local_types.' + local.type, formatTypeName(local.type) || getCategoryTheme(category).label) }}
                                     </span>
                                     <h2
                                         v-if="step > 0"
@@ -351,10 +348,7 @@ const formatDate = (dateString) => {
                                         <p
                                             class="text-xl text-gray-500 mb-12 leading-relaxed font-medium"
                                         >
-                                            {{
-                                                local.description ||
-                                                "Descubre nuestro increíble centro y disfruta de una atención espectacular con los mejores profesionales."
-                                            }}
+                                            {{ $t('local_desc.' + local.name, local.description || 'Descubre nuestro increíble centro y disfruta de una atención espectacular con los mejores profesionales.') }}
                                         </p>
 
                                         <!-- Grid de Info -->
@@ -378,7 +372,7 @@ const formatDate = (dateString) => {
                                                     <p
                                                         class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1"
                                                     >
-                                                        Ubicación
+                                                        {{ $t('booking.location') }}
                                                     </p>
                                                     <p
                                                         class="text-sm font-bold text-gray-900 leading-snug"
@@ -403,7 +397,7 @@ const formatDate = (dateString) => {
                                                     <p
                                                         class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1"
                                                     >
-                                                        Horario
+                                                        {{ $t('booking.hours') }}
                                                     </p>
                                                     <p
                                                         class="text-sm font-bold text-gray-900"
@@ -434,7 +428,7 @@ const formatDate = (dateString) => {
                                             >
                                                 <span
                                                     class="relative z-10 font-black text-xl tracking-tight"
-                                                    >Reservar Cita Ahora</span
+                                                    >{{ $t('booking.book_now') }}</span
                                                 >
                                                 <div
                                                     :class="[
@@ -511,17 +505,17 @@ const formatDate = (dateString) => {
                                         <h2
                                             class="text-4xl md:text-5xl font-black text-gray-900 mb-4 tracking-tighter leading-none"
                                         >
-                                            ¡Cita reservada!
+                                            {{ $t('booking.success_title') }}
                                         </h2>
                                         <p
                                             class="text-xl text-gray-500 font-medium mb-12 max-w-sm"
                                         >
-                                            Tu reserva en
+                                            {{ $t('booking.success_desc_1') }}
                                             <span
                                                 class="text-gray-900 font-black"
                                                 >{{ local.name }}</span
                                             >
-                                            ha sido confirmada correctamente.
+                                            {{ $t('booking.success_desc_2') }}
                                         </p>
 
                                         <div
@@ -530,7 +524,7 @@ const formatDate = (dateString) => {
                                             <h4
                                                 class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-6"
                                             >
-                                                Detalles de la reserva
+                                                {{ $t('booking.booking_details') }}
                                             </h4>
                                             <div class="space-y-6">
                                                 <div
@@ -637,16 +631,10 @@ const formatDate = (dateString) => {
                                                     />
                                                     <span
                                                         class="font-bold text-gray-900"
-                                                        >{{
-                                                            bookingData.guests
-                                                        }}
-                                                        person{{
-                                                            bookingData.guests >
-                                                            1
-                                                                ? "as"
-                                                                : "a"
-                                                        }}</span
                                                     >
+                                                        {{ bookingData.guests }} 
+                                                        {{ bookingData.guests > 1 ? $t('booking.persons') : $t('booking.person') }}
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

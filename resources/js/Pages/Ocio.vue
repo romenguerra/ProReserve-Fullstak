@@ -57,13 +57,13 @@ onMounted(() => {
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-16 w-full relative z-10">
                 <div class="max-w-3xl">
                     <span class="inline-block px-4 py-1.5 rounded-full bg-indigo-600/10 text-indigo-700 text-xs font-bold uppercase tracking-widest mb-6 animate-fade-in">
-                        Tiempo Libre
+                        {{ $t('leisure.badge') }}
                     </span>
                     <h1 class="text-6xl md:text-8xl font-bold text-gray-900 leading-[0.95] tracking-tighter mb-6">
-                        Desconecta y<br /><span class="text-indigo-600">disfruta.</span>
+                        {{ $t('leisure.title_1') }}<br /><span class="text-indigo-600">{{ $t('leisure.title_2') }}</span>
                     </h1>
                     <p class="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed">
-                        Encuentra los mejores planes para tu tiempo libre. Cines, salas de juegos, discotecas y más.
+                        {{ $t('leisure.description') }}
                     </p>
                 </div>
             </div>
@@ -76,7 +76,7 @@ onMounted(() => {
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
                     <div>
                         <h2 class="text-4xl font-bold text-gray-900 mb-2">{{ $t('leisure.section_title') }}</h2>
-                        <p class="text-gray-500">Descubre {{ leisureCenters.length }} planes increíbles para ti.</p>
+                        <p class="text-gray-500">{{ $t('leisure.section_subtitle').replace('{count}', leisureCenters.length) }}</p>
                     </div>
                     <div class="flex gap-4">
                         <!-- Aquí se podrían añadir filtros en el futuro -->

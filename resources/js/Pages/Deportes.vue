@@ -57,13 +57,13 @@ onMounted(() => {
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-16 w-full relative z-10">
                 <div class="max-w-3xl">
                     <span class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 text-blue-700 text-xs font-bold uppercase tracking-widest mb-6 animate-fade-in">
-                        Vida Activa y Saludable
+                        {{ $t('sports.badge') }}
                     </span>
                     <h1 class="text-6xl md:text-8xl font-bold text-gray-900 leading-[0.95] tracking-tighter mb-6">
-                        Domina el<br /><span class="text-blue-600">juego.</span>
+                        {{ $t('sports.title_1') }}<br /><span class="text-blue-600">{{ $t('sports.title_2') }}</span>
                     </h1>
                     <p class="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed">
-                        Encuentra los mejores centros deportivos, pistas y gimnasios. Reserva tu espacio y empieza a entrenar.
+                        {{ $t('sports.description') }}
                     </p>
                 </div>
             </div>
@@ -76,7 +76,7 @@ onMounted(() => {
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
                     <div>
                         <h2 class="text-4xl font-bold text-gray-900 mb-2">{{ $t('sports.section_title') }}</h2>
-                        <p class="text-gray-500">Explora {{ sportCenters.length }} instalaciones de alto nivel.</p>
+                        <p class="text-gray-500">{{ $t('sports.section_subtitle').replace('{count}', sportCenters.length) }}</p>
                     </div>
                 </div>
 

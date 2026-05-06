@@ -182,8 +182,8 @@ onMounted(() => {
                 <h2 class="text-2xl font-bold text-gray-900 leading-tight">
                     {{
                         bookingStep === 0
-                            ? "Selecciona un servicio"
-                            : "Configura tu cita"
+                            ? $t('booking.select_service')
+                            : $t('booking.configure_appointment')
                     }}
                 </h2>
                 <p class="text-sm text-gray-500">{{ local.name }}</p>
@@ -233,7 +233,7 @@ onMounted(() => {
                                 {{
                                     service.price > 0
                                         ? service.price + "€"
-                                        : "Gratis"
+                                        : $t('booking.free')
                                 }}
                             </p>
                             <div
@@ -303,7 +303,7 @@ onMounted(() => {
                 <!-- Resource Selection -->
                 <div v-if="local.resources && local.resources.length > 0" class="mb-8">
                     <div class="flex items-center justify-between mb-4">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">1. Opciones (Obligatorio)</span>
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">{{ $t('booking.step_1_options') }}</span>
                     </div>
                     <div class="flex gap-3 overflow-x-auto px-2 py-2 -mx-2 -mt-2 pb-4 hide-scrollbar">
                         <button
@@ -327,7 +327,7 @@ onMounted(() => {
                     <div class="flex items-center justify-between mb-4">
                         <span
                             class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400"
-                            >{{ local.resources && local.resources.length > 0 ? '2' : '1' }}. Selecciona Fecha</span
+                            >{{ $t('booking.step_date').replace('{num}', local.resources && local.resources.length > 0 ? '2' : '1') }}</span
                         >
                         <span
                             class="text-[10px] font-black px-2 py-1 bg-gray-100 rounded-md text-gray-500 uppercase"
@@ -367,7 +367,7 @@ onMounted(() => {
                     <div class="flex items-center justify-between mb-4">
                         <span
                             class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400"
-                            >{{ local.resources && local.resources.length > 0 ? '3' : '2' }}. Selecciona Hora</span
+                            >{{ $t('booking.step_time').replace('{num}', local.resources && local.resources.length > 0 ? '3' : '2') }}</span
                         >
                         <Clock class="w-4 h-4 text-gray-300" />
                     </div>
@@ -376,7 +376,7 @@ onMounted(() => {
                         <div class="animate-spin rounded-full h-8 w-8 border-b-2" :class="theme.textAccent"></div>
                     </div>
                     <div v-else-if="availableTimeSlots.length === 0" class="text-center py-8 text-gray-500">
-                        No hay horas disponibles para este día.
+                        {{ $t('booking.no_slots') }}
                     </div>
                     <div v-else class="grid grid-cols-3 sm:grid-cols-4 gap-3 transition-opacity duration-300" :class="{ 'opacity-50 pointer-events-none': isLoadingSlots }">
                         <button
@@ -400,7 +400,7 @@ onMounted(() => {
                     <div class="flex items-center justify-between mb-4">
                         <span
                             class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400"
-                            >{{ local.resources && local.resources.length > 0 ? '4' : '3' }}. ¿Para cuántos?</span
+                            >{{ $t('booking.step_guests').replace('{num}', local.resources && local.resources.length > 0 ? '4' : '3') }}</span
                         >
                         <Users class="w-4 h-4 text-gray-300" />
                     </div>
