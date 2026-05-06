@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReservationConfirmed;
 
 class ReservationController extends Controller
 {
@@ -110,6 +112,12 @@ class ReservationController extends Controller
             'status' => 'pending',
             'special_request' => $request->special_request
         ]);
+
+        try {
+            Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
+        } catch (\Exception $e) {
+            \Log::error('Error enviando email de reserva: ' . $e->getMessage());
+        }
 
         return response()->json(['message' => 'Reservation created successfully!', 'reservation' => $reservation], 201);
     }
