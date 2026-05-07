@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted, onUnmounted, computed } from "vue";
+import { ref, watch, onMounted, onUnmounted, computed, nextTick } from "vue";
 import axios from "axios";
 import BookingCalendar from "@/Components/BookingCalendar.vue";
 import { usePage, router } from "@inertiajs/vue3";
@@ -10,6 +10,7 @@ import {
     Users,
     X,
     Sparkles,
+    Tag,
 } from "lucide-vue-next";
 
 const props = defineProps({
@@ -50,6 +51,20 @@ const closeOnEscape = (e) => {
 
 onMounted(() => document.addEventListener("keydown", closeOnEscape));
 onUnmounted(() => document.removeEventListener("keydown", closeOnEscape));
+
+// --- Map State ---
+const getStaticMapUrl = computed(() => {
+    if (!props.local?.latitude || !props.local?.longitude) return null;
+    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    const lat = props.local.latitude;
+    const lng = props.local.longitude;
+    const zoom = 15;
+    const size = "800x400";
+    const markers = `color:red%7C${lat},${lng}`;
+    
+    // Estilo premium simplificado para el mapa
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${size}&markers=${markers}&key=${apiKey}&scale=2`;
+});
 
 // Manejo del scroll del body
 watch(
@@ -418,6 +433,29 @@ const formatDate = (dateString) => {
                                                     </p>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <!-- Mapa Estático -->
+                                        <div v-if="local.latitude && local.longitude" class="mb-12">
+                                            <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">
+                                                Ubicación en el mapa
+                                            </p>
+                                            <a 
+                                                :href="`https://www.google.com/maps/search/?api=1&query=${local.latitude},${local.longitude}`" 
+                                                target="_blank"
+                                                class="block w-full h-48 sm:h-64 rounded-3xl overflow-hidden border border-gray-100 shadow-inner bg-gray-50 relative group cursor-pointer"
+                                            >
+                                                <img 
+                                                    :src="getStaticMapUrl" 
+                                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    alt="Ubicación"
+                                                />
+                                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                                                    <span class="bg-white/90 backdrop-blur-md px-6 py-3 rounded-2xl shadow-xl text-xs font-black text-gray-900 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 uppercase tracking-widest">
+                                                        Ver en Google Maps ↗
+                                                    </span>
+                                                </div>
+                                            </a>
                                         </div>
 
                                         <!-- Botón CTA -->

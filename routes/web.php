@@ -57,7 +57,15 @@ Route::get('/belleza', function () {
 
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard-Example');
+    return Inertia::render('Admin/Dashboard', [
+        'users' => \App\Models\User::with('roles')->get(),
+        'restaurants' => \App\Models\Restaurant::all(),
+        'sportCenters' => \App\Models\SportCenter::all(),
+        'healthCenters' => \App\Models\HealthCenter::all(),
+        'beautyCenters' => \App\Models\BeautyCenter::all(),
+        'leisureCenters' => \App\Models\LeisureCenter::all(),
+        'reservations' => \App\Models\Reservation::with(['user', 'reservable', 'service'])->latest()->get(),
+    ]);
 })->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
 
 
@@ -78,6 +86,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/interests', [App\Http\Controllers\InterestController::class, 'store'])->name('interests.store');
 
     Route::resource('reservas', App\Http\Controllers\ReservaController::class)->only(['index', 'store', 'destroy']);
+
+    Route::get('/locales/crear', [\App\Http\Controllers\LocalController::class, 'create'])->name('locales.create');
+    Route::post('/locales', [\App\Http\Controllers\LocalController::class, 'store'])->name('locales.store');
 });
 
 // Rutas protegidas por rol - EJEMPLOS
