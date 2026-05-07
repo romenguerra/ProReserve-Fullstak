@@ -39,6 +39,36 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Descripción corta</label>
                             <textarea v-model="form.description" rows="3" class="w-full border-gray-300 rounded-md shadow-sm"></textarea>
                         </div>
+
+                        <!-- Foto del Local -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Foto de Portada</label>
+                            <div class="flex items-center gap-6">
+                                <div v-if="imagePreview" class="relative w-32 h-32 rounded-2xl overflow-hidden border-2 border-indigo-100 shadow-md shrink-0">
+                                    <img :src="imagePreview" class="w-full h-full object-cover" />
+                                    <button @click="removeImage" type="button" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors shadow-lg">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    </button>
+                                </div>
+                                <div 
+                                    class="flex-1 border-2 border-dashed border-gray-300 rounded-2xl p-6 hover:border-indigo-400 hover:bg-indigo-50/30 transition-all cursor-pointer group relative"
+                                    @click="$refs.fileInput.click()"
+                                >
+                                    <input 
+                                        type="file" 
+                                        ref="fileInput" 
+                                        class="hidden" 
+                                        @change="handleImageChange" 
+                                        accept="image/*"
+                                    />
+                                    <div class="flex flex-col items-center justify-center text-center">
+                                        <svg class="w-10 h-10 text-gray-400 group-hover:text-indigo-500 mb-2 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        <p class="text-sm text-gray-600 font-bold group-hover:text-indigo-700 transition-colors">Haz clic para subir una foto</p>
+                                        <p class="text-xs text-gray-400 mt-1">Soporta JPG, PNG y AVIF (Máx. 2MB)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- SECCIÓN 2: UBICACIÓN Y CONTACTO -->
@@ -186,7 +216,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import AddressAutocomplete from '@/Components/AddressAutocomplete.vue';
 
@@ -211,7 +241,26 @@ const localTypePlaceholder = computed(() => {
         default: return '';
     }
 });
+const fileInput = ref(null);
+const imagePreview = ref(null);
 
+const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        form.image = file;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imagePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+};
+
+const removeImage = () => {
+    form.image = null;
+    imagePreview.value = null;
+    if (fileInput.value) fileInput.value.value = '';
+};
 const form = useForm({
     type: '',
     name: '',
@@ -220,6 +269,7 @@ const form = useForm({
     phone: '',
     email: '',
     website: '',
+    image: null,
     smoking_area: false,
     has_parking: false,
     has_emergency: false,

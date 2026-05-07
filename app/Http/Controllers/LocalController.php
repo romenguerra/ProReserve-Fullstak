@@ -24,6 +24,7 @@ class LocalController extends Controller
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
             'website' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,avif|max:2048',
             
             'smoking_area' => 'boolean',
             'has_parking' => 'boolean',
@@ -88,6 +89,12 @@ class LocalController extends Controller
             'status' => 'pending'
         ];
 
+        // Manejo de la imagen
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('locales', 'public');
+            $data['image'] = '/storage/' . $path;
+        }
+
         // Añadimos datos específicos si la migración lo permite (para evitar errores SQL)
         if ($validated['type'] === 'restaurant') {
             $data['smoking_area'] = $validated['smoking_area'] ?? false;
@@ -109,8 +116,8 @@ class LocalController extends Controller
             $local->schedules()->create([
                 'day_of_week' => $schedule['day_of_week'],
                 'is_closed' => $schedule['is_closed'],
-                'opening_time' => $schedule['is_closed'] ? null : $schedule['opening_time'],
-                'closing_time' => $schedule['is_closed'] ? null : $schedule['closing_time'],
+                'opening_time' => $schedule['is_closed'] ? '00:00' : $schedule['opening_time'],
+                'closing_time' => $schedule['is_closed'] ? '00:00' : $schedule['closing_time'],
             ]);
         }
 
