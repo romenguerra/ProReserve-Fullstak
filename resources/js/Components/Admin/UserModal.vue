@@ -78,7 +78,7 @@ const close = () => {
                 <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm" @click="close"></div>
 
                 <!-- Modal -->
-                <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-300">
+                <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md relative z-10 overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-300">
                     <!-- Header -->
                     <div class="p-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/50">
                         <div class="flex items-center gap-3">
@@ -108,7 +108,7 @@ const close = () => {
                                     type="text" 
                                     required
                                     placeholder="Ej. Juan Pérez"
-                                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-50 rounded-xl focus:bg-white focus:border-indigo-600 focus:ring-0 transition-all text-sm font-bold"
+                                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-sm font-bold outline-none"
                                 />
                             </div>
                             <p v-if="form.errors.name" class="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{{ form.errors.name }}</p>
@@ -124,7 +124,7 @@ const close = () => {
                                     type="email" 
                                     required
                                     placeholder="correo@ejemplo.com"
-                                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-50 rounded-xl focus:bg-white focus:border-indigo-600 focus:ring-0 transition-all text-sm font-bold"
+                                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-sm font-bold outline-none"
                                 />
                             </div>
                             <p v-if="form.errors.email" class="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{{ form.errors.email }}</p>
@@ -142,7 +142,7 @@ const close = () => {
                                     type="password" 
                                     :required="!form.id"
                                     placeholder="••••••••"
-                                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-50 rounded-xl focus:bg-white focus:border-indigo-600 focus:ring-0 transition-all text-sm font-bold"
+                                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-sm font-bold outline-none"
                                 />
                             </div>
                             <p v-if="form.errors.password" class="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{{ form.errors.password }}</p>
@@ -158,7 +158,7 @@ const close = () => {
                                     type="password" 
                                     :required="!form.id || form.password"
                                     placeholder="••••••••"
-                                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border-2 border-gray-50 rounded-xl focus:bg-white focus:border-indigo-600 focus:ring-0 transition-all text-sm font-bold"
+                                    class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all text-sm font-bold outline-none"
                                 />
                             </div>
                         </div>
@@ -175,9 +175,9 @@ const close = () => {
                                     :class="[
                                         form.role === role 
                                             ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-100 border-indigo-600' 
-                                            : 'bg-gray-50 text-gray-400 border-gray-50 hover:bg-gray-100'
+                                            : 'bg-gray-50 text-gray-400 border-gray-100 hover:bg-gray-100'
                                     ]"
-                                    class="py-2.5 rounded-xl border-2 text-[10px] font-black uppercase tracking-widest transition-all"
+                                    class="py-2.5 rounded-xl border text-[10px] font-black uppercase tracking-widest transition-all"
                                 >
                                     {{ role }}
                                 </button>
@@ -189,7 +189,7 @@ const close = () => {
                             <button 
                                 type="button"
                                 @click="close"
-                                class="flex-1 px-6 py-4 border-2 border-gray-50 text-gray-400 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all"
+                                class="flex-1 px-6 py-4 border border-gray-100 text-gray-400 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gray-50 transition-all"
                             >
                                 Cancelar
                             </button>

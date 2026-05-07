@@ -216,7 +216,7 @@ const logout = () => {
                     <button 
                         v-if="activeTab === 'usuarios' || activeTab === 'panel'"
                         @click="openCreateModal"
-                        class="bg-white border-2 border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap"
+                        class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap"
                     >
                         <Plus class="w-4 h-4 text-indigo-500" />
                         Nuevo Usuario
@@ -225,7 +225,7 @@ const logout = () => {
                     <Link 
                         v-if="activeTab === 'reservas' || activeTab === 'panel'"
                         href="/servicios" 
-                        class="bg-white border-2 border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap"
+                        class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap"
                     >
                         <CalendarCheck class="w-4 h-4 text-orange-500" />
                         Crear Reserva
@@ -463,7 +463,7 @@ const logout = () => {
                         <p class="text-gray-400 text-sm font-bold">No hay solicitudes de locales pendientes de revisión.</p>
                     </div>
                     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div v-for="local in pendingLocals" :key="local.id" class="bg-white rounded-2xl border-2 border-indigo-100 shadow-xl shadow-indigo-50/50 overflow-hidden group transition-all duration-500 relative">
+                        <div v-for="local in pendingLocals" :key="local.id" class="bg-white rounded-2xl border border-indigo-100 shadow-xl shadow-indigo-50/50 overflow-hidden group transition-all duration-500 relative">
                             <div class="absolute top-4 right-4 z-10">
                                 <span class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest">Nueva</span>
                             </div>
@@ -490,7 +490,7 @@ const logout = () => {
                                     </button>
                                     <button 
                                         @click="router.post(route('admin.locales.reject', { id: local.id, type: local.type }))"
-                                        class="flex-1 border-2 border-red-100 text-red-500 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-50 transition-colors"
+                                        class="flex-1 border border-red-100 text-red-500 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-50 transition-colors"
                                     >
                                         Rechazar
                                     </button>

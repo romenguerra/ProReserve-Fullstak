@@ -152,7 +152,7 @@ const localTypeLabel = computed(() => {
             <div v-if="show" class="fixed inset-0 z-[60] flex items-center justify-center p-4">
                 <div class="fixed inset-0 bg-gray-900/40 backdrop-blur-md" @click="emit('close')"></div>
 
-                <div class="bg-white rounded-[3rem] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.2)] w-full max-w-5xl relative z-10 overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-500 flex flex-col max-h-[90vh]">
+                <div class="bg-white rounded-3xl shadow-[0_32px_64px_-12px_rgba(0,0,0,0.2)] w-full max-w-5xl relative z-10 overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-500 flex flex-col max-h-[90vh]">
                     <!-- Header -->
                     <div class="p-8 border-b border-gray-50 flex items-center justify-between bg-white shrink-0">
                         <div class="flex items-center gap-6">
@@ -179,7 +179,7 @@ const localTypeLabel = computed(() => {
                             <section class="grid grid-cols-1 lg:grid-cols-12 gap-12">
                                 <div class="lg:col-span-4">
                                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 block ml-1">Imagen Principal</label>
-                                    <div @click="fileInput.click()" class="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-gray-50 border-2 border-dashed border-gray-200 hover:border-indigo-400 transition-all cursor-pointer group shadow-inner">
+                                    <div @click="fileInput.click()" class="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-gray-50 border border-dashed border-gray-200 hover:border-indigo-400 transition-all cursor-pointer group shadow-inner">
                                         <img v-if="imagePreview" :src="imagePreview" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                         <div class="absolute inset-0 flex flex-col items-center justify-center bg-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-[2px]">
                                             <Camera class="w-12 h-12 text-indigo-600" />
@@ -350,7 +350,7 @@ const localTypeLabel = computed(() => {
 
                     <!-- Footer -->
                     <div class="p-10 border-t border-gray-50 bg-white flex gap-6 shrink-0 shadow-[0_-10px_40px_rgba(0,0,0,0.02)]">
-                        <button type="button" @click="emit('close')" class="flex-1 px-10 py-6 border-2 border-gray-50 text-gray-400 rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-gray-50 transition-all">
+                        <button type="button" @click="emit('close')" class="flex-1 px-10 py-6 border border-gray-100 text-gray-400 rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-gray-50 transition-all">
                             Descartar
                         </button>
                         <button @click="submit" :disabled="form.processing" class="flex-[2] px-12 py-6 bg-indigo-600 text-white rounded-[2rem] text-[11px] font-black uppercase tracking-[0.2em] hover:bg-indigo-700 hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-indigo-100 disabled:opacity-50">
