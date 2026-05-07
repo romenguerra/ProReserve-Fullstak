@@ -57,7 +57,15 @@ Route::get('/belleza', function () {
 
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard-Example');
+    return Inertia::render('Admin/Dashboard', [
+        'users' => \App\Models\User::with('roles')->get(),
+        'restaurants' => \App\Models\Restaurant::all(),
+        'sportCenters' => \App\Models\SportCenter::all(),
+        'healthCenters' => \App\Models\HealthCenter::all(),
+        'beautyCenters' => \App\Models\BeautyCenter::all(),
+        'leisureCenters' => \App\Models\LeisureCenter::all(),
+        'reservations' => \App\Models\Reservation::with(['user', 'reservable', 'service'])->latest()->get(),
+    ]);
 })->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
 
 

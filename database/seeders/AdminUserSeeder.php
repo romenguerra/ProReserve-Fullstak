@@ -14,32 +14,42 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Verificar si ya existe un admin
-        $adminEmail = 'admin@proreserve.com';
-        
-        $existingAdmin = User::where('email', $adminEmail)->first();
-
-        if ($existingAdmin) {
-            $this->command->info('❌ El usuario admin ya existe con email: ' . $adminEmail);
-            $this->command->info('📧 Email: ' . $adminEmail);
-            $this->command->info('🔑 Password: admin123 (si no lo has cambiado)');
-            return;
-        }
-
-        // Crear usuario administrador
-        $admin = User::create([
-            'name' => 'Administrador',
-            'email' => $adminEmail,
-            'password' => Hash::make('admin123'),
-            'email_verified_at' => now(), // Marcar email como verificado
-        ]);
-
-        // Asignar rol de admin
+        // 1. USUARIO ADMINISTRADOR
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@proreserve.com'],
+            [
+                'name' => 'Administrador',
+                'password' => Hash::make('admin123'),
+                'email_verified_at' => now(),
+            ]
+        );
         $admin->assignRole('admin');
 
-        $this->command->info('✅ Usuario administrador creado exitosamente');
-        $this->command->info('📧 Email: ' . $adminEmail);
-        $this->command->info('🔑 Password: admin123');
-        $this->command->warn('⚠️  IMPORTANTE: Cambia la contraseña después del primer login');
+        // 2. USUARIO CLIENTE (Básico)
+        $cliente = User::updateOrCreate(
+            ['email' => 'romen@proreserve.com'],
+            [
+                'name' => 'Romen Cliente',
+                'password' => Hash::make('230904'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $cliente->assignRole('cliente');
+
+        // 3. USUARIO LOCAL (Empresario)
+        $local = User::updateOrCreate(
+            ['email' => 'laura@proreserve.com'],
+            [
+                'name' => 'Laura Empresaria',
+                'password' => Hash::make('230904'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $local->assignRole('local');
+
+        $this->command->info('✅ Usuarios fijos creados/actualizados exitosamente:');
+        $this->command->info('👑 Admin: admin@proreserve.com / admin123');
+        $this->command->info('👤 Cliente: romen@proreserve.com / 230904');
+        $this->command->info('🏢 Local: laura@proreserve.com / 230904');
     }
 }
