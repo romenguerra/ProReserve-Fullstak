@@ -57,13 +57,13 @@ onMounted(() => {
             <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 py-16 w-full relative z-10">
                 <div class="max-w-3xl">
                     <span class="inline-block px-4 py-1.5 rounded-full bg-teal-600/10 text-teal-700 text-xs font-bold uppercase tracking-widest mb-6 animate-fade-in">
-                        Cuidado Especializado
+                        {{ $t('health.badge') }}
                     </span>
                     <h1 class="text-6xl md:text-8xl font-bold text-gray-900 leading-[0.95] tracking-tighter mb-6">
-                        Salud y<br /><span class="text-teal-600">bienestar.</span>
+                        {{ $t('health.title_1') }}<br /><span class="text-teal-600">{{ $t('health.title_2') }}</span>
                     </h1>
                     <p class="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed">
-                        Encuentra las mejores clínicas médicas, expertos en estética y hospitales privados, con atención prioritaria.
+                        {{ $t('health.description') }}
                     </p>
                 </div>
             </div>
@@ -76,7 +76,7 @@ onMounted(() => {
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
                     <div>
                         <h2 class="text-4xl font-bold text-gray-900 mb-2">{{ $t('health.section_title') }}</h2>
-                        <p class="text-gray-500">Descubre {{ healthCenters.length }} centros disponibles para tu cuidado.</p>
+                        <p class="text-gray-500">{{ $t('health.section_subtitle').replace('{count}', healthCenters.length) }}</p>
                     </div>
                     <div class="flex gap-4">
                         <!-- Aquí se podrían añadir filtros en el futuro -->
@@ -116,8 +116,8 @@ onMounted(() => {
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">No se encontraron centros</h3>
-                    <p class="text-gray-500 max-w-sm">Estamos trabajando para añadir más especialistas médicos a ProReserve muy pronto.</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $t('health.empty_title') }}</h3>
+                    <p class="text-gray-500 max-w-sm">{{ $t('health.empty_desc') }}</p>
                 </div>
             </div>
         </section>

@@ -6,7 +6,7 @@ const messages = { es, en };
 const locale = ref(localStorage.getItem('locale') || 'es');
 
 export function useI18n() {
-    const t = (key) => {
+    const t = (key, defaultText = null) => {
         const keys = key.split('.');
         let value = messages[locale.value];
         
@@ -15,7 +15,7 @@ export function useI18n() {
             if (value === undefined) break;
         }
         
-        return value || key;
+        return value || defaultText || key;
     };
 
     const setLocale = (newLocale) => {

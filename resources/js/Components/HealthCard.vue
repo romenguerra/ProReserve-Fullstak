@@ -58,7 +58,7 @@ const getTypeColor = (type) => {
                 <!-- Type indicator tag -->
                 <div class="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 hidden sm:block">
                     <span :class="getTypeColor(center.type)" class="backdrop-blur-md text-white px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-bold uppercase tracking-widest border border-white/10">
-                        {{ getTypeName(center.type) }}
+                        {{ $t('local_types.' + center.type, getTypeName(center.type)) }}
                     </span>
                 </div>
                 
@@ -77,7 +77,7 @@ const getTypeColor = (type) => {
                     </h3>
                 </div>
                 <p class="text-gray-500 text-xs sm:text-sm mb-2 sm:mb-4 line-clamp-2 leading-relaxed">
-                    {{ center.description }}
+                    {{ $t('local_desc.' + center.name, center.description) }}
                 </p>
                 <div class="flex items-center justify-between">
                     <span class="inline-flex items-center text-xs text-gray-950 font-bold uppercase tracking-widest group-hover:text-teal-600 transition-colors duration-300">
