@@ -3,7 +3,6 @@ import { ref, watch, onMounted, onUnmounted, computed, nextTick } from "vue";
 import axios from "axios";
 import BookingCalendar from "@/Components/BookingCalendar.vue";
 import { usePage, router } from "@inertiajs/vue3";
-import { setOptions, importLibrary } from "@googlemaps/js-api-loader";
 import {
     CheckCircle2,
     Calendar as CalendarIcon,
@@ -54,11 +53,18 @@ onMounted(() => document.addEventListener("keydown", closeOnEscape));
 onUnmounted(() => document.removeEventListener("keydown", closeOnEscape));
 
 // --- Map State ---
-// --- Map State ---
-const getStaticMapUrl = (lat, lng) => {
+const getStaticMapUrl = computed(() => {
+    if (!props.local?.latitude || !props.local?.longitude) return null;
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=15&size=800x400&markers=color:red%7C${lat},${lng}&key=${apiKey}&style=feature:poi|visibility:off&style=feature:transit|visibility:off&scale=2`;
-};
+    const lat = props.local.latitude;
+    const lng = props.local.longitude;
+    const zoom = 15;
+    const size = "800x400";
+    const markers = `color:red%7C${lat},${lng}`;
+    
+    // Estilo premium simplificado para el mapa
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${size}&markers=${markers}&key=${apiKey}&scale=2`;
+});
 
 // Manejo del scroll del body
 watch(
@@ -429,7 +435,7 @@ const formatDate = (dateString) => {
                                             </div>
                                         </div>
 
-                                        <!-- Mapa Estático (Blindado contra errores) -->
+                                        <!-- Mapa Estático -->
                                         <div v-if="local.latitude && local.longitude" class="mb-12">
                                             <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">
                                                 Ubicación en el mapa
@@ -437,21 +443,17 @@ const formatDate = (dateString) => {
                                             <a 
                                                 :href="`https://www.google.com/maps/search/?api=1&query=${local.latitude},${local.longitude}`" 
                                                 target="_blank"
-                                                class="block w-full h-48 sm:h-64 rounded-3xl overflow-hidden border border-gray-100 shadow-2xl relative group cursor-pointer"
+                                                class="block w-full h-48 sm:h-64 rounded-3xl overflow-hidden border border-gray-100 shadow-inner bg-gray-50 relative group cursor-pointer"
                                             >
                                                 <img 
-                                                    :src="getStaticMapUrl(local.latitude, local.longitude)" 
-                                                    alt="Ubicación"
+                                                    :src="getStaticMapUrl" 
                                                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                                    alt="Ubicación"
                                                 />
-                                                <!-- Overlay premium -->
-                                                <div class="absolute inset-0 bg-gray-900/0 group-hover:bg-gray-900/20 transition-colors duration-500 flex items-center justify-center">
-                                                    <div class="bg-white/90 backdrop-blur-md px-6 py-3 rounded-2xl shadow-xl transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                                                        <span class="text-sm font-black text-gray-900 flex items-center gap-2">
-                                                            Ver en Google Maps
-                                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                                                        </span>
-                                                    </div>
+                                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                                                    <span class="bg-white/90 backdrop-blur-md px-6 py-3 rounded-2xl shadow-xl text-xs font-black text-gray-900 opacity-0 group-hover:opacity-100 transition-all translate-y-4 group-hover:translate-y-0 uppercase tracking-widest">
+                                                        Ver en Google Maps ↗
+                                                    </span>
                                                 </div>
                                             </a>
                                         </div>
