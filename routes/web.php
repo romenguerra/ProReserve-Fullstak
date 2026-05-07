@@ -78,6 +78,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/interests', [App\Http\Controllers\InterestController::class, 'store'])->name('interests.store');
 
     Route::resource('reservas', App\Http\Controllers\ReservaController::class)->only(['index', 'store', 'destroy']);
+
+    Route::get('/locales/crear', [\App\Http\Controllers\LocalController::class, 'create'])->name('locales.create');
+    Route::post('/locales', [\App\Http\Controllers\LocalController::class, 'store'])->name('locales.store');
 });
 
 // Rutas protegidas por rol - EJEMPLOS

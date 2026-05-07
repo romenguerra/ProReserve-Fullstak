@@ -110,7 +110,7 @@ onMounted(() => {
                     </p>
                     <div class="flex flex-wrap gap-4 hero-animate hero-delay-btn">
                         <Link
-                            href="/register"
+                            :href="$page.props.auth.user ? '/servicios' : '/register'"
                             class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-semibold hover:bg-black transition-all duration-300 shadow-2xl shadow-gray-400/50 hover:-translate-y-1"
                         >
                             {{ $t('home.hero_cta') }}
@@ -233,7 +233,7 @@ onMounted(() => {
 
                         <div class="flex flex-wrap gap-4">
                             <Link
-                                href="/register"
+                                :href="$page.props.auth.user ? '/servicios' : '/register'"
                                 class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-bold hover:bg-black transition-all duration-500 shadow-2xl shadow-gray-900/10"
                             >
                                 {{ $t('home.hero_cta') }}
@@ -315,7 +315,7 @@ onMounted(() => {
 
                 <div class="flex justify-center flex-wrap gap-6 items-center">
                     <Link
-                        href="/register"
+                        href="/locales/crear"
                         class="px-12 py-5 bg-[#0f172a] text-white rounded-full font-bold text-lg hover:bg-black hover:text-white transition-all duration-500 shadow-xl shadow-[#0f172a]/20"
                     >
                         {{ $t('home.business.cta') }}
@@ -324,7 +324,7 @@ onMounted(() => {
                         href="/contacto"
                         class="px-12 py-5 bg-white/50 border border-white/80 text-[#0f172a] rounded-full font-bold text-lg hover:bg-white transition-all duration-300"
                     >
-                        {{ $t('home.services_explore') }}
+                        Contacto
                     </Link>
                 </div>
             </div>
