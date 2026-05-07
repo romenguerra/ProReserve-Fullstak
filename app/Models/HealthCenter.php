@@ -34,6 +34,13 @@ class HealthCenter extends Model
         'interest_id'
     ];
 
+    protected $guarded = [];
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public function interest(): BelongsTo
     {
         return $this->belongsTo(Interest::class);

@@ -53,6 +53,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Interest::class);
     }
 
+    // Relaciones con sus negocios
+    public function restaurants() { return $this->hasMany(Restaurant::class); }
+    public function sportCenters() { return $this->hasMany(SportCenter::class); }
+    public function healthCenters() { return $this->hasMany(HealthCenter::class); }
+    public function beautyCenters() { return $this->hasMany(BeautyCenter::class); }
+    public function leisureCenters() { return $this->hasMany(LeisureCenter::class); }
+
     public function reservations()
     {
         return $this->hasMany(Reservation::class);

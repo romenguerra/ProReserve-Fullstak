@@ -27,31 +27,31 @@ Route::get('/contacto', function () {
 
 Route::get('/gastronomia', function () {
     return Inertia::render('Gastronomia', [
-        'restaurants' => \App\Models\Restaurant::with(['services', 'resources'])->get(),
+        'restaurants' => \App\Models\Restaurant::with(['services', 'resources'])->where('status', 'active')->get(),
     ]);
 })->name('gastronomia');
 
 Route::get('/deportes', function () {
     return Inertia::render('Deportes', [
-        'sportCenters' => \App\Models\SportCenter::with(['services', 'resources'])->get(),
+        'sportCenters' => \App\Models\SportCenter::with(['services', 'resources'])->where('status', 'active')->get(),
     ]);
 })->name('deportes');
 
 Route::get('/ocio', function () {
     return Inertia::render('Ocio', [
-        'leisureCenters' => \App\Models\LeisureCenter::with(['services', 'resources'])->get(),
+        'leisureCenters' => \App\Models\LeisureCenter::with(['services', 'resources'])->where('status', 'active')->get(),
     ]);
 })->name('ocio');
 
 Route::get('/salud', function () {
     return Inertia::render('Salud', [
-        'healthCenters' => \App\Models\HealthCenter::with(['services', 'resources'])->get(),
+        'healthCenters' => \App\Models\HealthCenter::with(['services', 'resources'])->where('status', 'active')->get(),
     ]);
 })->name('salud');
 
 Route::get('/belleza', function () {
     return Inertia::render('Belleza', [
-        'beautyCenters' => \App\Models\BeautyCenter::with(['services', 'resources'])->get(),
+        'beautyCenters' => \App\Models\BeautyCenter::with(['services', 'resources'])->where('status', 'active')->get(),
     ]);
 })->name('belleza');
 
@@ -98,6 +98,15 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
     Route::get('/admin/servicios', [AdminController::class, 'servicios'])->name('admin.servicios');
+    Route::post('/admin/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
+    Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
+    Route::post('/admin/locales/{id}/{type}/approve', [AdminController::class, 'approveLocal'])->name('admin.locales.approve');
+    Route::post('/admin/locales/{id}/{type}/reject', [AdminController::class, 'rejectLocal'])->name('admin.locales.reject');
+    Route::put('/admin/locales/{id}/{type}', [AdminController::class, 'updateLocal'])->name('admin.locales.update');
+    Route::delete('/admin/locales/{id}/{type}', [AdminController::class, 'destroyLocal'])->name('admin.locales.destroy');
+    Route::put('/admin/reservations/{reservation}', [AdminController::class, 'updateReservation'])->name('admin.reservations.update');
+    Route::delete('/admin/reservations/{reservation}', [AdminController::class, 'destroyReservation'])->name('admin.reservations.destroy');
 });
 
 Route::middleware(['auth'])->group(function () {

@@ -80,9 +80,25 @@ class SportCenterSeeder extends Seeder
             ]
         ];
 
+        $coords = [
+            'Madrid' => ['lat' => 40.416775, 'lng' => -3.703790],
+            'Barcelona' => ['lat' => 41.385064, 'lng' => 2.173403],
+            'Valencia' => ['lat' => 39.469907, 'lng' => -0.376288],
+            'Sevilla' => ['lat' => 37.389092, 'lng' => -5.984459],
+            'Málaga' => ['lat' => 36.721261, 'lng' => -4.421266],
+            'Bilbao' => ['lat' => 43.263012, 'lng' => -2.934985],
+        ];
+
         foreach ($sportCenters as $data) {
             $data['slug'] = Str::slug($data['name']);
             $data['interest_id'] = $interest->id;
+            $data['status'] = 'active'; $data['user_id'] = 1;
+
+            if (isset($coords[$data['city']])) {
+                $data['latitude'] = $coords[$data['city']]['lat'];
+                $data['longitude'] = $coords[$data['city']]['lng'];
+            }
+
             SportCenter::updateOrCreate(
                 ['slug' => $data['slug']],
                 $data

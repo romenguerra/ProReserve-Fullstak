@@ -54,16 +54,24 @@ onUnmounted(() => document.removeEventListener("keydown", closeOnEscape));
 
 // --- Map State ---
 const getStaticMapUrl = computed(() => {
-    if (!props.local?.latitude || !props.local?.longitude) return null;
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    const lat = props.local.latitude;
-    const lng = props.local.longitude;
     const zoom = 15;
     const size = "800x400";
-    const markers = `color:red%7C${lat},${lng}`;
     
-    // Estilo premium simplificado para el mapa
-    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${size}&markers=${markers}&key=${apiKey}&scale=2`;
+    let center = "";
+    let markers = "";
+
+    if (props.local?.latitude && props.local?.longitude) {
+        center = `${props.local.latitude},${props.local.longitude}`;
+        markers = `color:red%7C${center}`;
+    } else if (props.local?.address && props.local?.city) {
+        center = encodeURIComponent(`${props.local.address}, ${props.local.city}`);
+        markers = `color:red%7C${center}`;
+    } else {
+        return null;
+    }
+    
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${center}&zoom=${zoom}&size=${size}&markers=${markers}&key=${apiKey}&scale=2`;
 });
 
 // Manejo del scroll del body

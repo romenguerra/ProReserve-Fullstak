@@ -27,10 +27,11 @@ class HealthCenterSeeder extends Seeder
                 'city' => 'Madrid',
                 'phone' => '911555666',
                 'has_emergency' => true,
-                'wheelchair_access' => true,
                 'has_parking' => true,
                 'opening_time' => '00:00',
                 'closing_time' => '23:59', // 24h
+                'latitude' => 40.453054,
+                'longitude' => -3.688344,
             ],
             [
                 'name' => 'Clínica Médica Integral',
@@ -41,10 +42,11 @@ class HealthCenterSeeder extends Seeder
                 'city' => 'Barcelona',
                 'phone' => '931555667',
                 'has_emergency' => false,
-                'wheelchair_access' => true,
                 'has_parking' => false,
                 'opening_time' => '08:00',
                 'closing_time' => '20:00',
+                'latitude' => 41.392634,
+                'longitude' => 2.142857,
             ],
             [
                 'name' => 'Beauty & Health Institute',
@@ -55,7 +57,6 @@ class HealthCenterSeeder extends Seeder
                 'city' => 'Barcelona',
                 'phone' => '931555668',
                 'has_emergency' => false,
-                'wheelchair_access' => true,
                 'has_parking' => true,
                 'opening_time' => '09:00',
                 'closing_time' => '19:30',
@@ -69,7 +70,6 @@ class HealthCenterSeeder extends Seeder
                 'city' => 'Sevilla',
                 'phone' => '954555669',
                 'has_emergency' => true, // Urgencias dentales
-                'wheelchair_access' => true,
                 'has_parking' => false,
                 'opening_time' => '09:00',
                 'closing_time' => '21:00',
@@ -83,16 +83,31 @@ class HealthCenterSeeder extends Seeder
                 'city' => 'Valencia',
                 'phone' => '961555670',
                 'has_emergency' => false,
-                'wheelchair_access' => true,
                 'has_parking' => true,
                 'opening_time' => '10:00',
                 'closing_time' => '20:00',
             ]
         ];
 
+        $coords = [
+            'Madrid' => ['lat' => 40.416775, 'lng' => -3.703790],
+            'Barcelona' => ['lat' => 41.385064, 'lng' => 2.173403],
+            'Valencia' => ['lat' => 39.469907, 'lng' => -0.376288],
+            'Sevilla' => ['lat' => 37.389092, 'lng' => -5.984459],
+            'Málaga' => ['lat' => 36.721261, 'lng' => -4.421266],
+            'Bilbao' => ['lat' => 43.263012, 'lng' => -2.934985],
+        ];
+
         foreach ($healthCenters as $data) {
             $data['slug'] = Str::slug($data['name']);
             $data['interest_id'] = $saludInterest->id;
+            $data['status'] = 'active'; $data['user_id'] = 1;
+
+            if (isset($coords[$data['city']])) {
+                $data['latitude'] = $coords[$data['city']]['lat'];
+                $data['longitude'] = $coords[$data['city']]['lng'];
+            }
+
             HealthCenter::updateOrCreate(
                 ['slug' => $data['slug']],
                 $data
