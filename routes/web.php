@@ -56,17 +56,9 @@ Route::get('/belleza', function () {
 })->name('belleza');
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Admin/Dashboard', [
-        'users' => \App\Models\User::with('roles')->get(),
-        'restaurants' => \App\Models\Restaurant::all(),
-        'sportCenters' => \App\Models\SportCenter::all(),
-        'healthCenters' => \App\Models\HealthCenter::all(),
-        'beautyCenters' => \App\Models\BeautyCenter::all(),
-        'leisureCenters' => \App\Models\LeisureCenter::all(),
-        'reservations' => \App\Models\Reservation::with(['user', 'reservable', 'service'])->latest()->get(),
-    ]);
-})->middleware(['auth', 'verified', 'role:admin'])->name('dashboard');
+Route::get('/dashboard', [AdminController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:admin|empresa'])
+    ->name('dashboard');
 
 
 
@@ -95,14 +87,17 @@ Route::middleware('auth')->group(function () {
 // Descomenta cuando crees los controladores correspondientes
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
-    Route::get('/admin/servicios', [AdminController::class, 'servicios'])->name('admin.servicios');
     Route::post('/admin/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
     Route::put('/admin/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
     Route::post('/admin/locales/{id}/{type}/approve', [AdminController::class, 'approveLocal'])->name('admin.locales.approve');
     Route::post('/admin/locales/{id}/{type}/reject', [AdminController::class, 'rejectLocal'])->name('admin.locales.reject');
+});
+
+Route::middleware(['auth', 'role:admin|empresa'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/servicios', [AdminController::class, 'servicios'])->name('admin.servicios');
     Route::put('/admin/locales/{id}/{type}', [AdminController::class, 'updateLocal'])->name('admin.locales.update');
     Route::delete('/admin/locales/{id}/{type}', [AdminController::class, 'destroyLocal'])->name('admin.locales.destroy');
     Route::put('/admin/reservations/{reservation}', [AdminController::class, 'updateReservation'])->name('admin.reservations.update');

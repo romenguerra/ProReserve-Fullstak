@@ -95,6 +95,22 @@ export function usePermissions() {
         return hasRole('cliente');
     };
 
+    /**
+     * Verifica si el usuario es empresa
+     * @returns {boolean}
+     */
+    const isEmpresa = () => {
+        return hasRole('empresa');
+    };
+
+    /**
+     * Verifica si el usuario puede acceder al dashboard
+     * @returns {boolean}
+     */
+    const canAccessDashboard = () => {
+        return hasAnyRole(['admin', 'empresa']);
+    };
+
     return {
         user,
         roles,
@@ -107,5 +123,7 @@ export function usePermissions() {
         canAll,
         isAdmin,
         isCliente,
+        isEmpresa,
+        canAccessDashboard,
     };
 }

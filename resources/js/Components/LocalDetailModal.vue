@@ -141,6 +141,20 @@ const getCategoryTheme = (cat) => {
     }
 };
 
+const getLocalImage = (local) => {
+    if (local.image) return local.image;
+    
+    const defaults = {
+        'restaurant': '/images/gastronomia.avif',
+        'sport_center': '/images/deporte.avif',
+        'health_center': '/images/salud.avif',
+        'beauty_center': '/images/beauty-wellness.avif',
+        'leisure_center': '/images/ocio.avif',
+    };
+    
+    return defaults[local.type] || '/images/salud.avif';
+};
+
 const formatTypeName = (type) => {
     if (!type) return null;
     const titles = {
@@ -276,7 +290,7 @@ const formatDate = (dateString) => {
                                 class="relative min-h-[300px] md:min-h-0 bg-gray-100 shrink-0 transition-[width] duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-[width]"
                             >
                                 <img
-                                    :src="local.image || '/images/salud.avif'"
+                                    :src="getLocalImage(local)"
                                     :alt="local.name"
                                     class="absolute inset-0 w-full h-full object-cover"
                                 />

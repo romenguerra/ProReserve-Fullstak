@@ -23,6 +23,9 @@ import {
 import UserModal from '@/Components/Admin/UserModal.vue';
 import LocalFormModal from '@/Components/Admin/LocalFormModal.vue';
 import ReservationModal from '@/Components/Admin/ReservationModal.vue';
+import { usePermissions } from '@/Composables/usePermissions';
+
+const { isAdmin } = usePermissions();
 
 const props = defineProps({
     users: Array,
@@ -72,6 +75,20 @@ const openCreateLocalModal = () => {
 const openEditLocalModal = (local) => {
     selectedLocal.value = local;
     showLocalModal.value = true;
+};
+
+const getLocalImage = (local) => {
+    if (local.image) return local.image;
+    
+    const defaults = {
+        'restaurant': '/images/gastronomia.avif',
+        'sport_center': '/images/deporte.avif',
+        'health_center': '/images/salud.avif',
+        'beauty_center': '/images/beauty-wellness.avif',
+        'leisure_center': '/images/ocio.avif',
+    };
+    
+    return defaults[local.type] || '/images/salud.avif';
 };
 
 const deleteLocal = (local) => {
@@ -149,6 +166,7 @@ const logout = () => {
                     </button>
 
                     <button 
+                        v-if="isAdmin()"
                         @click="activeTab = 'usuarios'"
                         :class="[activeTab === 'usuarios' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500 hover:bg-gray-50']"
                         class="w-full flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 group"
@@ -167,6 +185,7 @@ const logout = () => {
                     </button>
 
                     <button 
+                        v-if="isAdmin()"
                         @click="activeTab = 'solicitudes'"
                         :class="[activeTab === 'solicitudes' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500 hover:bg-gray-50']"
                         class="w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-300 group"
@@ -194,7 +213,7 @@ const logout = () => {
 
                 <div class="flex items-center gap-6">
                     <!-- Search Bar -->
-                    <div class="relative group">
+                    <div v-if="activeTab !== 'panel'" class="relative group">
                         <Search class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors" />
                         <input 
                             type="text" 
@@ -214,7 +233,7 @@ const logout = () => {
                     </button>
 
                     <button 
-                        v-if="activeTab === 'usuarios' || activeTab === 'panel'"
+                        v-if="(activeTab === 'usuarios' || activeTab === 'panel') && isAdmin()"
                         @click="openCreateModal"
                         class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap"
                     >
@@ -239,8 +258,8 @@ const logout = () => {
                 <!-- TAB: PANEL (RESUMEN) -->
                 <div v-if="activeTab === 'panel'" class="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <!-- Stats Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+                    <div :class="isAdmin() ? 'grid grid-cols-1 md:grid-cols-3 gap-6' : 'grid grid-cols-1 md:grid-cols-2 gap-6'">
+                        <div v-if="isAdmin()" class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
                             <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Usuarios</p>
                             <div class="flex items-baseline justify-between">
                                 <div class="text-4xl font-black text-gray-900">{{ users.length }}</div>
@@ -257,7 +276,6 @@ const logout = () => {
                             <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Reservas</p>
                             <div class="flex items-end justify-between">
                                 <span class="text-4xl font-black tracking-tighter">{{ reservations.length }}</span>
-                                <span class="text-orange-500 font-bold text-xs">Hoy</span>
                             </div>
                         </div>
                     </div>
@@ -397,9 +415,14 @@ const logout = () => {
                 <!-- TAB: LOCALES -->
                 <div v-if="activeTab === 'locales'" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div v-for="local in filteredLocals" :key="local.id" class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-500">
+                        <div 
+                            v-for="local in filteredLocals" 
+                            :key="local.id" 
+                            @click="openEditLocalModal(local)"
+                            class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden group hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-500 cursor-pointer"
+                        >
                             <div class="h-48 bg-gray-100 relative overflow-hidden">
-                                <img :src="local.image || '/images/salud.avif'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                <img :src="getLocalImage(local)" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                 <div class="absolute top-4 left-4">
                                     <span :class="[local.bg, local.color]" class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-black/5 backdrop-blur-md">
                                         {{ local.category }}
@@ -420,13 +443,13 @@ const logout = () => {
                                 <div class="flex items-center justify-between pt-6 border-t border-gray-50">
                                     <div v-if="local.status === 'pending'" class="flex gap-2 w-full">
                                         <button 
-                                            @click="router.post(route('admin.locales.approve', { id: local.id, type: local.type }))"
+                                            @click.stop="router.post(route('admin.locales.approve', { id: local.id, type: local.type }))"
                                             class="flex-1 bg-emerald-600 text-white py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-colors"
                                         >
                                             Aprobar
                                         </button>
                                         <button 
-                                            @click="router.post(route('admin.locales.reject', { id: local.id, type: local.type }))"
+                                            @click.stop="router.post(route('admin.locales.reject', { id: local.id, type: local.type }))"
                                             class="flex-1 border border-red-200 text-red-500 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-50 transition-colors"
                                         >
                                             Rechazar
@@ -434,13 +457,13 @@ const logout = () => {
                                     </div>
                                     <div v-else class="flex gap-2 w-full">
                                         <button 
-                                            @click="openEditLocalModal(local)"
+                                            @click.stop="openEditLocalModal(local)"
                                             class="flex-1 bg-gray-50 text-gray-900 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-indigo-50 hover:text-indigo-600 transition-all border border-gray-100"
                                         >
                                             Editar Local
                                         </button>
                                         <button 
-                                            @click="deleteLocal(local)"
+                                            @click.stop="deleteLocal(local)"
                                             class="p-3 bg-gray-50 text-gray-400 rounded-xl hover:bg-red-50 hover:text-red-600 transition-all border border-gray-100"
                                             title="Eliminar Local"
                                         >
@@ -463,12 +486,17 @@ const logout = () => {
                         <p class="text-gray-400 text-sm font-bold">No hay solicitudes de locales pendientes de revisión.</p>
                     </div>
                     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div v-for="local in pendingLocals" :key="local.id" class="bg-white rounded-2xl border border-indigo-100 shadow-xl shadow-indigo-50/50 overflow-hidden group transition-all duration-500 relative">
+                        <div 
+                            v-for="local in pendingLocals" 
+                            :key="local.id" 
+                            @click="openEditLocalModal(local)"
+                            class="bg-white rounded-2xl border border-indigo-100 shadow-xl shadow-indigo-50/50 overflow-hidden group transition-all duration-500 relative cursor-pointer hover:shadow-2xl hover:scale-[1.02]"
+                        >
                             <div class="absolute top-4 right-4 z-10">
                                 <span class="bg-indigo-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest">Nueva</span>
                             </div>
                             <div class="h-48 bg-gray-100 relative overflow-hidden">
-                                <img :src="local.image || '/images/salud.avif'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                <img :src="getLocalImage(local)" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                 <div class="absolute top-4 left-4">
                                     <span :class="[local.bg, local.color]" class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-black/5 backdrop-blur-md">
                                         {{ local.category }}
@@ -483,13 +511,13 @@ const logout = () => {
                                 </div>
                                 <div class="flex gap-2 pt-6 border-t border-gray-50">
                                     <button 
-                                        @click="router.post(route('admin.locales.approve', { id: local.id, type: local.type }))"
+                                        @click.stop="router.post(route('admin.locales.approve', { id: local.id, type: local.type }))"
                                         class="flex-1 bg-emerald-600 text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-100"
                                     >
                                         Aprobar
                                     </button>
                                     <button 
-                                        @click="router.post(route('admin.locales.reject', { id: local.id, type: local.type }))"
+                                        @click.stop="router.post(route('admin.locales.reject', { id: local.id, type: local.type }))"
                                         class="flex-1 border border-red-100 text-red-500 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-red-50 transition-colors"
                                     >
                                         Rechazar

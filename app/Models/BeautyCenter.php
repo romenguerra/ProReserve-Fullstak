@@ -29,7 +29,9 @@ class BeautyCenter extends Model
         'online_booking',
         'rating_average',
         'rating_count',
-        'interest_id'
+        'interest_id',
+        'status',
+        'user_id'
     ];
 
     protected $guarded = [];

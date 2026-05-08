@@ -17,7 +17,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role' => 'required|string|in:admin,cliente,local',
+            'role' => 'required|string|in:admin,cliente,empresa',
         ]);
 
         $user = User::create([
@@ -38,7 +38,7 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
-            'role' => 'required|string|in:admin,cliente,local',
+            'role' => 'required|string|in:admin,cliente,empresa',
         ]);
 
         $userData = [
@@ -72,6 +72,10 @@ class AdminController extends Controller
     {
         $modelClass = $this->getModelClass($type);
         $local = $modelClass::findOrFail($id);
+
+        if (!auth()->user()->hasRole('admin') && $local->user_id !== auth()->id()) {
+            abort(403, 'No tienes permiso para actualizar este local.');
+        }
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -146,6 +150,10 @@ class AdminController extends Controller
         $modelClass = $this->getModelClass($type);
         $local = $modelClass::findOrFail($id);
 
+        if (!auth()->user()->hasRole('admin') && $local->user_id !== auth()->id()) {
+            abort(403, 'No tienes permiso para eliminar este local.');
+        }
+
         $local->delete();
 
         return back()->with('success', 'Local eliminado correctamente.');
@@ -153,14 +161,49 @@ class AdminController extends Controller
 
     public function index(Request $request)
     {
+        $user = $request->user();
+        $isAdmin = $user->hasRole('admin');
+
+        $queryFn = function ($model) use ($isAdmin, $user) {
+            $query = $model::with(['schedules', 'resources', 'services']);
+            if (!$isAdmin) {
+                $query->where('user_id', $user->id);
+            }
+            return $query->get();
+        };
+
+        // For reservations, if admin, get all. If empresa, get reservations for their locals.
+        $reservationsQuery = \App\Models\Reservation::with(['user', 'reservable', 'service'])->latest();
+        if (!$isAdmin) {
+            // Find all local IDs for the user across all types
+            // This is a bit complex, so an easier way is to filter the collection after getting it
+            // Or just check reservable->user_id in PHP if we eager load it.
+        }
+
+        $restaurants = $queryFn(\App\Models\Restaurant::class);
+        $sportCenters = $queryFn(\App\Models\SportCenter::class);
+        $healthCenters = $queryFn(\App\Models\HealthCenter::class);
+        $beautyCenters = $queryFn(\App\Models\BeautyCenter::class);
+        $leisureCenters = $queryFn(\App\Models\LeisureCenter::class);
+
+        // Filter reservations
+        $allReservations = \App\Models\Reservation::with(['user', 'reservable', 'service'])->latest()->get();
+        if (!$isAdmin) {
+            $reservations = $allReservations->filter(function ($reservation) use ($user) {
+                return $reservation->reservable && $reservation->reservable->user_id === $user->id;
+            })->values();
+        } else {
+            $reservations = $allReservations;
+        }
+
         return Inertia::render('Admin/Dashboard', [
-            'users' => User::with('roles')->get(),
-            'restaurants' => \App\Models\Restaurant::with(['schedules', 'resources', 'services'])->get(),
-            'sportCenters' => \App\Models\SportCenter::with(['schedules', 'resources', 'services'])->get(),
-            'healthCenters' => \App\Models\HealthCenter::with(['schedules', 'resources', 'services'])->get(),
-            'beautyCenters' => \App\Models\BeautyCenter::with(['schedules', 'resources', 'services'])->get(),
-            'leisureCenters' => \App\Models\LeisureCenter::with(['schedules', 'resources', 'services'])->get(),
-            'reservations' => \App\Models\Reservation::with(['user', 'reservable', 'service'])->latest()->get()
+            'users' => $isAdmin ? User::with('roles')->get() : [],
+            'restaurants' => $restaurants,
+            'sportCenters' => $sportCenters,
+            'healthCenters' => $healthCenters,
+            'beautyCenters' => $beautyCenters,
+            'leisureCenters' => $leisureCenters,
+            'reservations' => $reservations
         ]);
     }
 
@@ -184,11 +227,11 @@ class AdminController extends Controller
         if ($local->user_id) {
             $user = User::find($local->user_id);
             if ($user && !$user->hasRole('admin')) {
-                $user->syncRoles(['local']);
+                $user->syncRoles(['empresa']);
             }
         }
 
-        return back()->with('success', 'Establecimiento aprobado. El usuario ahora tiene el rol de Local.');
+        return back()->with('success', 'Establecimiento aprobado. El usuario ahora tiene el rol de Empresa.');
     }
 
     public function rejectLocal($id, $type)

@@ -6,7 +6,7 @@ import { useI18n } from "@/Composables/useI18n";
 import { usePermissions } from "@/Composables/usePermissions";
 
 const { currentLocale, setLocale } = useI18n();
-const { isAdmin } = usePermissions();
+const { isAdmin, canAccessDashboard } = usePermissions();
 
 const toggleLanguage = () => {
     const nextLocale = currentLocale.value === 'es' ? 'en' : 'es';
@@ -229,7 +229,7 @@ defineProps({
                             </Link>
                             <!-- Admin Dashboard Link -->
                             <Link
-                                v-if="isAdmin()"
+                                v-if="canAccessDashboard()"
                                 :href="route('dashboard')"
                                 :class="[
                                     $page.url === '/dashboard'
@@ -318,7 +318,7 @@ defineProps({
                             >
                                 <template v-if="user?.name">
                                     <Link
-                                        v-if="isAdmin()"
+                                        v-if="canAccessDashboard()"
                                         :href="route('dashboard')"
                                         class="block px-4 py-2 text-sm transition-colors duration-500"
                                         :class="currentTheme === 'navy' 
@@ -446,7 +446,7 @@ defineProps({
                     </Link>
                     <!-- Mobile Admin Dashboard -->
                     <Link
-                        v-if="isAdmin()"
+                        v-if="canAccessDashboard()"
                         :href="route('dashboard')"
                         @click="closeMobileMenu"
                          :class="[
