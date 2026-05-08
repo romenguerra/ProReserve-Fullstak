@@ -26,18 +26,20 @@ const copyEmail = () => {
 };
 
 const submit = () => {
-    isProcessing.value = true;
-    
-    // Simulación de envío
-    setTimeout(() => {
-        isProcessing.value = false;
-        isSubmitted.value = true;
-        
-        setTimeout(() => {
-            isSubmitted.value = false;
-            form.reset();
-        }, 5000);
-    }, 1500);
+    form.post(route('contacto.store'), {
+        onStart: () => { isProcessing.value = true; },
+        onSuccess: () => {
+            isProcessing.value = false;
+            isSubmitted.value = true;
+            setTimeout(() => {
+                isSubmitted.value = false;
+                form.reset();
+            }, 5000);
+        },
+        onError: () => {
+            isProcessing.value = false;
+        }
+    });
 };
 
 onMounted(() => {

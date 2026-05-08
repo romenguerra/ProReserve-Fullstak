@@ -109,4 +109,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/api/availability', [App\Http\Controllers\ReservationController::class, 'getAvailableSlots'])->name('availability');
+Route::post('/contacto', [App\Http\Controllers\ContactController::class, 'store'])->name('contacto.store');
 require __DIR__ . '/auth.php';
