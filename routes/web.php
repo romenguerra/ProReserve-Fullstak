@@ -83,8 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/locales', [\App\Http\Controllers\LocalController::class, 'store'])->name('locales.store');
 });
 
-// Rutas protegidas por rol - EJEMPLOS
-// Descomenta cuando crees los controladores correspondientes
+// Rutas protegidas por rol 
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/usuarios', [AdminController::class, 'usuarios'])->name('admin.usuarios');
