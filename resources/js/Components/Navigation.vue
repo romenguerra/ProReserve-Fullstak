@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import { Link } from "@inertiajs/vue3";
-import { UserRound, Bell, LayoutDashboard } from 'lucide-vue-next'; 
+import { Link, router, usePage } from "@inertiajs/vue3";
+import { UserRound, Bell, LayoutDashboard, Search } from 'lucide-vue-next'; 
 import { useI18n } from "@/Composables/useI18n";
 import { usePermissions } from "@/Composables/usePermissions";
 
@@ -13,39 +13,38 @@ const toggleLanguage = () => {
     setLocale(nextLocale);
 }; 
 
+const searchQuery = ref('');
 const mobileMenuOpen = ref(false);
 const profileMenuOpen = ref(false);
 const isVisible = ref(true);
 const lastScrollY = ref(0);
 
-const handleScroll = () => {
-    // Si el menú u otro elemento interactivo importante está abierto, evitar ocultar el navbar
-    if (mobileMenuOpen.value || profileMenuOpen.value) return;
+const handleSearch = () => {
+    if (searchQuery.value.trim()) {
+        router.get(route('search'), { q: searchQuery.value });
+    }
+};
 
+const handleScroll = () => {
+    if (mobileMenuOpen.value || profileMenuOpen.value) return;
     const currentScrollY = window.scrollY;
     
-    // Si estamos al principio de la página, siempre visible
     if (currentScrollY < 10) {
         isVisible.value = true;
         lastScrollY.value = currentScrollY;
         return;
     }
 
-    // Si deslizamos hacia abajo, ocultar
     if (currentScrollY > lastScrollY.value && currentScrollY > 100) {
         isVisible.value = false;
-    } 
-    // Si deslizamos hacia arriba, mostrar
-    else if (currentScrollY < lastScrollY.value) {
+    } else if (currentScrollY < lastScrollY.value) {
         isVisible.value = true;
     }
-
     lastScrollY.value = currentScrollY;
 };
 
-const currentTheme = ref('navy'); // 'navy' or 'beige'
+const currentTheme = ref('navy');
 let observer = null;
-
 const dropdownRef = ref(null);
 
 const closeDropdownOnClickOutside = (e) => {
@@ -55,32 +54,23 @@ const closeDropdownOnClickOutside = (e) => {
 };
 
 onMounted(() => {
+    // Sincronizar búsqueda con URL
+    const q = new URLSearchParams(window.location.search).get('q');
+    if (q) searchQuery.value = q;
+
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("click", closeDropdownOnClickOutside);
-
-    // Smart Navbar Logic
-    const options = {
-        root: null,
-        rootMargin: '-80px 0px -80% 0px', // Detect as it hits the top
-        threshold: 0
-    };
 
     observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 const theme = entry.target.getAttribute('data-nav-theme');
-                if (theme === 'dark') {
-                    currentTheme.value = 'beige';
-                } else if (theme === 'light') {
-                    currentTheme.value = 'navy';
-                }
+                currentTheme.value = theme === 'dark' ? 'beige' : 'navy';
             }
         });
-    }, options);
+    }, { rootMargin: '-80px 0px -80% 0px' });
 
-    document.querySelectorAll('[data-nav-theme]').forEach((section) => {
-        observer.observe(section);
-    });
+    document.querySelectorAll('[data-nav-theme]').forEach((section) => observer.observe(section));
 });
 
 onUnmounted(() => {
@@ -89,21 +79,11 @@ onUnmounted(() => {
     if (observer) observer.disconnect();
 });
 
-const toggleMobileMenu = () => {
-    mobileMenuOpen.value = !mobileMenuOpen.value;
-};
+const toggleMobileMenu = () => mobileMenuOpen.value = !mobileMenuOpen.value;
+const toggleProfileMenu = () => profileMenuOpen.value = !profileMenuOpen.value;
+const closeMobileMenu = () => mobileMenuOpen.value = false;
 
-const toggleProfileMenu = () => {
-    profileMenuOpen.value = !profileMenuOpen.value;
-};
-
-const closeMobileMenu = () => {
-    mobileMenuOpen.value = false;
-};
-
-defineProps({
-    user: Object,
-});
+defineProps({ user: Object });
 </script>
 
 <template>
@@ -242,6 +222,27 @@ defineProps({
                                 Dashboard
                             </Link>
                         </div>
+                    </div>
+
+                    <!-- Search Bar (Desktop) -->
+                    <div class="hidden md:flex flex-1 max-w-xs ml-8">
+                        <form @submit.prevent="handleSearch" class="relative w-full">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <Search 
+                                    :size="18" 
+                                    :class="currentTheme === 'navy' ? 'text-[#F0EEE9]/40' : 'text-[#0f172a]/40'"
+                                />
+                            </div>
+                            <input 
+                                v-model="searchQuery"
+                                type="text" 
+                                :placeholder="$t('nav.search_placeholder')"
+                                class="block w-full pl-10 pr-3 py-2 border rounded-full text-sm transition-all duration-500 focus:ring-1 focus:ring-[#8EB6A5] focus:border-[#8EB6A5] focus:outline-none"
+                                :class="currentTheme === 'navy' 
+                                    ? 'bg-white/5 border-white/10 text-[#F0EEE9] placeholder-[#F0EEE9]/30 focus:bg-[#0f172a]/40' 
+                                    : 'bg-[#0f172a]/5 border-[#0f172a]/10 text-[#0f172a] placeholder-[#0f172a]/30 focus:bg-white'"
+                            >
+                        </form>
                     </div>
                 </div>
 
@@ -387,7 +388,6 @@ defineProps({
             </div>
         </div>
 
-        <!-- Mobile menu -->
         <Transition
             enter-active-class="transition ease-out duration-100"
             enter-from-class="transform opacity-0 scale-95"
@@ -398,6 +398,26 @@ defineProps({
         >
             <div v-if="mobileMenuOpen" class="lg:hidden border-t absolute top-full left-0 w-full shadow-2xl" :class="currentTheme === 'navy' ? 'border-white/5' : 'border-[#0f172a]/5'">
                 <div class="space-y-1 px-4 pt-2 pb-6 transition-all duration-500" :class="currentTheme === 'navy' ? 'bg-[#0f172a]' : 'bg-[#F0EEE9]'">
+                    <!-- Search Bar (Mobile) -->
+                    <div class="px-2 py-3">
+                        <form @submit.prevent="handleSearch" class="relative w-full">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                <Search 
+                                    :size="18" 
+                                    :class="currentTheme === 'navy' ? 'text-[#F0EEE9]/40' : 'text-[#0f172a]/40'"
+                                />
+                            </div>
+                            <input 
+                                v-model="searchQuery"
+                                type="text" 
+                                :placeholder="$t('nav.search_placeholder')"
+                                class="block w-full pl-10 pr-3 py-3 border rounded-xl text-base transition-all duration-500 focus:ring-1 focus:ring-[#8EB6A5] focus:border-[#8EB6A5] focus:outline-none"
+                                :class="currentTheme === 'navy' 
+                                    ? 'bg-white/5 border-white/10 text-[#F0EEE9] placeholder-[#F0EEE9]/30 focus:bg-[#0f172a]/40' 
+                                    : 'bg-[#0f172a]/5 border-[#0f172a]/10 text-[#0f172a] placeholder-[#0f172a]/30 focus:bg-white'"
+                            >
+                        </form>
+                    </div>
                     <Link
                         href="/"
                         @click="closeMobileMenu"

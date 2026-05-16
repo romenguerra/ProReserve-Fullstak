@@ -13,6 +13,8 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+Route::get('/search', [\App\Http\Controllers\SearchController::class, 'index'])->name('search');
+
 // Página de Servicios (pública)
 Route::get('/servicios', function () {
     return Inertia::render('Servicios', [

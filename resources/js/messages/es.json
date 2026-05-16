@@ -78,7 +78,15 @@
         "logout": "Cerrar sesión",
         "open_menu": "Abrir menú principal",
         "view_notifications": "Ver notificaciones",
-        "open_user_menu": "Abrir menú de usuario"
+        "open_user_menu": "Abrir menú de usuario",
+        "search_placeholder": "Busca locales o servicios..."
+    },
+    "search": {
+        "meta_title": "Resultados de búsqueda - ProReserve",
+        "title": "Resultados para",
+        "no_results": "No se encontraron establecimientos o servicios para esa búsqueda.",
+        "explore_more": "Explora nuestras categorías",
+        "found": "Se han encontrado {count} resultados"
     },
     "calendar": {
         "meta_title": "Mis reservas - ProReserve",
