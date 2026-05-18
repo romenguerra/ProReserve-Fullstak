@@ -86,7 +86,8 @@ class LocalController extends Controller
             'latitude' => $validated['latitude'],
             'longitude' => $validated['longitude'],
             'interest_id' => 1,
-            'status' => 'pending'
+            'status' => 'pending',
+            'user_id' => auth()->id()
         ];
 
         // Manejo de la imagen

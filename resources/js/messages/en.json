@@ -78,7 +78,15 @@
         "logout": "Logout",
         "open_menu": "Open main menu",
         "view_notifications": "View notifications",
-        "open_user_menu": "Open user menu"
+        "open_user_menu": "Open user menu",
+        "search_placeholder": "Search venues or services..."
+    },
+    "search": {
+        "meta_title": "Search Results - ProReserve",
+        "title": "Results for",
+        "no_results": "No venues or services found for that search.",
+        "explore_more": "Explore our categories",
+        "found": "Found {count} results"
     },
     "calendar": {
         "meta_title": "My bookings - ProReserve",

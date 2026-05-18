@@ -43,7 +43,7 @@ class RoleSeeder extends Seeder
             'cancelar reserva',
         ]);
 
-        $roleLocal = Role::firstOrCreate(['name' => 'local']);
+        $roleLocal = Role::firstOrCreate(['name' => 'empresa']);
         $roleLocal->syncPermissions([
             'crear reserva',
             'ver mis reservas',

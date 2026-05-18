@@ -54,16 +54,24 @@ onUnmounted(() => document.removeEventListener("keydown", closeOnEscape));
 
 // --- Map State ---
 const getStaticMapUrl = computed(() => {
-    if (!props.local?.latitude || !props.local?.longitude) return null;
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    const lat = props.local.latitude;
-    const lng = props.local.longitude;
     const zoom = 15;
     const size = "800x400";
-    const markers = `color:red%7C${lat},${lng}`;
     
-    // Estilo premium simplificado para el mapa
-    return `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lng}&zoom=${zoom}&size=${size}&markers=${markers}&key=${apiKey}&scale=2`;
+    let center = "";
+    let markers = "";
+
+    if (props.local?.latitude && props.local?.longitude) {
+        center = `${props.local.latitude},${props.local.longitude}`;
+        markers = `color:red%7C${center}`;
+    } else if (props.local?.address && props.local?.city) {
+        center = encodeURIComponent(`${props.local.address}, ${props.local.city}`);
+        markers = `color:red%7C${center}`;
+    } else {
+        return null;
+    }
+    
+    return `https://maps.googleapis.com/maps/api/staticmap?center=${center}&zoom=${zoom}&size=${size}&markers=${markers}&key=${apiKey}&scale=2`;
 });
 
 // Manejo del scroll del body
@@ -131,6 +139,20 @@ const getCategoryTheme = (cat) => {
                 bgMuted: "bg-gray-100",
             };
     }
+};
+
+const getLocalImage = (local) => {
+    if (local.image) return local.image;
+    
+    const defaults = {
+        'restaurant': '/images/gastronomia.avif',
+        'sport_center': '/images/deporte.avif',
+        'health_center': '/images/salud.avif',
+        'beauty_center': '/images/beauty-wellness.avif',
+        'leisure_center': '/images/ocio.avif',
+    };
+    
+    return defaults[local.type] || '/images/salud.avif';
 };
 
 const formatTypeName = (type) => {
@@ -268,7 +290,7 @@ const formatDate = (dateString) => {
                                 class="relative min-h-[300px] md:min-h-0 bg-gray-100 shrink-0 transition-[width] duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-[width]"
                             >
                                 <img
-                                    :src="local.image || '/images/salud.avif'"
+                                    :src="getLocalImage(local)"
                                     :alt="local.name"
                                     class="absolute inset-0 w-full h-full object-cover"
                                 />
