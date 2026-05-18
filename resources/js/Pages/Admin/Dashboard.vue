@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { 
@@ -23,6 +23,7 @@ import {
 import UserModal from '@/Components/Admin/UserModal.vue';
 import LocalFormModal from '@/Components/Admin/LocalFormModal.vue';
 import ReservationModal from '@/Components/Admin/ReservationModal.vue';
+import ManualReservationModal from '@/Components/Admin/ManualReservationModal.vue';
 import { usePermissions } from '@/Composables/usePermissions';
 
 const { isAdmin } = usePermissions();
@@ -45,10 +46,24 @@ const showLocalModal = ref(false);
 const selectedLocal = ref(null);
 const showReservationModal = ref(false);
 const selectedReservation = ref(null);
+const showManualReservationModal = ref(false);
+
+const openManualReservationModal = () => {
+    showManualReservationModal.value = true;
+};
 
 const openEditReservationModal = (res) => {
     selectedReservation.value = res;
     showReservationModal.value = true;
+};
+
+const getInitials = (name) => {
+    if (!name) return 'PR';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return parts[0].substring(0, 2).toUpperCase();
 };
 
 const openCreateModal = () => {
@@ -109,23 +124,62 @@ const allLocals = computed(() => {
 });
 
 const filteredUsers = computed(() => {
+    const query = searchQuery.value.trim().toLowerCase();
+    if (!query) return props.users;
     return props.users.filter(u => 
-        u.name.toLowerCase().includes(searchQuery.value.toLowerCase()) || 
-        u.email.toLowerCase().includes(searchQuery.value.toLowerCase())
+        (u.name || '').toLowerCase().includes(query) || 
+        (u.email || '').toLowerCase().includes(query)
     );
 });
 
 const filteredLocals = computed(() => {
+    const query = searchQuery.value.trim().toLowerCase();
+    if (!query) {
+        return allLocals.value.filter(l => l.status !== 'pending');
+    }
     return allLocals.value.filter(l => 
         l.status !== 'pending' && (
-            l.name.toLowerCase().includes(searchQuery.value.toLowerCase()) || 
-            l.city.toLowerCase().includes(searchQuery.value.toLowerCase())
+            (l.name || '').toLowerCase().includes(query) || 
+            (l.city || '').toLowerCase().includes(query) ||
+            (l.category || '').toLowerCase().includes(query)
         )
     );
 });
 
 const pendingLocals = computed(() => {
     return allLocals.value.filter(l => l.status === 'pending');
+});
+
+const filteredPendingLocals = computed(() => {
+    const query = searchQuery.value.trim().toLowerCase();
+    if (!query) return pendingLocals.value;
+    return pendingLocals.value.filter(l => 
+        (l.name || '').toLowerCase().includes(query) || 
+        (l.city || '').toLowerCase().includes(query) ||
+        (l.category || '').toLowerCase().includes(query)
+    );
+});
+
+const filteredReservations = computed(() => {
+    const query = searchQuery.value.trim().toLowerCase();
+    if (!query) return props.reservations;
+    return props.reservations.filter(res => {
+        const clientName = (res.user?.name || res.customer_name || '').toLowerCase();
+        const localName = (res.reservable?.name || '').toLowerCase();
+        const serviceName = (res.service?.name || '').toLowerCase();
+        const date = (res.reservation_date || '').toLowerCase();
+        const status = (res.status || '').toLowerCase();
+        
+        return clientName.includes(query) ||
+               localName.includes(query) ||
+               serviceName.includes(query) ||
+               date.includes(query) ||
+               status.includes(query);
+    });
+});
+
+watch(activeTab, () => {
+    searchQuery.value = '';
 });
 
 const logout = () => {
@@ -241,14 +295,14 @@ const logout = () => {
                         Nuevo Usuario
                     </button>
 
-                    <Link 
+                    <button 
                         v-if="activeTab === 'reservas' || activeTab === 'panel'"
-                        href="/servicios" 
+                        @click="openManualReservationModal"
                         class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap"
                     >
                         <CalendarCheck class="w-4 h-4 text-orange-500" />
                         Crear Reserva
-                    </Link>
+                    </button>
                 </div>
             </header>
 
@@ -281,7 +335,7 @@ const logout = () => {
                     </div>
 
                     <!-- Quick Actions -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div :class="isAdmin() ? 'grid grid-cols-1 md:grid-cols-3 gap-8' : 'grid grid-cols-1 md:grid-cols-2 gap-8'">
                         <button 
                             @click="openCreateLocalModal" 
                             class="group bg-white p-2 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-500 w-full text-left"
@@ -298,6 +352,7 @@ const logout = () => {
                         </button>
                         
                         <button 
+                            v-if="isAdmin()"
                             @click="openCreateModal"
                             class="group bg-white p-2 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-indigo-100/50 transition-all duration-500 w-full text-left"
                         >
@@ -312,7 +367,7 @@ const logout = () => {
                             </div>
                         </button>
 
-                        <Link href="/servicios" class="group bg-white p-2 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-orange-100/50 transition-all duration-500">
+                        <button @click="openManualReservationModal" class="group bg-white p-2 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-orange-100/50 transition-all duration-500 text-left w-full">
                             <div class="flex items-center gap-6 p-6">
                                 <div class="w-16 h-16 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition-all duration-500">
                                     <CalendarCheck class="w-8 h-8" />
@@ -322,7 +377,7 @@ const logout = () => {
                                     <p class="text-xs text-gray-400 font-bold">Nueva cita manual</p>
                                 </div>
                             </div>
-                        </Link>
+                        </button>
                     </div>
 
                     <!-- Recent Activity -->
@@ -338,10 +393,14 @@ const logout = () => {
                                 @click="openEditReservationModal(res)"
                                 class="p-6 flex items-center gap-6 hover:bg-gray-50/50 transition-colors cursor-pointer group"
                             >
-                                <div class="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400 italic font-black text-xs group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">PR</div>
+                                <div class="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center text-gray-400 italic font-black text-xs group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">{{ getInitials(res.user ? res.user.name : res.customer_name) }}</div>
                                 <div class="flex-1">
-                                    <p class="font-black text-gray-900 text-sm">{{ res.user.name }}</p>
-                                    <p class="text-xs text-gray-400">{{ res.reservable.name }} • {{ res.service.name }}</p>
+                                    <p class="font-black text-gray-900 text-sm">{{ res.user ? res.user.name : res.customer_name }}</p>
+                                    <p class="text-xs text-gray-400">
+                                        {{ res.reservable.name }}
+                                        <template v-if="res.service"> • {{ res.service.name }}</template>
+                                        <template v-else-if="res.resource"> • {{ res.resource.name }}</template>
+                                    </p>
                                 </div>
                                 <div class="text-right">
                                     <p class="font-black text-gray-900 text-sm">{{ res.reservation_time }}h</p>
@@ -355,7 +414,7 @@ const logout = () => {
                                     }"
                                     class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest min-w-[100px] text-center"
                                 >
-                                    {{ res.status }}
+                                    {{ $t('status.' + res.status) }}
                                 </div>
                             </div>
                         </div>
@@ -364,7 +423,11 @@ const logout = () => {
 
                 <!-- TAB: USUARIOS -->
                 <div v-if="activeTab === 'usuarios'" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+                    <div v-if="filteredUsers.length === 0" class="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-gray-100 shadow-sm">
+                        <h4 class="font-black text-xl text-gray-900 mb-2">Sin resultados</h4>
+                        <p class="text-gray-400 text-sm font-bold">No se encontraron usuarios que coincidan con tu búsqueda.</p>
+                    </div>
+                    <div v-else class="bg-white rounded-2xl shadow-sm overflow-hidden">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-gray-50/50">
@@ -414,7 +477,11 @@ const logout = () => {
 
                 <!-- TAB: LOCALES -->
                 <div v-if="activeTab === 'locales'" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div v-if="filteredLocals.length === 0" class="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-gray-100 shadow-sm">
+                        <h4 class="font-black text-xl text-gray-900 mb-2">Sin resultados</h4>
+                        <p class="text-gray-400 text-sm font-bold">No se encontraron locales que coincidan con tu búsqueda.</p>
+                    </div>
+                    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div 
                             v-for="local in filteredLocals" 
                             :key="local.id" 
@@ -485,9 +552,13 @@ const logout = () => {
                         <h4 class="font-black text-xl text-gray-900 mb-2">¡Todo al día!</h4>
                         <p class="text-gray-400 text-sm font-bold">No hay solicitudes de locales pendientes de revisión.</p>
                     </div>
+                    <div v-else-if="filteredPendingLocals.length === 0" class="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-gray-100 shadow-sm">
+                        <h4 class="font-black text-xl text-gray-900 mb-2">Sin resultados</h4>
+                        <p class="text-gray-400 text-sm font-bold">No se encontraron solicitudes que coincidan con tu búsqueda.</p>
+                    </div>
                     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div 
-                            v-for="local in pendingLocals" 
+                            v-for="local in filteredPendingLocals" 
                             :key="local.id" 
                             @click="openEditLocalModal(local)"
                             class="bg-white rounded-2xl border border-indigo-100 shadow-xl shadow-indigo-50/50 overflow-hidden group transition-all duration-500 relative cursor-pointer hover:shadow-2xl hover:scale-[1.02]"
@@ -528,7 +599,11 @@ const logout = () => {
                     </div>
                 </div>
                 <div v-if="activeTab === 'reservas'" class="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div v-if="filteredReservations.length === 0" class="flex flex-col items-center justify-center py-20 text-center bg-white rounded-2xl border border-gray-100 shadow-sm">
+                        <h4 class="font-black text-xl text-gray-900 mb-2">Sin resultados</h4>
+                        <p class="text-gray-400 text-sm font-bold">No se encontraron reservas que coincidan con tu búsqueda.</p>
+                    </div>
+                    <div v-else class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="bg-gray-50/50">
@@ -539,16 +614,42 @@ const logout = () => {
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-50">
-                                <tr v-for="res in reservations" :key="res.id" class="hover:bg-gray-50/30 transition-colors group">
-                                    <td class="px-8 py-6 font-black text-gray-900 text-sm">{{ res.user.name }}</td>
-                                    <td class="px-8 py-6 text-sm text-gray-500 font-medium">{{ res.reservable.name }}</td>
+                                <tr 
+                                    v-for="res in filteredReservations" 
+                                    :key="res.id" 
+                                    @click="openEditReservationModal(res)"
+                                    class="hover:bg-gray-50/30 transition-colors group cursor-pointer"
+                                >
+                                    <td class="px-8 py-6 font-black text-gray-900 text-sm">
+                                        <div class="flex items-center gap-4">
+                                            <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-wider shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                                                {{ getInitials(res.user ? res.user.name : res.customer_name) }}
+                                            </div>
+                                            <div>
+                                                <p class="font-black text-gray-900 text-sm group-hover:text-indigo-600 transition-colors">{{ res.user ? res.user.name : res.customer_name }}</p>
+                                                <p class="text-xs text-gray-400 font-bold mt-0.5" v-if="res.user?.phone || res.customer_phone">
+                                                    {{ res.user ? res.user.phone : res.customer_phone }}
+                                                </p>
+                                                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5" v-else-if="res.user_id">
+                                                    Usuario Registrado
+                                                </p>
+                                                <p class="text-[10px] text-orange-500 font-black uppercase tracking-widest mt-0.5" v-else>
+                                                    Cita Manual
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-8 py-6 text-sm text-gray-500 font-medium">
+                                        <p class="font-black text-gray-900">{{ res.reservable.name }}</p>
+                                        <p class="text-xs text-gray-400 font-bold mt-0.5">{{ res.service ? res.service.name : 'Espacio/Mesa' }}</p>
+                                    </td>
                                     <td class="px-8 py-6">
                                         <div class="flex flex-col">
                                             <span class="text-sm font-black text-gray-900">{{ res.reservation_date }}</span>
-                                            <span class="text-[10px] font-bold text-gray-400">{{ res.reservation_time }}h</span>
+                                            <span class="text-[10px] font-bold text-gray-400 mt-0.5">{{ res.reservation_time }}h</span>
                                         </div>
                                     </td>
-                                    <td class="px-8 py-6 text-right">
+                                    <td class="px-8 py-6 text-right" @click.stop>
                                         <div class="flex items-center justify-end gap-4">
                                             <span 
                                                 :class="{
@@ -558,7 +659,7 @@ const logout = () => {
                                                 }"
                                                 class="px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest min-w-[100px] text-center"
                                             >
-                                                {{ res.status }}
+                                                {{ $t('status.' + res.status) }}
                                             </span>
                                             <button 
                                                 @click="openEditReservationModal(res)"
@@ -593,6 +694,11 @@ const logout = () => {
             :show="showReservationModal"
             :reservation="selectedReservation"
             @close="showReservationModal = false"
+        />
+        <ManualReservationModal
+            :show="showManualReservationModal"
+            :locals="allLocals"
+            @close="showManualReservationModal = false"
         />
     </AuthenticatedLayout>
 </template>

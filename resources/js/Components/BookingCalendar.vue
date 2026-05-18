@@ -132,12 +132,25 @@ const selectTime = (time) => {
     selectedTime.value = time;
 };
 
+const maxGuestsAllowed = computed(() => {
+    if (selectedResource.value && selectedResource.value.max_guests_per_booking) {
+        return selectedResource.value.max_guests_per_booking;
+    }
+    return 10;
+});
+
 const incrementGuests = () => {
-    if (guests.value < 10) guests.value++;
+    if (guests.value < maxGuestsAllowed.value) guests.value++;
 };
 const decrementGuests = () => {
     if (guests.value > 1) guests.value--;
 };
+
+watch(selectedResource, (newRes) => {
+    if (newRes && newRes.max_guests_per_booking && guests.value > newRes.max_guests_per_booking) {
+        guests.value = newRes.max_guests_per_booking;
+    }
+});
 
 const handleBack = () => {
     if (bookingStep.value === 1) {
@@ -426,11 +439,20 @@ onMounted(() => {
                         </div>
                         <button
                             @click="incrementGuests"
-                            class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-900 hover:bg-gray-200 transition-all font-black text-xl hover:scale-110 active:scale-90"
+                            class="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-900 hover:bg-gray-200 transition-all font-black text-xl hover:scale-110 active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-gray-50"
+                            :disabled="guests >= maxGuestsAllowed"
                         >
                             +
                         </button>
                     </div>
+                    
+                    <p v-if="selectedResource && selectedResource.max_guests_per_booking" class="text-xs text-orange-500/80 mt-4 flex items-start gap-1.5 font-bold">
+                        <svg class="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>El límite máximo por reserva en <strong>{{ selectedResource.name }}</strong> es de <strong>{{ selectedResource.max_guests_per_booking }} {{ selectedResource.max_guests_per_booking > 1 ? 'personas' : 'persona' }}</strong>.</span>
+                    </p>
+                    <p v-else-if="maxGuestsAllowed === 10" class="text-[10px] text-gray-400 mt-3 font-medium ml-2">
+                        Máximo 10 personas por reserva.
+                    </p>
                 </div>
 
                 <!-- Step 2 CTA -->

@@ -17,35 +17,35 @@ const categories = computed(() => [
         title: t("home.categories.gastronomy"),
         description: t("home.categories.gastronomy_desc"),
         image: "/images/gastronomia.avif",
-        link: "/gastronomia",
+        link: "gastronomia",
     },
     {
         id: "sport",
         title: t("home.categories.sport"),
         description: t("home.categories.sport_desc"),
         image: "/images/deporte.avif",
-        link: "/deportes",
+        link: "deportes",
     },
     {
         id: "health",
         title: t("home.categories.health"),
         description: t("home.categories.health_desc"),
         image: "/images/salud.avif",
-        link: "/salud",
+        link: "salud",
     },
     {
         id: "leisure",
         title: t("home.categories.leisure"),
         description: t("home.categories.leisure_desc"),
         image: "/images/ocio.avif",
-        link: "/ocio",
+        link: "ocio",
     },
     {
         id: "beauty",
         title: t("home.categories.beauty"),
         description: t("home.categories.beauty_desc"),
         image: "/images/beauty-wellness.avif",
-        link: "/belleza",
+        link: "belleza",
     },
 ]);
 
@@ -110,7 +110,7 @@ onMounted(() => {
                     </p>
                     <div class="flex flex-wrap gap-4 hero-animate hero-delay-btn">
                         <Link
-                            :href="$page.props.auth.user ? '/servicios' : '/register'"
+                            :href="$page.props.auth.user ? route('servicios') : route('register')"
                             class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-semibold hover:bg-black transition-all duration-300 shadow-2xl shadow-gray-400/50 hover:-translate-y-1"
                         >
                             {{ $t('home.hero_cta') }}
@@ -143,7 +143,7 @@ onMounted(() => {
                             :data-index="index"
                             class="group cursor-pointer card-animate category-card"
                         >
-                            <Link :href="category.link" class="flex items-center gap-4 sm:block">
+                            <Link :href="route(category.link)" class="flex items-center gap-4 sm:block">
                                 <div
                                     class="w-24 h-24 shrink-0 sm:w-full sm:h-auto sm:aspect-[4/5] overflow-hidden sm:mb-4 bg-gray-100 rounded-2xl image-container"
                                 >
@@ -233,7 +233,7 @@ onMounted(() => {
 
                         <div class="flex flex-wrap gap-4">
                             <Link
-                                :href="$page.props.auth.user ? '/servicios' : '/register'"
+                                :href="$page.props.auth.user ? route('servicios') : route('register')"
                                 class="inline-block bg-gray-900 text-white px-10 py-5 rounded-full font-bold hover:bg-black transition-all duration-500 shadow-2xl shadow-gray-900/10"
                             >
                                 {{ $t('home.hero_cta') }}
@@ -287,7 +287,13 @@ onMounted(() => {
                     </div>
 
                     <!-- Feature 2 -->
-                    <div class="group p-10 rounded-[3rem] bg-white/30 backdrop-blur-sm border border-white/40 hover:bg-white hover:border-[#8EB6A5] transition-all duration-700 hover:shadow-[0_20px_50px_-15px_rgba(15,23,42,0.05)]">
+                    <div class="group relative p-10 rounded-[3rem] bg-white/30 backdrop-blur-sm border border-white/40 hover:bg-white hover:border-[#8EB6A5] transition-all duration-700 hover:shadow-[0_20px_50px_-15px_rgba(15,23,42,0.05)]">
+                        <!-- Modern premium coming soon badge -->
+                        <div class="absolute top-8 right-8">
+                            <span class="px-3.5 py-1.5 bg-blue-50 text-blue-700 rounded-full text-[9px] font-black uppercase tracking-widest border border-blue-100/50 shadow-sm">
+                                {{ $t('home.business.coming_soon') }}
+                            </span>
+                        </div>
                         <div class="w-16 h-16 rounded-3xl bg-blue-100 flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500 shadow-sm">
                             <svg class="w-8 h-8 text-blue-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -315,13 +321,13 @@ onMounted(() => {
 
                 <div class="flex justify-center flex-wrap gap-6 items-center">
                     <Link
-                        href="/locales/crear"
+                        :href="route('locales.create')"
                         class="px-12 py-5 bg-[#0f172a] text-white rounded-full font-bold text-lg hover:bg-black hover:text-white transition-all duration-500 shadow-xl shadow-[#0f172a]/20"
                     >
                         {{ $t('home.business.cta') }}
                     </Link>
                     <Link
-                        href="/contacto"
+                        :href="route('contacto')"
                         class="px-12 py-5 bg-white/50 border border-white/80 text-[#0f172a] rounded-full font-bold text-lg hover:bg-white transition-all duration-300"
                     >
                         Contacto

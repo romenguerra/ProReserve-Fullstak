@@ -26,31 +26,31 @@
                     </h3>
                     <ul class="space-y-4">
                         <li>
-                            <a
-                                href="/"
+                            <Link
+                                :href="route('home')"
                                 class="text-gray-400 hover:text-[#8EB6A5] transition-colors duration-300 flex items-center group"
                             >
                                 <span class="h-px w-0 group-hover:w-4 bg-[#8EB6A5] mr-0 group-hover:mr-2 transition-all duration-300"></span>
                                 {{ $t('footer.nav_home') }}
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a
+                            <Link
                                 :href="route('servicios')"
                                 class="text-gray-400 hover:text-[#8EB6A5] transition-colors duration-300 flex items-center group"
                             >
                                 <span class="h-px w-0 group-hover:w-4 bg-[#8EB6A5] mr-0 group-hover:mr-2 transition-all duration-300"></span>
                                 {{ $t('footer.nav_services') }}
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a
-                                href="/contacto"
+                            <Link
+                                :href="route('contacto')"
                                 class="text-gray-400 hover:text-[#8EB6A5] transition-colors duration-300 flex items-center group"
                             >
                                 <span class="h-px w-0 group-hover:w-4 bg-[#8EB6A5] mr-0 group-hover:mr-2 transition-all duration-300"></span>
                                 {{ $t('footer.nav_contact') }}
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
@@ -58,18 +58,41 @@
                 <!-- Columna 3: Boletín / Dashboard CTA -->
                 <div>
                     <h3 class="text-sm font-bold text-white uppercase tracking-widest mb-6">
-                        {{ !$page.props.auth?.user ? $t('footer.subscribe_title') : $t('footer.dashboard_title') }}
+                        <template v-if="!user">
+                            {{ $t('footer.subscribe_title') }}
+                        </template>
+                        <template v-else-if="isClient">
+                            {{ $t('footer.client_title') }}
+                        </template>
+                        <template v-else>
+                            {{ $t('footer.dashboard_title') }}
+                        </template>
                     </h3>
                     <p class="text-sm text-gray-400 mb-6 font-medium">
-                        {{ !$page.props.auth?.user ? $t('footer.subscribe_desc') : $t('footer.dashboard_desc') }}
+                        <template v-if="!user">
+                            {{ $t('footer.subscribe_desc') }}
+                        </template>
+                        <template v-else-if="isClient">
+                            {{ $t('footer.client_desc') }}
+                        </template>
+                        <template v-else>
+                            {{ $t('footer.dashboard_desc') }}
+                        </template>
                     </p>
                     <div class="flex flex-col space-y-4">
                         <Link
-                            v-if="!$page.props.auth?.user"
-                            href="/register"
+                            v-if="!user"
+                            :href="route('register')"
                             class="bg-[#8EB6A5] hover:bg-[#7aa592] text-white text-center font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-xl shadow-[#8EB6A5]/20 hover:-translate-y-1 block w-full"
                         >
                             {{ $t('footer.subscribe_button') }}
+                        </Link>
+                        <Link
+                            v-else-if="isClient"
+                            :href="route('reservas.index')"
+                            class="bg-[#8EB6A5] hover:bg-[#7aa592] text-white text-center font-bold py-4 px-8 rounded-2xl transition-all duration-300 shadow-xl shadow-[#8EB6A5]/20 hover:-translate-y-1 block w-full"
+                        >
+                            {{ $t('footer.client_button') }}
                         </Link>
                         <Link
                             v-else
@@ -90,7 +113,9 @@
                 </p>
                 <div class="flex space-x-6 mt-6 md:mt-0">
                     <a
-                        href="#"
+                        href="https://instagram.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         class="text-gray-500 hover:text-white transition-colors duration-300"
                     >
                         <span class="sr-only">{{ $t('footer.social_instagram') }}</span>
@@ -99,12 +124,25 @@
                         </svg>
                     </a>
                     <a
-                        href="#"
+                        href="https://x.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         class="text-gray-500 hover:text-white transition-colors duration-300"
                     >
                         <span class="sr-only">{{ $t('footer.social_twitter') }}</span>
                         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.095 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                            <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>
+                        </svg>
+                    </a>
+                    <a
+                        href="https://facebook.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-500 hover:text-white transition-colors duration-300"
+                    >
+                        <span class="sr-only">Facebook</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.248h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                         </svg>
                     </a>
                 </div>
@@ -115,7 +153,15 @@
 
 <script setup>
 import { computed } from "vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, usePage } from "@inertiajs/vue3";
 
+const page = usePage();
 const currentYear = computed(() => new Date().getFullYear());
+
+const user = computed(() => page.props.auth?.user);
+const isClient = computed(() => {
+    if (!user.value) return false;
+    const userRoles = user.value.roles || [];
+    return userRoles.length === 0 || userRoles.includes('cliente');
+});
 </script>

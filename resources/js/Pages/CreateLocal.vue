@@ -147,19 +147,46 @@
                             </button>
                         </div>
                         
-                        <div v-for="(resource, index) in form.resources" :key="'res-'+index" class="flex gap-4 mb-3 items-end">
-                            <div class="flex-1">
-                                <label class="block text-xs font-medium text-gray-500 mb-1">Nombre Público (Ej: Salón 1, Terraza, Pista 3)</label>
-                                <input v-model="resource.name" type="text" class="w-full border-gray-300 rounded-md shadow-sm" required />
+                        <div v-for="(resource, index) in form.resources" :key="'res-'+index" class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm mb-4">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex-1">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Público (Ej: Salón 1, Terraza, Pista 3)</label>
+                                    <input v-model="resource.name" type="text" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required />
+                                </div>
+                                <div class="ml-4 pt-6">
+                                    <button v-if="form.resources.length > 1" type="button" @click="removeResource(index)" class="text-red-500 hover:text-red-700 bg-red-50 p-2 rounded-md transition-colors">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="w-32">
-                                <label class="block text-xs font-medium text-gray-500 mb-1">Mesas/Capacidad</label>
-                                <input v-model="resource.capacity" type="number" min="1" class="w-full border-gray-300 rounded-md shadow-sm" required />
-                            </div>
-                            <div class="w-10 pb-2">
-                                <button v-if="form.resources.length > 1" type="button" @click="removeResource(index)" class="text-red-500 hover:text-red-700">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                </button>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-md border border-gray-100">
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Reserva</label>
+                                    <select v-model="resource.resource_type" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                        <option value="exclusive_unit">Exclusivo por unidad (Mesas, pistas, habitaciones)</option>
+                                        <option value="shared">Compartido por plazas (Clases, eventos)</option>
+                                    </select>
+                                </div>
+
+                                <template v-if="resource.resource_type === 'exclusive_unit'">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Nº de Unidades (Ej: 8 mesas)</label>
+                                        <input v-model="resource.unit_count" type="number" min="1" class="w-full border-gray-300 rounded-md shadow-sm" required />
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Personas por unidad (Ej: 4 personas)</label>
+                                        <input v-model="resource.unit_capacity" type="number" min="1" class="w-full border-gray-300 rounded-md shadow-sm" required />
+                                    </div>
+                                </template>
+
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Máx. personas por reserva (Límite por cliente)</label>
+                                    <input v-model="resource.max_guests_per_booking" type="number" min="1" class="w-full border-gray-300 rounded-md shadow-sm" required />
+                                    <p v-if="resource.resource_type === 'exclusive_unit'" class="text-xs text-gray-500 mt-1">
+                                        Se bloquearán automáticamente las unidades necesarias para el grupo (ej: reserva para {{ resource.max_guests_per_booking || 1 }} personas / {{ resource.unit_capacity || 1 }} por unidad = {{ Math.ceil((resource.max_guests_per_booking || 1) / (resource.unit_capacity || 1)) }} unidades bloqueadas).
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -294,7 +321,14 @@ const form = useForm({
 
     // Resources
     resources: [
-        { name: 'Salón Principal', capacity: 10 }
+        { 
+            name: 'Salón Principal', 
+            capacity: 10,
+            resource_type: 'exclusive_unit',
+            unit_count: 5,
+            unit_capacity: 4,
+            max_guests_per_booking: 8
+        }
     ],
 
     // Services
@@ -304,7 +338,14 @@ const form = useForm({
 });
 
 const addResource = () => {
-    form.resources.push({ name: '', capacity: 1 });
+    form.resources.push({ 
+        name: '', 
+        capacity: 1,
+        resource_type: 'exclusive_unit',
+        unit_count: 1,
+        unit_capacity: 4,
+        max_guests_per_booking: 4
+    });
 };
 
 const removeResource = (index) => {

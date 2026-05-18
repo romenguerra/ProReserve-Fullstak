@@ -12,15 +12,19 @@ return new class extends Migration {
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
             $table->morphs('reservable'); // reservable_id, reservable_type
             $table->foreignId('service_id')->nullable()->constrained()->nullOnDelete();
 
             $table->date('reservation_date');
             $table->time('reservation_time');
 
+            $table->string('customer_name')->nullable();
+            $table->string('customer_email')->nullable();
+            $table->string('customer_phone')->nullable();
+
             $table->integer('guests')->nullable();
-            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->string('status')->default('pending');
             $table->text('special_request')->nullable();
 
             $table->timestamps();

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import { Link, router, usePage } from "@inertiajs/vue3";
 import { UserRound, Bell, LayoutDashboard, Search } from 'lucide-vue-next'; 
 import { useI18n } from "@/Composables/useI18n";
@@ -10,7 +10,15 @@ const { isAdmin, canAccessDashboard } = usePermissions();
 
 const toggleLanguage = () => {
     const nextLocale = currentLocale.value === 'es' ? 'en' : 'es';
-    setLocale(nextLocale);
+    const currentPath = window.location.pathname;
+    const pathParts = currentPath.split('/');
+    
+    if (pathParts.length > 1 && (pathParts[1] === 'es' || pathParts[1] === 'en')) {
+        pathParts[1] = nextLocale;
+    }
+    
+    const newUrl = pathParts.join('/') + window.location.search;
+    router.visit(newUrl);
 }; 
 
 const searchQuery = ref('');
@@ -19,10 +27,25 @@ const profileMenuOpen = ref(false);
 const isVisible = ref(true);
 const lastScrollY = ref(0);
 
+let debounceTimeout = null;
+watch(searchQuery, (newVal) => {
+    if (debounceTimeout) clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+        router.get(route('search'), { q: newVal }, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true
+        });
+    }, 150);
+});
+
 const handleSearch = () => {
-    if (searchQuery.value.trim()) {
-        router.get(route('search'), { q: searchQuery.value });
-    }
+    router.get(route('search'), { q: searchQuery.value });
+};
+
+const handleEscape = (e) => {
+    searchQuery.value = '';
+    e.target.blur();
 };
 
 const handleScroll = () => {
@@ -150,7 +173,7 @@ defineProps({ user: Object });
                 >
                     <!-- Logo -->
                     <div class="flex shrink-0 items-center">
-                        <Link href="/">
+                        <Link :href="route('home')">
                             <img
                                 src="/images/logo-proreserve.avif"
                                 alt="ProReserve"
@@ -164,7 +187,7 @@ defineProps({ user: Object });
                     <div class="hidden lg:ml-8 lg:flex lg:items-center">
                         <div class="flex items-center space-x-6">
                             <Link
-                                href="/"
+                                :href="route('home')"
                                 :class="[
                                     $page.url === '/'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
@@ -186,7 +209,7 @@ defineProps({ user: Object });
                                 {{ $t('nav.services') }}
                             </Link>
                             <Link
-                                href="/contacto"
+                                :href="route('contacto')"
                                 :class="[
                                     $page.url === '/contacto'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
@@ -197,7 +220,7 @@ defineProps({ user: Object });
                                 {{ $t('nav.contact') }}
                             </Link>
                             <Link
-                                href="/reservas"
+                                :href="route('reservas.index')"
                                 :class="[
                                     $page.url === '/reservas'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
@@ -235,6 +258,7 @@ defineProps({ user: Object });
                             </div>
                             <input 
                                 v-model="searchQuery"
+                                @keydown.escape="handleEscape"
                                 type="text" 
                                 :placeholder="$t('nav.search_placeholder')"
                                 class="block w-full pl-10 pr-3 py-2 border rounded-full text-sm transition-all duration-500 focus:ring-1 focus:ring-[#8EB6A5] focus:border-[#8EB6A5] focus:outline-none"
@@ -338,7 +362,7 @@ defineProps({ user: Object });
                                         {{ $t('nav.profile') }}
                                     </Link>
                                     <Link
-                                        href="/reservas"
+                                        :href="route('reservas.index')"
                                         class="block px-4 py-2 text-sm transition-colors duration-500"
                                         :class="currentTheme === 'navy' 
                                             ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
@@ -409,6 +433,7 @@ defineProps({ user: Object });
                             </div>
                             <input 
                                 v-model="searchQuery"
+                                @keydown.escape="handleEscape"
                                 type="text" 
                                 :placeholder="$t('nav.search_placeholder')"
                                 class="block w-full pl-10 pr-3 py-3 border rounded-xl text-base transition-all duration-500 focus:ring-1 focus:ring-[#8EB6A5] focus:border-[#8EB6A5] focus:outline-none"
@@ -419,7 +444,7 @@ defineProps({ user: Object });
                         </form>
                     </div>
                     <Link
-                        href="/"
+                        :href="route('home')"
                         @click="closeMobileMenu"
                         :class="[
                             $page.url === '/'
@@ -443,7 +468,7 @@ defineProps({ user: Object });
                         {{ $t('nav.services') }}
                     </Link>
                     <Link
-                        href="/contacto"
+                        :href="route('contacto')"
                         @click="closeMobileMenu"
                         :class="[
                             currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:bg-white/5 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:bg-[#0f172a]/5 hover:text-[#0f172a]',
@@ -453,7 +478,7 @@ defineProps({ user: Object });
                         {{ $t('nav.contact') }}
                     </Link>
                     <Link
-                        href="/reservas"
+                        :href="route('reservas.index')"
                         @click="closeMobileMenu"
                          :class="[
                             $page.url === '/reservas'

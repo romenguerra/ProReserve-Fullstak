@@ -47,7 +47,14 @@ const form = useForm({
         { day_of_week: 6, name: 'Sábado', is_closed: false, opening_time: '10:00', closing_time: '23:00' },
         { day_of_week: 7, name: 'Domingo', is_closed: true, opening_time: '10:00', closing_time: '23:00' },
     ],
-    resources: [{ name: 'Salón Principal', capacity: 10 }],
+    resources: [{ 
+        name: 'Salón Principal', 
+        capacity: 10,
+        resource_type: 'exclusive_unit',
+        unit_count: 5,
+        unit_capacity: 4,
+        max_guests_per_booking: 8
+    }],
     services: [{ name: 'Servicio Principal', duration_minutes: 60, price: 0 }],
 });
 
@@ -83,7 +90,14 @@ watch(() => props.local, (newLocal) => {
 }, { immediate: true });
 
 // Lógica idéntica a CreateLocal.vue
-const addResource = () => form.resources.push({ name: '', capacity: 1 });
+const addResource = () => form.resources.push({ 
+    name: '', 
+    capacity: 1,
+    resource_type: 'exclusive_unit',
+    unit_count: 1,
+    unit_capacity: 4,
+    max_guests_per_booking: 4
+});
 const removeResource = (index) => form.resources.length > 1 && form.resources.splice(index, 1);
 const addService = () => form.services.push({ name: '', duration_minutes: 60, price: 0 });
 const removeService = (index) => form.services.length > 1 && form.services.splice(index, 1);
@@ -256,17 +270,43 @@ const localTypeLabel = computed(() => {
                                             <Plus class="w-6 h-6" />
                                         </button>
                                     </div>
-                                    <div class="space-y-4">
-                                        <div v-for="(res, idx) in form.resources" :key="'res-'+idx" class="flex gap-4 items-center animate-in slide-in-from-right-4 duration-300">
-                                            <div class="flex-1 relative group">
-                                                <input v-model="res.name" placeholder="Ej: Salón Principal" class="w-full px-5 py-4 bg-white border-none rounded-xl text-sm font-bold shadow-sm focus:ring-2 focus:ring-orange-500/20" />
+                                    <div class="space-y-6">
+                                        <div v-for="(res, idx) in form.resources" :key="'res-'+idx" class="p-6 bg-white rounded-2xl shadow-sm border border-orange-50 animate-in slide-in-from-right-4 duration-300">
+                                            <div class="flex justify-between items-start mb-4">
+                                                <input v-model="res.name" placeholder="Ej: Terraza, Salón..." class="flex-1 px-5 py-4 bg-gray-50 border-none rounded-xl text-sm font-bold focus:ring-2 focus:ring-orange-500/20" />
+                                                <button v-if="form.resources.length > 1" @click="removeResource(idx)" type="button" class="ml-4 text-red-400 hover:text-red-600 p-2 transition-colors">
+                                                    <Trash2 class="w-5 h-5" />
+                                                </button>
                                             </div>
-                                            <div class="w-24 relative">
-                                                <input v-model="res.capacity" type="number" class="w-full px-4 py-4 bg-white border-none rounded-xl text-sm font-black shadow-sm" />
+
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div class="space-y-2 col-span-1 md:col-span-2">
+                                                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Tipo de Reserva</label>
+                                                    <select v-model="res.resource_type" class="w-full px-5 py-3 bg-gray-50 border-none rounded-xl font-bold text-sm text-gray-700">
+                                                        <option value="exclusive_unit">Exclusivo por unidad (Mesas, pistas, habitaciones)</option>
+                                                        <option value="shared">Compartido por plazas (Clases, eventos)</option>
+                                                    </select>
+                                                </div>
+
+                                                <template v-if="res.resource_type === 'exclusive_unit'">
+                                                    <div class="space-y-2">
+                                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Nº de Unidades</label>
+                                                        <input v-model="res.unit_count" type="number" min="1" placeholder="Ej: 8 mesas" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl text-sm font-black text-gray-700" />
+                                                    </div>
+                                                    <div class="space-y-2">
+                                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Personas por unidad</label>
+                                                        <input v-model="res.unit_capacity" type="number" min="1" placeholder="Ej: 4 personas" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl text-sm font-black text-gray-700" />
+                                                    </div>
+                                                </template>
+
+                                                <div class="space-y-2 col-span-1 md:col-span-2">
+                                                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Máx. personas por reserva</label>
+                                                    <input v-model="res.max_guests_per_booking" type="number" min="1" class="w-full px-4 py-3 bg-gray-50 border-none rounded-xl text-sm font-black text-gray-700" />
+                                                    <p v-if="res.resource_type === 'exclusive_unit'" class="text-[10px] text-gray-400 mt-1 ml-1 leading-tight">
+                                                        Al reservar, se bloquearán tantas unidades como se necesiten (ej: si reservan {{ res.max_guests_per_booking }} personas y caben {{ res.unit_capacity }} por unidad, se bloquearán {{ Math.ceil((res.max_guests_per_booking || 1) / (res.unit_capacity || 1)) }} unidades).
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <button v-if="form.resources.length > 1" @click="removeResource(idx)" type="button" class="text-red-400 hover:text-red-600 p-2 transition-colors">
-                                                <Trash2 class="w-5 h-5" />
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

@@ -45,6 +45,7 @@
             "feature_2_desc": "Get to know your customers better with detailed booking reports.",
             "feature_3_title": "No hidden fees",
             "feature_3_desc": "A transparent model designed for you to earn more.",
+            "coming_soon": "Coming Soon",
             "cta": "Register your Business"
         }
     },
@@ -63,6 +64,9 @@
         "dashboard_title": "Manage your account",
         "dashboard_desc": "Access your panel to see your statistics and reservations at a glance.",
         "dashboard_button": "Go to Dashboard",
+        "client_title": "My Bookings",
+        "client_desc": "Manage your active appointments and bookings on the platform.",
+        "client_button": "View my Bookings",
         "copyright": "ProReserve. All rights reserved.",
         "social_instagram": "Instagram",
         "social_twitter": "Twitter"
@@ -138,7 +142,7 @@
         "hero_subtitle": "Whether you're a user looking for help or a business eager to innovate, we're here to listen.",
         "info_email_title": "Email us",
         "info_email_copied": "Copied!",
-        "info_email_support": "24/7 Digital support",
+        "info_email_support": "We will reply as soon as possible",
         "info_location_title": "Location",
         "info_location_street": "Calle Serrano, 42",
         "info_location_city": "28001 Madrid, Spain",
@@ -332,5 +336,11 @@
         "Piscina Olímpica Aqua": "Enjoy swimming in our professional-level facilities.",
         "Crossfit Box Red": "Push your limits in our crossfit box with a unique community.",
         "Centro de Yoga Zen": "Find your balance and peace of mind with our yoga and meditation classes."
+    },
+    "status": {
+        "pending": "Pending",
+        "confirmed": "Confirmed",
+        "cancelled": "Cancelled",
+        "completed": "Completed"
     }
 }

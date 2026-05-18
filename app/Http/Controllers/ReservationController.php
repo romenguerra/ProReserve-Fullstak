@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use App\Models\Reservation;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ReservationConfirmed;
+use App\Mail\ReservationPending;
 
 class ReservationController extends Controller
 {
@@ -114,7 +114,7 @@ class ReservationController extends Controller
         ]);
 
         try {
-            Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
+            Mail::to(auth()->user()->email)->send(new ReservationPending($reservation));
         } catch (\Exception $e) {
             \Log::error('Error enviando email de reserva: ' . $e->getMessage());
         }

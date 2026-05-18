@@ -19,7 +19,13 @@ createInertiaApp({
             import.meta.glob('./Pages/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
-        const { t } = useI18n();
+        const { t, setLocale } = useI18n();
+        
+        // Initialize locale from backend props
+        if (props.initialPage.props.locale) {
+            setLocale(props.initialPage.props.locale);
+        }
+        
         const app = createApp({ render: () => h(App, props) });
 
         app.config.globalProperties.$t = t;

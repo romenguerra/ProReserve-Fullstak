@@ -6,7 +6,7 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ReservationConfirmed;
+use App\Mail\ReservationPending;
 
 class ReservaController extends Controller
 {
@@ -54,11 +54,11 @@ class ReservaController extends Controller
             'reservation_time' => $validated['reservation_time'],
             'guests' => $validated['guests'] ?? 1,
             'special_request' => $validated['special_request'] ?? null,
-            'status' => 'confirmed',
+            'status' => 'pending',
         ]);
 
-        // Enviar email de confirmación
-        Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
+        // Enviar email de reserva pendiente
+        Mail::to(auth()->user()->email)->send(new ReservationPending($reservation));
 
         return back()->with('success', 'Reserva realizada correctamente.');
     }

@@ -177,7 +177,7 @@ let resetTimeout = null;
 
 const cancelReservation = (id) => {
     if (confirmingCancellation.value === id) {
-        router.delete(`/reservas/${id}`, {
+        router.delete(route('reservas.destroy', id), {
             preserveState: true,
             onSuccess: () => {
                 confirmingCancellation.value = null;
@@ -408,7 +408,7 @@ const cancelReservation = (id) => {
                                     preferido.
                                 </p>
                                 <Link
-                                    href="/servicios"
+                                    :href="route('servicios')"
                                     class="inline-flex items-center gap-2 bg-[#0f172a] text-white px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-xl"
                                 >
                                     Reservar Ahora
@@ -736,7 +736,7 @@ const cancelReservation = (id) => {
                                     {{ $t("calendar.empty_subtitle") }}
                                 </p>
                                 <Link
-                                    href="/servicios"
+                                    :href="route('servicios')"
                                     class="inline-flex px-12 py-6 bg-[#8EB6A5] text-[#0f172a] font-black text-sm uppercase tracking-widest rounded-[2rem] shadow-[0_20px_40px_-10px_rgba(142,182,165,0.4)] hover:-translate-y-2 hover:shadow-[0_30px_60px_-12px_rgba(142,182,165,0.5)] transition-all"
                                 >
                                     {{ $t("calendar.explore_cta") }}
@@ -770,7 +770,7 @@ const cancelReservation = (id) => {
                             </p>
                         </div>
                         <Link
-                            href="/servicios"
+                            :href="route('servicios')"
                             class="inline-flex items-center justify-center gap-3 bg-[#0f172a] text-white px-10 py-5 rounded-2xl text-sm font-black uppercase tracking-widest hover:scale-105 transition-transform shadow-2xl"
                         >
                             Reservar Ahora

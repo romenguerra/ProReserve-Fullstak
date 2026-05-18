@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
-import { Calendar, Clock, Users, MessageSquare, Save, X, Trash2 } from 'lucide-vue-next';
+import { Calendar, Clock, Users, MessageSquare, Save, X, Trash2, Store, FileText, Phone, Mail } from 'lucide-vue-next';
 
 const props = defineProps({
     show: Boolean,
@@ -24,7 +24,7 @@ watch(() => props.reservation, (newRes) => {
         form.reservation_date = newRes.reservation_date;
         form.reservation_time = newRes.reservation_time;
         form.status = newRes.status;
-        form.guests = newRes.guests;
+        form.guests = newRes.guests || 1;
         form.special_request = newRes.special_request || '';
     }
 }, { immediate: true });
@@ -50,15 +50,39 @@ const closeModal = () => {
 
 <template>
     <Modal :show="show" @close="closeModal" max-width="lg">
-        <!-- Header -->
-        <div class="bg-indigo-600 p-8 text-white flex justify-between items-start">
-            <div>
+        <div class="bg-indigo-600 p-8 text-white flex justify-between items-start relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            <div class="relative z-10 w-full">
                 <h3 class="text-2xl font-black tracking-tighter">Gestionar Reserva</h3>
-                <p class="text-indigo-100 text-xs font-bold mt-1 opacity-80" v-if="reservation">
-                    Cliente: {{ reservation.user?.name }}
-                </p>
+                
+                <div class="mt-4 space-y-1" v-if="reservation">
+                    <div class="flex flex-col gap-1 mb-3">
+                        <p class="text-indigo-100 text-sm font-bold flex items-center gap-2">
+                            <Users class="w-4 h-4 opacity-70" />
+                            Cliente: <span class="text-white">{{ reservation.user?.name || reservation.customer_name || 'Sin nombre' }}</span>
+                        </p>
+                        <div class="flex items-center gap-4 pl-6 text-[10px] text-indigo-200 font-bold tracking-wide">
+                            <span v-if="reservation.user?.phone || reservation.customer_phone" class="flex items-center gap-1.5">
+                                <Phone class="w-3 h-3" />
+                                {{ reservation.user?.phone || reservation.customer_phone }}
+                            </span>
+                            <span v-if="reservation.user?.email || reservation.customer_email" class="flex items-center gap-1.5">
+                                <Mail class="w-3 h-3" />
+                                {{ reservation.user?.email || reservation.customer_email }}
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-indigo-100 text-xs font-medium flex items-center gap-2 opacity-80" v-if="reservation.reservable">
+                        <Store class="w-3.5 h-3.5" />
+                        Establecimiento: {{ reservation.reservable.name }}
+                    </p>
+                    <p class="text-indigo-100 text-xs font-medium flex items-center gap-2 opacity-80">
+                        <FileText class="w-3.5 h-3.5" />
+                        Detalle: {{ reservation.service?.name || reservation.resource?.name || 'Reserva Básica' }}
+                    </p>
+                </div>
             </div>
-            <button @click="closeModal" class="p-2 hover:bg-white/10 rounded-xl transition-colors">
+            <button @click="closeModal" class="p-2 hover:bg-white/10 rounded-xl transition-colors relative z-10 shrink-0 ml-4">
                 <X class="w-6 h-6" />
             </button>
         </div>
@@ -105,6 +129,7 @@ const closeModal = () => {
                         Completado
                     </button>
                 </div>
+                <p v-if="form.errors.status" class="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{{ form.errors.status }}</p>
             </div>
 
             <!-- Fecha y Hora -->
@@ -119,6 +144,7 @@ const closeModal = () => {
                             class="w-full bg-gray-50 border-none rounded-2xl pl-12 pr-4 py-3 text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none"
                         />
                     </div>
+                    <p v-if="form.errors.reservation_date" class="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{{ form.errors.reservation_date }}</p>
                 </div>
                 <div class="space-y-2">
                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Hora</label>
@@ -130,6 +156,7 @@ const closeModal = () => {
                             class="w-full bg-gray-50 border-none rounded-2xl pl-12 pr-4 py-3 text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none"
                         />
                     </div>
+                    <p v-if="form.errors.reservation_time" class="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{{ form.errors.reservation_time }}</p>
                 </div>
             </div>
 
@@ -145,6 +172,7 @@ const closeModal = () => {
                         class="w-full bg-gray-50 border-none rounded-2xl pl-12 pr-4 py-3 text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 outline-none"
                     />
                 </div>
+                <p v-if="form.errors.guests" class="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{{ form.errors.guests }}</p>
             </div>
 
             <!-- Notas -->
@@ -158,6 +186,7 @@ const closeModal = () => {
                         class="w-full bg-gray-50 border-none rounded-2xl pl-12 pr-4 py-4 text-sm font-bold focus:ring-4 focus:ring-indigo-500/10 h-24 resize-none outline-none"
                     ></textarea>
                 </div>
+                <p v-if="form.errors.special_request" class="text-red-500 text-[10px] font-black uppercase mt-1 ml-1">{{ form.errors.special_request }}</p>
             </div>
 
             <!-- Footer Buttons -->

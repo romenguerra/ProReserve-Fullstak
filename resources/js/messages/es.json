@@ -45,6 +45,7 @@
             "feature_2_desc": "Conoce mejor a tus clientes con informes de reserva detallados.",
             "feature_3_title": "Sin comisiones ocultas",
             "feature_3_desc": "Un modelo transparente diseñado para que ganes más.",
+            "coming_soon": "Próximamente",
             "cta": "Registra tu Negocio"
         }
     },
@@ -63,6 +64,9 @@
         "dashboard_title": "Gestiona tu cuenta",
         "dashboard_desc": "Accede a tu panel para ver tus estadísticas y reservas de un vistazo.",
         "dashboard_button": "Ir al Dashboard",
+        "client_title": "Mis Reservas",
+        "client_desc": "Gestiona tus citas y reservas activas en la plataforma.",
+        "client_button": "Ver mis Reservas",
         "copyright": "ProReserve. Todos los derechos reservados.",
         "social_instagram": "Instagram",
         "social_twitter": "Twitter"
@@ -138,7 +142,7 @@
         "hero_subtitle": "Ya seas un usuario buscando ayuda o un negocio con ganas de innovar, estamos aquí para escucharte.",
         "info_email_title": "Escríbenos",
         "info_email_copied": "¡Copiado!",
-        "info_email_support": "24/7 Soporte digital",
+        "info_email_support": "Te respondemos lo antes posible",
         "info_location_title": "Ubicación",
         "info_location_street": "Calle Serrano, 42",
         "info_location_city": "28001 Madrid, España",
@@ -332,5 +336,11 @@
         "Piscina Olímpica Aqua": "Disfruta de la natación en nuestras instalaciones de nivel profesional.",
         "Crossfit Box Red": "Supera tus límites en nuestro box de crossfit con comunidad única.",
         "Centro de Yoga Zen": "Encuentra tu equilibrio y paz mental con nuestras clases de yoga y meditación."
+    },
+    "status": {
+        "pending": "Pendiente",
+        "confirmed": "Confirmada",
+        "cancelled": "Cancelada",
+        "completed": "Completada"
     }
 }
