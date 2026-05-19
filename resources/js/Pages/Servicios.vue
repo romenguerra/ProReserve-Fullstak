@@ -1,18 +1,13 @@
 <script setup>
 import MainLayout from "@/Layouts/MainLayout.vue";
 import { Link, router } from "@inertiajs/vue3";
-import { Search, CalendarCheck, CheckCircle, ChevronDown, HelpCircle, ArrowRight } from 'lucide-vue-next'; 
+import { Search, CalendarCheck, CheckCircle, ChevronDown, HelpCircle } from 'lucide-vue-next'; 
 import { computed, ref } from "vue";
 import { useI18n } from "@/Composables/useI18n";
 
 const { t } = useI18n();
 
-const pageSearchQuery = ref('');
-const submitPageSearch = () => {
-    if (pageSearchQuery.value.trim()) {
-        router.get(route('search'), { q: pageSearchQuery.value });
-    }
-};
+
 
 const activeFaq = ref(null);
 const toggleFaq = (index) => {
@@ -91,28 +86,9 @@ const categorias = computed(() => [
                         <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-[1.1] tracking-tighter mb-6">
                             <span v-html="$t('services_page.hero_title')"></span>
                         </h1>
-                        <p class="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed mb-10">
+                        <p class="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed mb-0">
                             {{ $t('services_page.hero_subtitle') }}
                         </p>
-
-                        <!-- Main Page Search Bar -->
-                        <form @submit.prevent="submitPageSearch" class="relative max-w-2xl animate-fade-in group" style="animation-delay: 200ms;">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-5 pointer-events-none">
-                                <Search class="w-6 h-6 text-gray-400 group-focus-within:text-[#8EB6A5] transition-colors duration-300" />
-                            </div>
-                            <input 
-                                v-model="pageSearchQuery"
-                                type="text" 
-                                placeholder="Busca restaurantes, peluquerías, centros deportivos..." 
-                                class="block w-full pl-14 pr-16 py-5 bg-white border-none rounded-2xl shadow-xl shadow-gray-200/50 text-lg transition-all duration-500 focus:ring-4 focus:ring-[#8EB6A5]/20 focus:outline-none placeholder-gray-400 font-medium"
-                            >
-                            <button 
-                                type="submit" 
-                                class="absolute right-3 top-1/2 -translate-y-1/2 p-3 bg-[#8EB6A5] hover:bg-[#7ba091] text-white rounded-xl transition-colors duration-300 shadow-md flex items-center justify-center"
-                            >
-                                <ArrowRight class="w-5 h-5" />
-                            </button>
-                        </form>
                     </div>
                 </div>
             </section>

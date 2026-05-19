@@ -26,17 +26,27 @@ const mobileMenuOpen = ref(false);
 const profileMenuOpen = ref(false);
 const isVisible = ref(true);
 const lastScrollY = ref(0);
+const searchInput = ref(null);
+const searchInputMobile = ref(null);
 
 let debounceTimeout = null;
+let lastSearchedQuery = '';
 watch(searchQuery, (newVal) => {
+    // Solo buscar en tiempo real si ya estamos en la página de búsqueda
+    if (!window.location.pathname.includes('/search')) return;
+
+    const trimmedVal = newVal.trim();
+    if (trimmedVal === lastSearchedQuery) return;
+
     if (debounceTimeout) clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {
+        lastSearchedQuery = trimmedVal;
         router.get(route('search'), { q: newVal }, {
             preserveState: true,
             preserveScroll: true,
             replace: true
         });
-    }, 150);
+    }, 450);
 });
 
 const handleSearch = () => {
@@ -80,6 +90,22 @@ onMounted(() => {
     // Sincronizar búsqueda con URL
     const q = new URLSearchParams(window.location.search).get('q');
     if (q) searchQuery.value = q;
+
+    // Restaurar foco si estamos en la página de búsqueda
+    if (window.location.pathname.includes('/search') && q) {
+        setTimeout(() => {
+            if (searchInput.value) {
+                searchInput.value.focus();
+                const len = searchInput.value.value.length;
+                searchInput.value.setSelectionRange(len, len);
+            }
+            if (searchInputMobile.value) {
+                searchInputMobile.value.focus();
+                const len = searchInputMobile.value.value.length;
+                searchInputMobile.value.setSelectionRange(len, len);
+            }
+        }, 50);
+    }
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("click", closeDropdownOnClickOutside);
@@ -257,6 +283,7 @@ defineProps({ user: Object });
                                 />
                             </div>
                             <input 
+                                ref="searchInput"
                                 v-model="searchQuery"
                                 @keydown.escape="handleEscape"
                                 type="text" 
@@ -432,6 +459,7 @@ defineProps({ user: Object });
                                 />
                             </div>
                             <input 
+                                ref="searchInputMobile"
                                 v-model="searchQuery"
                                 @keydown.escape="handleEscape"
                                 type="text" 

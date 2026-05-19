@@ -17,6 +17,9 @@ import {
     Music,
     Sparkles,
     Trash2,
+    Layers,
+    Tag,
+    MessageSquare,
 } from "lucide-vue-next";
 import { ref, computed } from "vue";
 import { useI18n } from "@/Composables/useI18n";
@@ -56,6 +59,9 @@ const allReservations = computed(() => {
             r.reservable && r.reservable.image
                 ? r.reservable.image
                 : "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&q=80&w=600",
+        resource_name: r.resource ? r.resource.name : null,
+        service_price: r.service ? r.service.price : null,
+        special_request: r.special_request,
     }));
 });
 
@@ -91,6 +97,12 @@ const formatDate = (dateString, format = "full") => {
                 { month: "short" },
             )
             .toUpperCase();
+    if (format === "short") {
+        return date.toLocaleDateString(
+            currentLocale.value === "es" ? "es-ES" : "en-US",
+            { day: "numeric", month: "short", year: "numeric" }
+        );
+    }
 
     const options = {
         weekday: "long",
@@ -573,100 +585,93 @@ const cancelReservation = (id) => {
                                             </div>
 
                                             <div
-                                                class="grid grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 pt-8 mt-auto border-t border-gray-100"
+                                                class="grid grid-cols-2 md:grid-cols-3 gap-y-5 gap-x-6 pt-6 mt-auto border-t border-gray-100"
                                             >
-                                                <div class="space-y-1">
-                                                    <p
-                                                        class="text-[10px] font-black text-[#8EB6A5] uppercase tracking-widest opacity-80"
-                                                    >
-                                                        {{
-                                                            $t("calendar.date")
-                                                        }}
-                                                    </p>
-                                                    <div
-                                                        class="flex items-center gap-2"
-                                                    >
-                                                        <div
-                                                            class="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center"
-                                                        >
-                                                            <CalendarIcon
-                                                                class="w-4 h-4 text-[#0f172a]"
-                                                            />
-                                                        </div>
-                                                        <span
-                                                            class="text-sm font-bold text-[#0f172a] capitalize"
-                                                            >{{
-                                                                formatDate(
-                                                                    reservation.date,
-                                                                )
-                                                            }}</span
-                                                        >
+                                                <!-- Date -->
+                                                <div class="flex items-start gap-2.5">
+                                                    <CalendarIcon class="w-4 h-4 text-[#8EB6A5] mt-0.5 shrink-0" />
+                                                    <div class="space-y-0.5">
+                                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                                                            {{ $t("calendar.date") }}
+                                                        </p>
+                                                        <p class="text-xs font-bold text-[#0f172a] capitalize leading-tight">
+                                                            {{ formatDate(reservation.date, 'short') }}
+                                                        </p>
                                                     </div>
                                                 </div>
 
-                                                <div class="space-y-1">
-                                                    <p
-                                                        class="text-[10px] font-black text-[#8EB6A5] uppercase tracking-widest opacity-80"
-                                                    >
-                                                        {{
-                                                            $t("calendar.time")
-                                                        }}
-                                                    </p>
-                                                    <div
-                                                        class="flex items-center gap-2"
-                                                    >
-                                                        <div
-                                                            class="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center"
-                                                        >
-                                                            <Clock
-                                                                class="w-4 h-4 text-[#0f172a]"
-                                                            />
-                                                        </div>
-                                                        <span
-                                                            class="text-sm font-bold text-[#0f172a]"
-                                                            >{{
-                                                                reservation.time
-                                                            }}</span
-                                                        >
+                                                <!-- Time -->
+                                                <div class="flex items-start gap-2.5">
+                                                    <Clock class="w-4 h-4 text-[#8EB6A5] mt-0.5 shrink-0" />
+                                                    <div class="space-y-0.5">
+                                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                                                            {{ $t("calendar.time") }}
+                                                        </p>
+                                                        <p class="text-xs font-bold text-[#0f172a] leading-tight">
+                                                            {{ reservation.time }}
+                                                        </p>
                                                     </div>
                                                 </div>
 
-                                                <div
-                                                    class="col-span-2 lg:col-span-1 space-y-1"
-                                                >
-                                                    <p
-                                                        class="text-[10px] font-black text-[#8EB6A5] uppercase tracking-widest opacity-80"
-                                                    >
-                                                        {{
-                                                            $t(
-                                                                "calendar.guests",
-                                                            )
-                                                        }}
-                                                    </p>
-                                                    <div
-                                                        class="flex items-center gap-2"
-                                                    >
-                                                        <div
-                                                            class="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center"
-                                                        >
-                                                            <UserIcon
-                                                                class="w-4 h-4 text-[#0f172a]"
-                                                            />
-                                                        </div>
-                                                        <span
-                                                            class="text-sm font-bold text-[#0f172a]"
-                                                            >{{
-                                                                reservation.guests
-                                                            }}
+                                                <!-- Guests -->
+                                                <div class="flex items-start gap-2.5">
+                                                    <UserIcon class="w-4 h-4 text-[#8EB6A5] mt-0.5 shrink-0" />
+                                                    <div class="space-y-0.5">
+                                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                                                            {{ $t("calendar.guests") }}
+                                                        </p>
+                                                        <p class="text-xs font-bold text-[#0f172a] leading-tight">
+                                                            {{ reservation.guests }}
                                                             {{
-                                                                reservation.guests >
-                                                                1
+                                                                reservation.guests > 1
                                                                     ? "personas"
                                                                     : "persona"
-                                                            }}</span
-                                                        >
+                                                            }}
+                                                        </p>
                                                     </div>
                                                 </div>
+
+                                                <!-- Resource -->
+                                                <div v-if="reservation.resource_name" class="flex items-start gap-2.5">
+                                                    <Layers class="w-4 h-4 text-[#8EB6A5] mt-0.5 shrink-0" />
+                                                    <div class="space-y-0.5">
+                                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                                                            {{ $t("calendar.resource") }}
+                                                        </p>
+                                                        <p class="text-xs font-bold text-[#0f172a] leading-tight">
+                                                            {{ reservation.resource_name }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Price -->
+                                                <div v-if="reservation.service_price !== null && reservation.service_price !== undefined" class="flex items-start gap-2.5">
+                                                    <Tag class="w-4 h-4 text-[#8EB6A5] mt-0.5 shrink-0" />
+                                                    <div class="space-y-0.5">
+                                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                                                            {{ $t("calendar.price") }}
+                                                        </p>
+                                                        <p class="text-xs font-bold text-[#0f172a] leading-tight">
+                                                            {{ reservation.service_price > 0 ? `${reservation.service_price}€` : $t('booking.free') }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Special Request / Notes -->
+                                            <div 
+                                                v-if="reservation.special_request"
+                                                class="mt-6 p-4 bg-[#F0EEE9]/40 border border-white rounded-2xl space-y-1.5"
+                                            >
+                                                <p
+                                                    class="text-[9px] font-black text-[#8EB6A5] uppercase tracking-widest opacity-80 flex items-center gap-1.5"
+                                                >
+                                                    <MessageSquare class="w-3.5 h-3.5" />
+                                                    {{ $t("calendar.special_requests") }}
+                                                </p>
+                                                <p class="text-xs font-semibold text-gray-600 leading-relaxed italic">
+                                                    "{{ reservation.special_request }}"
+                                                </p>
                                             </div>
 
                                             <!-- Bottom Bar Actions -->

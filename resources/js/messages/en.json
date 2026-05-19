@@ -113,7 +113,12 @@
         "completed": "Completed",
         "confirm_cancel": "Are you sure you want to cancel this reservation?",
         "cancel_action": "Cancel",
-        "details_action": "View details"
+        "details_action": "View details",
+        "resource": "Resource",
+        "special_requests": "Special Notes",
+        "price": "Price",
+        "no_resource": "None",
+        "no_special_requests": "None"
     },
     "services_page": {
         "meta_title": "Services - ProReserve",
