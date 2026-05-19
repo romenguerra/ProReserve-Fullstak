@@ -129,9 +129,11 @@ Route::get('/api/availability', [App\Http\Controllers\ReservationController::cla
 // Ruta temporal para inicializar base de datos en producción
 Route::get('/run-migrations', function() {
     try {
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-        return 'Tablas de base de datos creadas y datos de prueba (seeders) inicializados correctamente!';
+        return 'Tablas de base de datos creadas, datos semilla inicializados y caché de configuración limpiada con éxito!';
     } catch (\Exception $e) {
         return 'Error al ejecutar las migraciones: ' . $e->getMessage();
     }
