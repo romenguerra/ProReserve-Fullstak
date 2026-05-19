@@ -71,7 +71,7 @@ class ReservaController extends Controller
             abort(403);
         }
 
-        $reservation->delete();
+        $reservation->update(['status' => 'cancelled']);
 
         return back()->with('success', 'Reserva cancelada correctamente.');
     }
