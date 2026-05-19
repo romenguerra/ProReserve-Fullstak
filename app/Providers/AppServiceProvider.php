@@ -24,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Vite::prefetch(concurrency: 3);
 
+        if (app()->environment('production') || env('APP_ENV') === 'production') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Custom design for the Reset Password email
         ResetPassword::toMailUsing(function ($notifiable, $token) {
             $url = url(route('password.reset', [
