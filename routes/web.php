@@ -99,6 +99,10 @@ Route::prefix('{locale}')
             Route::delete('/admin/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
             Route::post('/admin/locales/{id}/{type}/approve', [AdminController::class, 'approveLocal'])->name('admin.locales.approve');
             Route::post('/admin/locales/{id}/{type}/reject', [AdminController::class, 'rejectLocal'])->name('admin.locales.reject');
+            
+            // PDF Exports
+            Route::get('/admin/export/users', [\App\Http\Controllers\ExportController::class, 'users'])->name('admin.export.users');
+            Route::get('/admin/export/locals', [\App\Http\Controllers\ExportController::class, 'locals'])->name('admin.export.locals');
         });
 
         Route::middleware(['auth', 'role:admin|empresa'])->group(function () {
@@ -109,6 +113,9 @@ Route::prefix('{locale}')
             Route::put('/admin/reservations/{reservation}', [AdminController::class, 'updateReservation'])->name('admin.reservations.update');
             Route::delete('/admin/reservations/{reservation}', [AdminController::class, 'destroyReservation'])->name('admin.reservations.destroy');
             Route::post('/admin/reservations/manual', [AdminController::class, 'storeManualReservation'])->name('admin.reservations.storeManual');
+            
+            // PDF Exports for Admin & Empresa
+            Route::get('/admin/export/reservations', [\App\Http\Controllers\ExportController::class, 'reservations'])->name('admin.export.reservations');
         });
 
         Route::post('/contacto', [App\Http\Controllers\ContactController::class, 'store'])->name('contacto.store');

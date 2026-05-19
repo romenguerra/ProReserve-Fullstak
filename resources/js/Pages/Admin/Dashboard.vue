@@ -19,6 +19,7 @@ import {
     UserCircle,
     Bell,
     Trash2,
+    Download,
 } from "lucide-vue-next";
 import UserModal from "@/Components/Admin/UserModal.vue";
 import LocalFormModal from "@/Components/Admin/LocalFormModal.vue";
@@ -381,6 +382,36 @@ const logout = () => {
                             Añadir Local
                         </button>
 
+                        <a
+                            v-if="activeTab === 'usuarios' && isAdmin()"
+                            :href="route('admin.export.users')"
+                            target="_blank"
+                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
+                        >
+                            <Download class="w-4 h-4 text-green-500" />
+                            Exportar PDF
+                        </a>
+
+                        <a
+                            v-if="activeTab === 'locales' && isAdmin()"
+                            :href="route('admin.export.locals')"
+                            target="_blank"
+                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
+                        >
+                            <Download class="w-4 h-4 text-green-500" />
+                            Exportar PDF
+                        </a>
+
+                        <a
+                            v-if="activeTab === 'reservas'"
+                            :href="route('admin.export.reservations')"
+                            target="_blank"
+                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
+                        >
+                            <Download class="w-4 h-4 text-green-500" />
+                            Exportar PDF
+                        </a>
+
                         <button
                             v-if="
                                 (activeTab === 'usuarios' ||
@@ -388,7 +419,7 @@ const logout = () => {
                                 isAdmin()
                             "
                             @click="openCreateModal"
-                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap"
+                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
                         >
                             <Plus class="w-4 h-4 text-indigo-500" />
                             Nuevo Usuario
