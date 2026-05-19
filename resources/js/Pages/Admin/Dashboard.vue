@@ -20,6 +20,8 @@ import {
     Bell,
     Trash2,
     Download,
+    Menu,
+    X,
 } from "lucide-vue-next";
 import UserModal from "@/Components/Admin/UserModal.vue";
 import LocalFormModal from "@/Components/Admin/LocalFormModal.vue";
@@ -48,6 +50,7 @@ const selectedLocal = ref(null);
 const showReservationModal = ref(false);
 const selectedReservation = ref(null);
 const showManualReservationModal = ref(false);
+const sidebarOpen = ref(false);
 
 const openManualReservationModal = () => {
     showManualReservationModal.value = true;
@@ -239,21 +242,35 @@ const logout = () => {
     <Head title="Admin Dashboard" />
 
     <AuthenticatedLayout>
+        <!-- Overlay for mobile sidebar -->
         <div
-            class="flex bg-[#F8F9FB] font-sans text-gray-900 overflow-hidden"
+            v-if="sidebarOpen"
+            @click="sidebarOpen = false"
+            class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden animate-in fade-in duration-300"
+        ></div>
+
+        <div
+            class="flex bg-[#F8F9FB] font-sans text-gray-900 overflow-hidden relative"
             style="height: calc(100vh - 80px)"
         >
             <!-- SIDEBAR -->
             <aside
-                class="w-72 bg-white border-r border-gray-100 flex flex-col shrink-0"
+                :class="[sidebarOpen ? 'translate-x-0' : '-translate-x-full']"
+                class="fixed md:static inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-100 flex flex-col shrink-0 transition-transform duration-300 ease-in-out md:translate-x-0"
             >
                 <div class="p-8 flex-1 overflow-y-auto">
-                    <div class="mb-8">
+                    <div class="mb-8 flex items-center justify-between">
                         <p
                             class="text-[10px] font-black text-gray-400 uppercase tracking-widest px-4"
                         >
                             Administración
                         </p>
+                        <button
+                            @click="sidebarOpen = false"
+                            class="md:hidden p-2 hover:bg-gray-100 rounded-xl transition-colors"
+                        >
+                            <X class="w-5 h-5 text-gray-500" />
+                        </button>
                     </div>
 
                     <nav class="space-y-2">
@@ -338,27 +355,36 @@ const logout = () => {
             </aside>
 
             <!-- MAIN CONTENT -->
-            <main class="flex-1 flex flex-col overflow-hidden">
+            <main class="flex-1 flex flex-col overflow-hidden w-full">
                 <!-- HEADER -->
                 <header
-                    class="h-24 bg-white/80 backdrop-blur-md border-b border-gray-100 flex items-center justify-between px-10 shrink-0"
+                    class="min-h-24 py-4 md:py-0 bg-white/80 backdrop-blur-md border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between px-6 md:px-10 shrink-0 gap-4"
                 >
-                    <div>
-                        <h2
-                            class="text-2xl font-black tracking-tighter capitalize"
+                    <div class="flex items-center gap-3">
+                        <!-- Hamburger Menu Button -->
+                        <button
+                            @click="sidebarOpen = true"
+                            class="md:hidden p-2 hover:bg-gray-100 rounded-xl transition-colors shrink-0"
                         >
-                            {{ activeTab }}
-                        </h2>
-                        <p class="text-xs font-bold text-gray-400 mt-0.5">
-                            Gestión centralizada de ProReserve
-                        </p>
+                            <Menu class="w-6 h-6 text-gray-700" />
+                        </button>
+                        <div>
+                            <h2
+                                class="text-xl md:text-2xl font-black tracking-tighter capitalize"
+                            >
+                                {{ activeTab }}
+                            </h2>
+                            <p class="text-[10px] md:text-xs font-bold text-gray-400 mt-0.5">
+                                Gestión centralizada de ProReserve
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="flex items-center gap-6">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full md:w-auto">
                         <!-- Search Bar -->
                         <div
                             v-if="activeTab !== 'panel'"
-                            class="relative group"
+                            class="relative group w-full sm:w-72"
                         >
                             <Search
                                 class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-indigo-500 transition-colors"
@@ -367,80 +393,83 @@ const logout = () => {
                                 type="text"
                                 v-model="searchQuery"
                                 placeholder="Buscar en el panel..."
-                                class="bg-gray-50 border-none rounded-2xl pl-12 pr-6 py-3 text-sm focus:ring-2 focus:ring-indigo-500/20 w-80 transition-all"
+                                class="bg-gray-50 border-none rounded-2xl pl-12 pr-6 py-3 text-sm focus:ring-2 focus:ring-indigo-500/20 w-full transition-all"
                             />
                         </div>
 
-                        <button
-                            v-if="
-                                activeTab === 'locales' || activeTab === 'panel'
-                            "
-                            @click="openCreateLocalModal"
-                            class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 shadow-lg shadow-indigo-100 hover:scale-105 active:scale-95 transition-all whitespace-nowrap"
-                        >
-                            <Plus class="w-4 h-4" />
-                            Añadir Local
-                        </button>
+                        <!-- Buttons Container -->
+                        <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                            <button
+                                v-if="
+                                    activeTab === 'locales' || activeTab === 'panel'
+                                "
+                                @click="openCreateLocalModal"
+                                class="bg-indigo-600 text-white px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 shadow-lg shadow-indigo-100 hover:scale-105 active:scale-95 transition-all whitespace-nowrap"
+                            >
+                                <Plus class="w-4 h-4" />
+                                Añadir Local
+                            </button>
 
-                        <a
-                            v-if="activeTab === 'usuarios' && isAdmin()"
-                            :href="route('admin.export.users')"
-                            target="_blank"
-                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
-                        >
-                            <Download class="w-4 h-4 text-green-500" />
-                            Exportar PDF
-                        </a>
+                            <a
+                                v-if="activeTab === 'usuarios' && isAdmin()"
+                                :href="route('admin.export.users')"
+                                target="_blank"
+                                class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
+                            >
+                                <Download class="w-4 h-4 text-green-500" />
+                                Exportar PDF
+                            </a>
 
-                        <a
-                            v-if="activeTab === 'locales' && isAdmin()"
-                            :href="route('admin.export.locals')"
-                            target="_blank"
-                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
-                        >
-                            <Download class="w-4 h-4 text-green-500" />
-                            Exportar PDF
-                        </a>
+                            <a
+                                v-if="activeTab === 'locales' && isAdmin()"
+                                :href="route('admin.export.locals')"
+                                target="_blank"
+                                class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
+                            >
+                                <Download class="w-4 h-4 text-green-500" />
+                                Exportar PDF
+                            </a>
 
-                        <a
-                            v-if="activeTab === 'reservas'"
-                            :href="route('admin.export.reservations')"
-                            target="_blank"
-                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
-                        >
-                            <Download class="w-4 h-4 text-green-500" />
-                            Exportar PDF
-                        </a>
+                            <a
+                                v-if="activeTab === 'reservas'"
+                                :href="route('admin.export.reservations')"
+                                target="_blank"
+                                class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
+                            >
+                                <Download class="w-4 h-4 text-green-500" />
+                                Exportar PDF
+                            </a>
 
-                        <button
-                            v-if="
-                                (activeTab === 'usuarios' ||
-                                    activeTab === 'panel') &&
-                                isAdmin()
-                            "
-                            @click="openCreateModal"
-                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
-                        >
-                            <Plus class="w-4 h-4 text-indigo-500" />
-                            Nuevo Usuario
-                        </button>
+                            <button
+                                v-if="
+                                    (activeTab === 'usuarios' ||
+                                        activeTab === 'panel') &&
+                                    isAdmin()
+                                "
+                                @click="openCreateModal"
+                                class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap shadow-sm"
+                            >
+                                <Plus class="w-4 h-4 text-indigo-500" />
+                                Nuevo Usuario
+                            </button>
 
-                        <button
-                            v-if="
-                                activeTab === 'reservas' ||
-                                activeTab === 'panel'
-                            "
-                            @click="openManualReservationModal"
-                            class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap"
-                        >
-                            <CalendarCheck class="w-4 h-4 text-orange-500" />
-                            Crear Reserva
-                        </button>
+                            <button
+                                v-if="
+                                    activeTab === 'reservas' ||
+                                    activeTab === 'panel'
+                                "
+                                @click="openManualReservationModal"
+                                class="bg-white border border-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-black text-sm flex items-center gap-2 hover:bg-gray-50 transition-all whitespace-nowrap"
+                            >
+                                <CalendarCheck class="w-4 h-4 text-orange-500" />
+                                Crear Reserva
+                            </button>
+                        </div>
                     </div>
                 </header>
 
                 <!-- SCROLLABLE CONTENT -->
-                <div class="flex-1 overflow-y-auto p-10">
+                <div class="flex-1 overflow-y-auto p-4 md:p-10">
                     <!-- TAB: PANEL (RESUMEN) -->
                     <div
                         v-if="activeTab === 'panel'"
@@ -701,9 +730,9 @@ const logout = () => {
                         </div>
                         <div
                             v-else
-                            class="bg-white rounded-2xl shadow-sm overflow-hidden"
+                            class="bg-white rounded-2xl shadow-sm overflow-hidden overflow-x-auto"
                         >
-                            <table class="w-full text-left border-collapse">
+                            <table class="w-full text-left border-collapse min-w-[700px]">
                                 <thead>
                                     <tr class="bg-gray-50/50">
                                         <th
@@ -1059,9 +1088,9 @@ const logout = () => {
                         </div>
                         <div
                             v-else
-                            class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
+                            class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden overflow-x-auto"
                         >
-                            <table class="w-full text-left border-collapse">
+                            <table class="w-full text-left border-collapse min-w-[800px]">
                                 <thead>
                                     <tr class="bg-gray-50/50">
                                         <th
