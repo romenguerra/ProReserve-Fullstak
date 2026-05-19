@@ -46,7 +46,11 @@ class LocalController extends Controller
             // Array de recursos
             'resources' => 'required|array|min:1',
             'resources.*.name' => 'required|string',
-            'resources.*.capacity' => 'required|integer|min:1',
+            'resources.*.capacity' => 'nullable|integer|min:1',
+            'resources.*.resource_type' => 'required|in:exclusive_unit,shared',
+            'resources.*.unit_count' => 'nullable|required_if:resources.*.resource_type,exclusive_unit|integer|min:1',
+            'resources.*.unit_capacity' => 'nullable|required_if:resources.*.resource_type,exclusive_unit|integer|min:1',
+            'resources.*.max_guests_per_booking' => 'required|integer|min:1',
             
             // Array de servicios
             'services' => 'required|array|min:1',
@@ -124,9 +128,14 @@ class LocalController extends Controller
 
         // Guardar múltiples recursos
         foreach ($validated['resources'] as $res) {
+            $isExclusive = $res['resource_type'] === 'exclusive_unit';
             $local->resources()->create([
                 'name' => $res['name'],
-                'capacity' => $res['capacity']
+                'capacity' => $isExclusive ? ($res['unit_count'] * $res['unit_capacity']) : $res['max_guests_per_booking'],
+                'resource_type' => $res['resource_type'],
+                'unit_count' => $isExclusive ? $res['unit_count'] : null,
+                'unit_capacity' => $isExclusive ? $res['unit_capacity'] : null,
+                'max_guests_per_booking' => $res['max_guests_per_booking'],
             ]);
         }
 

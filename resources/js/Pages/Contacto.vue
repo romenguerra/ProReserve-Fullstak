@@ -1,14 +1,16 @@
 <script setup>
-import { Head, useForm } from "@inertiajs/vue3";
+import { Head, useForm, usePage } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useI18n } from "@/Composables/useI18n";
 
 const { t } = useI18n();
+const page = usePage();
+const user = page.props.auth?.user;
 
 const form = useForm({
-    name: "",
-    email: "",
+    name: user ? user.name : "",
+    email: user ? user.email : "",
     subject: "",
     message: "",
 });
@@ -16,6 +18,7 @@ const form = useForm({
 const isSubmitted = ref(false);
 const isProcessing = ref(false);
 const isEmailCopied = ref(false);
+const errors = ref({});
 
 const copyEmail = () => {
     navigator.clipboard.writeText('contacto@proreserve.com');
@@ -25,19 +28,56 @@ const copyEmail = () => {
     }, 2000);
 };
 
+const validateForm = () => {
+    const newErrors = {};
+    const isEn = page.props.locale === 'en';
+    
+    if (!form.name.trim()) {
+        newErrors.name = isEn ? 'Please enter your name.' : 'Por favor, introduce tu nombre.';
+    }
+    if (!form.email.trim()) {
+        newErrors.email = isEn ? 'Please enter your email.' : 'Por favor, introduce tu correo electrónico.';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+        newErrors.email = isEn ? 'Please enter a valid email address.' : 'Por favor, introduce un correo electrónico válido.';
+    }
+    if (!form.subject) {
+        newErrors.subject = isEn ? 'Please select a contact reason.' : 'Por favor, selecciona un motivo de contacto.';
+    }
+    if (!form.message.trim()) {
+        newErrors.message = isEn ? 'Please enter your message.' : 'Por favor, escribe tu mensaje.';
+    }
+    
+    const privacyEl = document.getElementById('privacy');
+    if (privacyEl && !privacyEl.checked) {
+        newErrors.privacy = isEn ? 'You must accept the privacy policy.' : 'Debes aceptar la política de privacidad.';
+    }
+
+    errors.value = newErrors;
+    return Object.keys(newErrors).length === 0;
+};
+
+watch(() => form.name, () => { if (errors.value.name) delete errors.value.name; });
+watch(() => form.email, () => { if (errors.value.email) delete errors.value.email; });
+watch(() => form.subject, () => { if (errors.value.subject) delete errors.value.subject; });
+watch(() => form.message, () => { if (errors.value.message) delete errors.value.message; });
+
 const submit = () => {
+    if (!validateForm()) return;
+    
     form.post(route('contacto.store'), {
         onStart: () => { isProcessing.value = true; },
         onSuccess: () => {
             isProcessing.value = false;
             isSubmitted.value = true;
+            errors.value = {};
             setTimeout(() => {
                 isSubmitted.value = false;
                 form.reset();
             }, 5000);
         },
-        onError: () => {
+        onError: (errs) => {
             isProcessing.value = false;
+            errors.value = errs;
         }
     });
 };
@@ -96,10 +136,10 @@ onMounted(() => {
                                 </div>
                                 <h3 class="text-xl font-bold text-gray-900 mb-1">{{ $t('contact_page.info_email_title') }}</h3>
                                 <div class="relative inline-block">
-                                    <button @click="copyEmail" class="text-[#4A6358] font-medium font-serif italic hover:text-[#8EB6A5] transition-colors flex items-center gap-2 group/btn">
+                                    <a href="mailto:contacto@proreserve.com" @click="copyEmail" class="text-[#4A6358] font-medium font-serif italic hover:text-[#8EB6A5] transition-colors flex items-center gap-2 group/btn">
                                         contacto@proreserve.com
                                         <svg class="w-4 h-4 opacity-0 group-hover/btn:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 002-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 00-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" /></svg>
-                                    </button>
+                                    </a>
                                     <Transition name="fade">
                                         <span v-if="isEmailCopied" class="absolute -top-10 left-0 bg-gray-900 text-white text-[10px] py-1 px-3 rounded-full font-bold whitespace-nowrap">{{ $t('contact_page.info_email_copied') }}</span>
                                     </Transition>
@@ -124,16 +164,13 @@ onMounted(() => {
                             <div class="animate-on-scroll pt-4" data-index="4">
                                 <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6 ml-1">{{ $t('contact_page.info_social_title') }}</p>
                                 <div class="flex gap-4">
-                                    <a href="#" class="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center text-gray-500 hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 border border-white shadow-sm hover:shadow-lg hover:shadow-[#8EB6A5]/20 hover:-translate-y-1" title="Twitter / X">
+                                    <a href="https://x.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center text-gray-500 hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 border border-white shadow-sm hover:shadow-lg hover:shadow-[#8EB6A5]/20 hover:-translate-y-1" title="Twitter / X">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
                                     </a>
-                                    <a href="#" class="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center text-gray-500 hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 border border-white shadow-sm hover:shadow-lg hover:shadow-[#8EB6A5]/20 hover:-translate-y-1" title="Instagram">
+                                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center text-gray-500 hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 border border-white shadow-sm hover:shadow-lg hover:shadow-[#8EB6A5]/20 hover:-translate-y-1" title="Instagram">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                                     </a>
-                                    <a href="#" class="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center text-gray-500 hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 border border-white shadow-sm hover:shadow-lg hover:shadow-[#8EB6A5]/20 hover:-translate-y-1" title="LinkedIn">
-                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                                    </a>
-                                    <a href="#" class="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center text-gray-500 hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 border border-white shadow-sm hover:shadow-lg hover:shadow-[#8EB6A5]/20 hover:-translate-y-1" title="Facebook">
+                                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center text-gray-500 hover:bg-[#8EB6A5] hover:text-white transition-all duration-500 border border-white shadow-sm hover:shadow-lg hover:shadow-[#8EB6A5]/20 hover:-translate-y-1" title="Facebook">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.248h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                                     </a>
                                 </div>
@@ -157,27 +194,41 @@ onMounted(() => {
                                     </div>
                                 </Transition>
 
-                                <form @submit.prevent="submit" class="relative z-10 space-y-10" :class="{ 'opacity-20 pointer-events-none': isSubmitted }">
+                                <form @submit.prevent="submit" novalidate class="relative z-10 space-y-10" :class="{ 'opacity-20 pointer-events-none': isSubmitted }">
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                                         <div class="space-y-4">
                                             <label class="text-sm font-black text-gray-900 tracking-wider uppercase ml-1">{{ $t('contact_page.form_name_label') }}</label>
                                             <input 
                                                 v-model="form.name"
                                                 type="text" 
-                                                required
                                                 :placeholder="$t('contact_page.form_name_placeholder')"
-                                                class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] focus:ring-0 focus:outline-none transition-all outline-none text-lg placeholder:text-gray-300"
+                                                :class="[
+                                                    errors.name 
+                                                        ? 'border-b-red-400 focus:border-b-red-500 bg-red-50/[0.01]' 
+                                                        : 'border-b-gray-100 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02]'
+                                                ]"
+                                                class="w-full bg-transparent border-transparent border-b-2 px-2 py-4 focus:ring-0 focus:outline-none transition-all outline-none text-lg placeholder:text-gray-300"
                                             />
+                                            <p v-if="errors.name" class="text-red-500 text-xs font-black uppercase tracking-wider mt-2 ml-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                                                {{ errors.name }}
+                                            </p>
                                         </div>
                                         <div class="space-y-4">
                                             <label class="text-sm font-black text-gray-900 tracking-wider uppercase ml-1">{{ $t('contact_page.form_email_label') }}</label>
                                             <input 
                                                 v-model="form.email"
                                                 type="email" 
-                                                required
                                                 :placeholder="$t('contact_page.form_email_placeholder')"
-                                                class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] focus:ring-0 focus:outline-none transition-all outline-none text-lg placeholder:text-gray-300"
+                                                :class="[
+                                                    errors.email 
+                                                        ? 'border-b-red-400 focus:border-b-red-500 bg-red-50/[0.01]' 
+                                                        : 'border-b-gray-100 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02]'
+                                                ]"
+                                                class="w-full bg-transparent border-transparent border-b-2 px-2 py-4 focus:ring-0 focus:outline-none transition-all outline-none text-lg placeholder:text-gray-300"
                                             />
+                                            <p v-if="errors.email" class="text-red-500 text-xs font-black uppercase tracking-wider mt-2 ml-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                                                {{ errors.email }}
+                                            </p>
                                         </div>
                                     </div>
                                     
@@ -186,8 +237,12 @@ onMounted(() => {
                                         <div class="relative">
                                             <select 
                                                 v-model="form.subject"
-                                                required
-                                                class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] focus:ring-0 focus:outline-none transition-all outline-none text-lg appearance-none cursor-pointer"
+                                                :class="[
+                                                    errors.subject 
+                                                        ? 'border-b-red-400 focus:border-b-red-500 bg-red-50/[0.01]' 
+                                                        : 'border-b-gray-100 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02]'
+                                                ]"
+                                                class="w-full bg-transparent border-transparent border-b-2 px-2 py-4 focus:ring-0 focus:outline-none transition-all outline-none text-lg appearance-none cursor-pointer"
                                             >
                                                 <option value="" disabled selected>{{ $t('contact_page.form_subject_placeholder') }}</option>
                                                 <option value="user">{{ $t('contact_page.form_subject_user') }}</option>
@@ -198,6 +253,9 @@ onMounted(() => {
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                                             </div>
                                         </div>
+                                        <p v-if="errors.subject" class="text-red-500 text-xs font-black uppercase tracking-wider mt-2 ml-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                                            {{ errors.subject }}
+                                        </p>
                                     </div>
 
                                     <div class="space-y-4">
@@ -210,26 +268,42 @@ onMounted(() => {
                                         <textarea 
                                             v-model="form.message"
                                             rows="4" 
-                                            required
                                             maxlength="500"
                                             :placeholder="$t('contact_page.form_message_placeholder')"
-                                            class="w-full bg-transparent border-transparent border-b-2 border-b-gray-100 px-2 py-4 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02] focus:ring-0 focus:outline-none transition-all outline-none text-lg resize-none placeholder:text-gray-300"
+                                            :class="[
+                                                errors.message 
+                                                    ? 'border-b-red-400 focus:border-b-red-500 bg-red-50/[0.01]' 
+                                                    : 'border-b-gray-100 focus:border-b-[#8EB6A5] focus:bg-[#8EB6A5]/[0.02]'
+                                            ]"
+                                            class="w-full bg-transparent border-transparent border-b-2 px-2 py-4 focus:ring-0 focus:outline-none transition-all outline-none text-lg resize-none placeholder:text-gray-300"
                                         ></textarea>
+                                        <p v-if="errors.message" class="text-red-500 text-xs font-black uppercase tracking-wider mt-2 ml-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                                            {{ errors.message }}
+                                        </p>
                                     </div>
 
                                     <!-- Privacy Checkbox -->
-                                    <div class="flex items-start gap-3 ml-1 group/check">
-                                        <div class="relative flex items-center h-5">
-                                            <input 
-                                                id="privacy" 
-                                                type="checkbox" 
-                                                required
-                                                class="w-5 h-5 border-2 border-gray-200 rounded text-[#8EB6A5] focus:ring-[#8EB6A5] focus:ring-offset-0 focus:outline-none cursor-pointer transition-colors"
-                                            />
+                                    <div class="flex items-start gap-3 ml-1 group/check flex-col">
+                                        <div class="flex items-start gap-3">
+                                            <div class="relative flex items-center h-5">
+                                                <input 
+                                                    id="privacy" 
+                                                    type="checkbox" 
+                                                    :class="[
+                                                        errors.privacy 
+                                                            ? 'border-red-400 focus:ring-red-500' 
+                                                            : 'border-gray-200 focus:ring-[#8EB6A5]'
+                                                    ]"
+                                                    class="w-5 h-5 border-2 rounded text-[#8EB6A5] focus:ring-offset-0 focus:outline-none cursor-pointer transition-colors"
+                                                />
+                                            </div>
+                                            <label for="privacy" class="text-sm text-gray-500 leading-tight cursor-pointer group-hover/check:text-gray-700 transition-colors">
+                                                {{ $t('contact_page.form_privacy_accept') }} <a href="#" class="text-[#8EB6A5] font-bold hover:underline">{{ $t('contact_page.form_privacy_link') }}</a> {{ $t('contact_page.form_privacy_and') }}
+                                            </label>
                                         </div>
-                                        <label for="privacy" class="text-sm text-gray-500 leading-tight cursor-pointer group-hover/check:text-gray-700 transition-colors">
-                                            {{ $t('contact_page.form_privacy_accept') }} <a href="#" class="text-[#8EB6A5] font-bold hover:underline">{{ $t('contact_page.form_privacy_link') }}</a> {{ $t('contact_page.form_privacy_and') }}
-                                        </label>
+                                        <p v-if="errors.privacy" class="text-red-500 text-xs font-black uppercase tracking-wider mt-1 ml-8 animate-in fade-in slide-in-from-top-1 duration-200">
+                                            {{ errors.privacy }}
+                                        </p>
                                     </div>
 
                                     <div class="flex items-center pt-6">

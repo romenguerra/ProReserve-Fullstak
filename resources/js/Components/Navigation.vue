@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 import { Link, router, usePage } from "@inertiajs/vue3";
-import { UserRound, Bell, LayoutDashboard, Search } from 'lucide-vue-next'; 
+import { UserRound, Bell, LayoutDashboard, Search, Calendar as CalendarIcon, Sparkles } from 'lucide-vue-next'; 
 import { useI18n } from "@/Composables/useI18n";
 import { usePermissions } from "@/Composables/usePermissions";
 
@@ -10,7 +10,15 @@ const { isAdmin, canAccessDashboard } = usePermissions();
 
 const toggleLanguage = () => {
     const nextLocale = currentLocale.value === 'es' ? 'en' : 'es';
-    setLocale(nextLocale);
+    const currentPath = window.location.pathname;
+    const pathParts = currentPath.split('/');
+    
+    if (pathParts.length > 1 && (pathParts[1] === 'es' || pathParts[1] === 'en')) {
+        pathParts[1] = nextLocale;
+    }
+    
+    const newUrl = pathParts.join('/') + window.location.search;
+    router.visit(newUrl);
 }; 
 
 const searchQuery = ref('');
@@ -18,11 +26,67 @@ const mobileMenuOpen = ref(false);
 const profileMenuOpen = ref(false);
 const isVisible = ref(true);
 const lastScrollY = ref(0);
+const searchInput = ref(null);
+const searchInputMobile = ref(null);
+const notificationsOpen = ref(false);
+const readNotificationIds = ref([]);
+const notificationDropdownRef = ref(null);
+
+const notificationsList = computed(() => {
+    return usePage().props.auth?.notifications || [];
+});
+
+const unreadCount = computed(() => {
+    if (!usePage().props.auth?.user) return 0;
+    return notificationsList.value.filter(n => !readNotificationIds.value.includes(n.id)).length;
+});
+
+const markAllAsRead = () => {
+    const allIds = notificationsList.value.map(n => n.id);
+    readNotificationIds.value = [...new Set([...readNotificationIds.value, ...allIds])];
+    try {
+        localStorage.setItem('read_notifications', JSON.stringify(readNotificationIds.value));
+    } catch (e) {
+        console.error(e);
+    }
+};
+
+const toggleNotifications = () => {
+    notificationsOpen.value = !notificationsOpen.value;
+    if (notificationsOpen.value) {
+        setTimeout(() => {
+            markAllAsRead();
+        }, 1500);
+    }
+};
+
+let debounceTimeout = null;
+let lastSearchedQuery = '';
+watch(searchQuery, (newVal) => {
+    // Solo buscar en tiempo real si ya estamos en la página de búsqueda
+    if (!window.location.pathname.includes('/search')) return;
+
+    const trimmedVal = newVal.trim();
+    if (trimmedVal === lastSearchedQuery) return;
+
+    if (debounceTimeout) clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+        lastSearchedQuery = trimmedVal;
+        router.get(route('search'), { q: newVal }, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true
+        });
+    }, 450);
+});
 
 const handleSearch = () => {
-    if (searchQuery.value.trim()) {
-        router.get(route('search'), { q: searchQuery.value });
-    }
+    router.get(route('search'), { q: searchQuery.value });
+};
+
+const handleEscape = (e) => {
+    searchQuery.value = '';
+    e.target.blur();
 };
 
 const handleScroll = () => {
@@ -51,12 +115,41 @@ const closeDropdownOnClickOutside = (e) => {
     if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
         profileMenuOpen.value = false;
     }
+    if (notificationDropdownRef.value && !notificationDropdownRef.value.contains(e.target)) {
+        notificationsOpen.value = false;
+    }
 };
 
 onMounted(() => {
+    // Load read notifications
+    try {
+        const stored = localStorage.getItem('read_notifications');
+        if (stored) {
+            readNotificationIds.value = JSON.parse(stored);
+        }
+    } catch (e) {
+        console.error(e);
+    }
+
     // Sincronizar búsqueda con URL
     const q = new URLSearchParams(window.location.search).get('q');
     if (q) searchQuery.value = q;
+
+    // Restaurar foco si estamos en la página de búsqueda
+    if (window.location.pathname.includes('/search') && q) {
+        setTimeout(() => {
+            if (searchInput.value) {
+                searchInput.value.focus();
+                const len = searchInput.value.value.length;
+                searchInput.value.setSelectionRange(len, len);
+            }
+            if (searchInputMobile.value) {
+                searchInputMobile.value.focus();
+                const len = searchInputMobile.value.value.length;
+                searchInputMobile.value.setSelectionRange(len, len);
+            }
+        }, 50);
+    }
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("click", closeDropdownOnClickOutside);
@@ -150,7 +243,7 @@ defineProps({ user: Object });
                 >
                     <!-- Logo -->
                     <div class="flex shrink-0 items-center">
-                        <Link href="/">
+                        <Link :href="route('home')">
                             <img
                                 src="/images/logo-proreserve.avif"
                                 alt="ProReserve"
@@ -164,7 +257,7 @@ defineProps({ user: Object });
                     <div class="hidden lg:ml-8 lg:flex lg:items-center">
                         <div class="flex items-center space-x-6">
                             <Link
-                                href="/"
+                                :href="route('home')"
                                 :class="[
                                     $page.url === '/'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
@@ -186,7 +279,7 @@ defineProps({ user: Object });
                                 {{ $t('nav.services') }}
                             </Link>
                             <Link
-                                href="/contacto"
+                                :href="route('contacto')"
                                 :class="[
                                     $page.url === '/contacto'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
@@ -197,7 +290,7 @@ defineProps({ user: Object });
                                 {{ $t('nav.contact') }}
                             </Link>
                             <Link
-                                href="/reservas"
+                                :href="route('reservas.index')"
                                 :class="[
                                     $page.url === '/reservas'
                                         ? (currentTheme === 'navy' ? 'text-[#F0EEE9] border-b-2 border-[#F0EEE9]' : 'text-[#0f172a] border-b-2 border-[#0f172a]')
@@ -234,7 +327,9 @@ defineProps({ user: Object });
                                 />
                             </div>
                             <input 
+                                ref="searchInput"
                                 v-model="searchQuery"
+                                @keydown.escape="handleEscape"
                                 type="text" 
                                 :placeholder="$t('nav.search_placeholder')"
                                 class="block w-full pl-10 pr-3 py-2 border rounded-full text-sm transition-all duration-500 focus:ring-1 focus:ring-[#8EB6A5] focus:border-[#8EB6A5] focus:outline-none"
@@ -263,20 +358,102 @@ defineProps({ user: Object });
                     </button>
 
                     <!-- Notifications -->
-                    <button
-                        type="button"
-                        class="relative rounded-full p-1 transition-colors duration-500 focus:outline-none"
-                        :class="currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:text-[#0f172a]'"
-                    >
-                        <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">{{ $t('nav.view_notifications') }}</span>
+                    <div v-if="user?.name" class="relative ml-2 animate-fade-in" ref="notificationDropdownRef">
+                        <button
+                            @click="toggleNotifications"
+                            type="button"
+                            class="relative rounded-full p-1.5 transition-all duration-500 focus:outline-none hover:scale-105 active:scale-95"
+                            :class="currentTheme === 'navy' 
+                                ? 'text-[#F0EEE9]/70 hover:text-[#F0EEE9] hover:bg-white/5' 
+                                : 'text-[#0f172a]/70 hover:text-[#0f172a] hover:bg-[#0f172a]/5'"
+                        >
+                            <span class="sr-only">{{ $t('nav.view_notifications') }}</span>
 
-                        <Bell 
-                            :size="24"
-                            stroke-width="1.5"
-                            class="size-6"
-                        />
-                    </button>
+                            <Bell 
+                                :size="22"
+                                stroke-width="1.5"
+                            />
+                            
+                            <!-- Unread badge indicator -->
+                            <span 
+                                v-if="unreadCount > 0" 
+                                class="absolute top-1 right-1 flex h-2.5 w-2.5"
+                            >
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-[#8EB6A5]"></span>
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#8EB6A5]"></span>
+                            </span>
+                        </button>
+
+                        <!-- Notifications Dropdown -->
+                        <Transition
+                            enter-active-class="transition ease-out duration-200"
+                            enter-from-class="transform opacity-0 scale-95"
+                            enter-to-class="transform opacity-100 scale-100"
+                            leave-active-class="transition ease-in duration-75"
+                            leave-from-class="transform opacity-100 scale-100"
+                            leave-to-class="transform opacity-0 scale-95"
+                        >
+                            <div 
+                                v-show="notificationsOpen"
+                                class="absolute right-0 mt-3 w-80 sm:w-96 origin-top-right rounded-3xl p-2 shadow-2xl ring-1 ring-black/5 z-50 transition-all duration-300"
+                                :class="currentTheme === 'navy' 
+                                    ? 'bg-[#0f172a]/95 backdrop-blur-xl border border-white/10 text-[#F0EEE9]' 
+                                    : 'bg-white/95 backdrop-blur-xl border border-gray-100 text-gray-900'"
+                            >
+                                <div class="px-4 py-3 border-b flex items-center justify-between"
+                                     :class="currentTheme === 'navy' ? 'border-white/10' : 'border-gray-100'">
+                                    <h3 class="text-xs font-black uppercase tracking-wider">Notificaciones</h3>
+                                    <button 
+                                        v-if="unreadCount > 0"
+                                        @click="markAllAsRead"
+                                        class="text-[10px] font-black uppercase tracking-widest text-[#8EB6A5] hover:text-[#7ba091] transition-colors"
+                                    >
+                                        Marcar como leídas
+                                    </button>
+                                </div>
+
+                                <div class="max-h-80 overflow-y-auto py-1 space-y-1">
+                                    <div v-if="notificationsList.length === 0" class="px-4 py-8 text-center text-gray-400">
+                                        <Bell class="w-8 h-8 mx-auto mb-2 opacity-30" stroke-width="1.5" />
+                                        <p class="text-sm font-medium">No tienes notificaciones</p>
+                                    </div>
+                                    <div 
+                                        v-else 
+                                        v-for="notification in notificationsList" 
+                                        :key="notification.id"
+                                        class="px-4 py-3 rounded-2xl flex gap-3 transition-colors duration-300"
+                                        :class="[
+                                            readNotificationIds.includes(notification.id) 
+                                                ? 'opacity-60' 
+                                                : (currentTheme === 'navy' ? 'bg-white/5' : 'bg-gray-50'),
+                                            currentTheme === 'navy' ? 'hover:bg-white/5' : 'hover:bg-gray-50'
+                                        ]"
+                                    >
+                                        <!-- Icon Indicator based on type -->
+                                        <div class="mt-0.5">
+                                            <div 
+                                                class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
+                                                :class="currentTheme === 'navy' ? 'bg-[#8EB6A5]/20 text-[#8EB6A5]' : 'bg-[#8EB6A5]/10 text-[#5D8A77]'"
+                                            >
+                                                <CalendarIcon v-if="notification.type === 'reservation'" class="w-4 h-4" />
+                                                <Sparkles v-else class="w-4 h-4" />
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center justify-between gap-2 mb-0.5">
+                                                <p class="text-xs font-black truncate">{{ notification.title }}</p>
+                                                <span class="text-[9px] text-gray-400 shrink-0 font-medium">{{ notification.created_at }}</span>
+                                            </div>
+                                            <p class="text-xs leading-relaxed text-gray-500 font-medium break-words">
+                                                {{ notification.message }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Transition>
+                    </div>
 
                     <!-- Profile dropdown -->
                     <div class="relative ml-3" ref="dropdownRef">
@@ -338,7 +515,7 @@ defineProps({ user: Object });
                                         {{ $t('nav.profile') }}
                                     </Link>
                                     <Link
-                                        href="/reservas"
+                                        :href="route('reservas.index')"
                                         class="block px-4 py-2 text-sm transition-colors duration-500"
                                         :class="currentTheme === 'navy' 
                                             ? 'text-[#F0EEE9]/80 hover:bg-white/5 hover:text-[#F0EEE9]' 
@@ -408,7 +585,9 @@ defineProps({ user: Object });
                                 />
                             </div>
                             <input 
+                                ref="searchInputMobile"
                                 v-model="searchQuery"
+                                @keydown.escape="handleEscape"
                                 type="text" 
                                 :placeholder="$t('nav.search_placeholder')"
                                 class="block w-full pl-10 pr-3 py-3 border rounded-xl text-base transition-all duration-500 focus:ring-1 focus:ring-[#8EB6A5] focus:border-[#8EB6A5] focus:outline-none"
@@ -419,7 +598,7 @@ defineProps({ user: Object });
                         </form>
                     </div>
                     <Link
-                        href="/"
+                        :href="route('home')"
                         @click="closeMobileMenu"
                         :class="[
                             $page.url === '/'
@@ -443,7 +622,7 @@ defineProps({ user: Object });
                         {{ $t('nav.services') }}
                     </Link>
                     <Link
-                        href="/contacto"
+                        :href="route('contacto')"
                         @click="closeMobileMenu"
                         :class="[
                             currentTheme === 'navy' ? 'text-[#F0EEE9]/70 hover:bg-white/5 hover:text-[#F0EEE9]' : 'text-[#0f172a]/70 hover:bg-[#0f172a]/5 hover:text-[#0f172a]',
@@ -453,7 +632,7 @@ defineProps({ user: Object });
                         {{ $t('nav.contact') }}
                     </Link>
                     <Link
-                        href="/reservas"
+                        :href="route('reservas.index')"
                         @click="closeMobileMenu"
                          :class="[
                             $page.url === '/reservas'

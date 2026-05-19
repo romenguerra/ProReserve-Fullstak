@@ -45,6 +45,7 @@ class ScheduleService
             ->whereIn('status', ['pending', 'confirmed'])
             ->get();
 
+        $resource = null;
         if ($resourceId) {
             $resource = \App\Models\Resource::find($resourceId);
             $capacity = $resource ? $resource->capacity : ($schedule->capacity ?? 1);
@@ -53,11 +54,22 @@ class ScheduleService
         }
 
         // 4. Filter occupied slots
-        $availableSlots = array_values(array_filter($slots, function ($slotTime) use ($reservations, $durationMinutes, $date, $capacity, $requestedGuests) {
+        $availableSlots = array_values(array_filter($slots, function ($slotTime) use ($reservations, $durationMinutes, $date, $capacity, $requestedGuests, $resource) {
             $slotStart = Carbon::parse($date . ' ' . $slotTime);
             $slotEnd = $slotStart->copy()->addMinutes($durationMinutes);
 
-            $overlapCount = 0;
+            // Also check if slot is in the past (if today)
+            if ($slotStart->isPast()) {
+                return false;
+            }
+
+            // Reject if guests exceed max_guests_per_booking for this resource
+            if ($resource && $resource->max_guests_per_booking && $requestedGuests > $resource->max_guests_per_booking) {
+                return false;
+            }
+
+            $overlapCount = 0; // For shared
+            $mesasOcupadas = 0; // For exclusive_unit
 
             foreach ($reservations as $reservation) {
                 $resDuration = $reservation->service ? $reservation->service->duration_minutes : $durationMinutes; // fallback
@@ -66,17 +78,25 @@ class ScheduleService
 
                 // Check for overlap
                 if ($slotStart->lt($resEnd) && $slotEnd->gt($resStart)) {
-                    $overlapCount += $reservation->guests ?? 1;
+                    $guests = $reservation->guests ?? 1;
+                    $overlapCount += $guests;
+                    
+                    if ($resource && $resource->resource_type === 'exclusive_unit' && $resource->unit_capacity > 0) {
+                        $mesasOcupadas += (int) ceil($guests / $resource->unit_capacity);
+                    } else {
+                        $mesasOcupadas++; // Fallback if no unit_capacity
+                    }
                 }
             }
 
-            // Also check if slot is in the past (if today)
-            if ($slotStart->isPast()) {
-                return false;
+            // Check logic based on resource_type
+            if ($resource && $resource->resource_type === 'exclusive_unit' && $resource->unit_count > 0 && $resource->unit_capacity > 0) {
+                $mesasNecesarias = (int) ceil($requestedGuests / $resource->unit_capacity);
+                return ($mesasOcupadas + $mesasNecesarias) <= $resource->unit_count;
+            } else {
+                // Shared logic (current default)
+                return ($overlapCount + $requestedGuests) <= $capacity;
             }
-
-            // Return true only if we have enough capacity for the requested guests
-            return ($overlapCount + $requestedGuests) <= $capacity;
         }));
 
         return $availableSlots;

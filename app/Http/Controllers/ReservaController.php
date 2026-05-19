@@ -6,13 +6,13 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\ReservationConfirmed;
+use App\Mail\ReservationPending;
 
 class ReservaController extends Controller
 {
     public function index()
     {
-        $reservations = auth()->user()->reservations()->with(['service', 'reservable'])->latest()->get();
+        $reservations = auth()->user()->reservations()->with(['service', 'reservable', 'resource'])->latest()->get();
         
         return Inertia::render('Reservas/Index', [
             'reservations' => $reservations
@@ -54,11 +54,11 @@ class ReservaController extends Controller
             'reservation_time' => $validated['reservation_time'],
             'guests' => $validated['guests'] ?? 1,
             'special_request' => $validated['special_request'] ?? null,
-            'status' => 'confirmed',
+            'status' => 'pending',
         ]);
 
-        // Enviar email de confirmación
-        Mail::to(auth()->user()->email)->send(new ReservationConfirmed($reservation));
+        // Enviar email de reserva pendiente
+        Mail::to(auth()->user()->email)->send(new ReservationPending($reservation));
 
         return back()->with('success', 'Reserva realizada correctamente.');
     }
@@ -71,7 +71,7 @@ class ReservaController extends Controller
             abort(403);
         }
 
-        $reservation->delete();
+        $reservation->update(['status' => 'cancelled']);
 
         return back()->with('success', 'Reserva cancelada correctamente.');
     }

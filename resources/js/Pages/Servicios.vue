@@ -1,11 +1,13 @@
 <script setup>
 import MainLayout from "@/Layouts/MainLayout.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 import { Search, CalendarCheck, CheckCircle, ChevronDown, HelpCircle } from 'lucide-vue-next'; 
 import { computed, ref } from "vue";
 import { useI18n } from "@/Composables/useI18n";
 
 const { t } = useI18n();
+
+
 
 const activeFaq = ref(null);
 const toggleFaq = (index) => {
@@ -31,35 +33,35 @@ const categorias = computed(() => [
         nombre: t("home.categories.gastronomy"),
         descripcion: t("home.categories.gastronomy_desc"),
         imagen: "/images/gastronomia.avif",
-        link: "/gastronomia",
+        link: "gastronomia",
     },
     {
         id: 2,
         nombre: t("home.categories.sport"),
         descripcion: t("home.categories.sport_desc"),
         imagen: "/images/deporte.avif",
-        link: "/deportes",
+        link: "deportes",
     },
     {
         id: 3,
         nombre: t("home.categories.health"),
         descripcion: t("home.categories.health_desc"),
         imagen: "/images/salud.avif",
-        link: "/salud",
+        link: "salud",
     },
     {
         id: 4,
         nombre: t("home.categories.leisure"),
         descripcion: t("home.categories.leisure_desc"),
         imagen: "/images/ocio.avif",
-        link: "/ocio",
+        link: "ocio",
     },
     {
         id: 5,
         nombre: t("home.categories.beauty"),
         descripcion: t("home.categories.beauty_desc"),
         imagen: "/images/beauty-wellness.avif",
-        link: "/belleza",
+        link: "belleza",
     },
 ]);
 </script>
@@ -84,7 +86,7 @@ const categorias = computed(() => [
                         <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-[1.1] tracking-tighter mb-6">
                             <span v-html="$t('services_page.hero_title')"></span>
                         </h1>
-                        <p class="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed">
+                        <p class="text-lg md:text-xl text-gray-700 max-w-xl leading-relaxed mb-0">
                             {{ $t('services_page.hero_subtitle') }}
                         </p>
                     </div>
@@ -100,7 +102,7 @@ const categorias = computed(() => [
                     <Link
                         v-for="categoria in categorias"
                         :key="categoria.id"
-                        :href="categoria.link"
+                        :href="route(categoria.link)"
                         class="group cursor-pointer flex items-center gap-4 md:block"
                     >
                         <div

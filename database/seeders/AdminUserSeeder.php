@@ -45,7 +45,7 @@ class AdminUserSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
-        $local->assignRole('local');
+        $local->assignRole('empresa');
 
         $this->command->info('✅ Usuarios fijos creados/actualizados exitosamente:');
         $this->command->info('👑 Admin: admin@proreserve.com / admin123');

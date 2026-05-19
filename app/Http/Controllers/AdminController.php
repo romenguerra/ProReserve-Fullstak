@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ReservationConfirmed;
 
 class AdminController extends Controller
 {
@@ -122,9 +124,14 @@ class AdminController extends Controller
             $resources = is_string($request->resources) ? json_decode($request->resources, true) : $request->resources;
             $local->resources()->delete(); // Limpiamos y recreamos para simplificar
             foreach ($resources as $res) {
+                $isExclusive = ($res['resource_type'] ?? 'shared') === 'exclusive_unit';
                 $local->resources()->create([
                     'name' => $res['name'],
-                    'capacity' => $res['capacity']
+                    'capacity' => $isExclusive ? (($res['unit_count'] ?? 1) * ($res['unit_capacity'] ?? 1)) : ($res['max_guests_per_booking'] ?? $res['capacity'] ?? 1),
+                    'resource_type' => $res['resource_type'] ?? 'shared',
+                    'unit_count' => $isExclusive ? ($res['unit_count'] ?? 1) : null,
+                    'unit_capacity' => $isExclusive ? ($res['unit_capacity'] ?? 1) : null,
+                    'max_guests_per_booking' => $res['max_guests_per_booking'] ?? $res['capacity'] ?? 1,
                 ]);
             }
         }
@@ -187,7 +194,7 @@ class AdminController extends Controller
         $leisureCenters = $queryFn(\App\Models\LeisureCenter::class);
 
         // Filter reservations
-        $allReservations = \App\Models\Reservation::with(['user', 'reservable', 'service'])->latest()->get();
+        $allReservations = \App\Models\Reservation::with(['user', 'reservable', 'service', 'resource'])->latest()->get();
         if (!$isAdmin) {
             $reservations = $allReservations->filter(function ($reservation) use ($user) {
                 return $reservation->reservable && $reservation->reservable->user_id === $user->id;
@@ -262,6 +269,8 @@ class AdminController extends Controller
             'special_request' => 'nullable|string',
         ]);
 
+        $oldStatus = $reservation->status;
+
         $reservation->update($request->only([
             'reservation_date',
             'reservation_time',
@@ -269,6 +278,18 @@ class AdminController extends Controller
             'guests',
             'special_request'
         ]));
+
+        // Si cambia el estado a confirmado, enviar email automático al cliente o correo manual
+        if ($oldStatus !== 'confirmed' && $reservation->status === 'confirmed') {
+            $email = $reservation->user ? $reservation->user->email : $reservation->customer_email;
+            if ($email) {
+                try {
+                    Mail::to($email)->send(new ReservationConfirmed($reservation));
+                } catch (\Exception $e) {
+                    \Log::error('Error enviando email de confirmación de reserva: ' . $e->getMessage());
+                }
+            }
+        }
 
         return back()->with('success', 'Reserva actualizada correctamente.');
     }
@@ -284,6 +305,52 @@ class AdminController extends Controller
 
         $reservation->delete();
         return back()->with('success', 'Reserva eliminada correctamente.');
+    }
+
+    public function storeManualReservation(Request $request)
+    {
+        $request->validate([
+            'reservable_id' => 'required|integer',
+            'reservable_type' => 'required|string|in:restaurant,sport_center,health_center,beauty_center,leisure_center',
+            'service_id' => 'nullable|integer',
+            'resource_id' => 'nullable|integer',
+            'customer_name' => 'required|string|max:255',
+            'customer_email' => 'nullable|email|max:255',
+            'customer_phone' => 'nullable|string|size:9|regex:/^[0-9]+$/',
+            'reservation_date' => 'required|date',
+            'reservation_time' => 'required|string',
+            'guests' => 'required|integer|min:1',
+            'special_request' => 'nullable|string',
+            'status' => 'required|string|in:pending,confirmed,cancelled,completed',
+        ]);
+
+        $modelClass = $this->getModelClass($request->reservable_type);
+
+        // Seguridad: Si es empresa, verificar propiedad del local
+        if (!auth()->user()->hasRole('admin')) {
+            $local = $modelClass::findOrFail($request->reservable_id);
+            if ($local->user_id !== auth()->id()) {
+                abort(403, 'No tienes permiso para crear reservas en este local.');
+            }
+        }
+
+        Reservation::create([
+            'user_id' => null, // Cita manual
+            'reservable_type' => $modelClass,
+            'reservable_id' => $request->reservable_id,
+            'service_id' => $request->service_id,
+            'resource_id' => $request->resource_id,
+            'customer_name' => $request->customer_name,
+            'customer_email' => $request->customer_email,
+            'customer_phone' => $request->customer_phone,
+            'reservation_date' => $request->reservation_date,
+            'reservation_time' => $request->reservation_time,
+            'guests' => $request->guests,
+            'special_request' => $request->special_request,
+            'status' => $request->status,
+        ]);
+
+        return back()->with('success', 'Reserva manual creada correctamente.');
     }
 
     private function getModelClass($type)

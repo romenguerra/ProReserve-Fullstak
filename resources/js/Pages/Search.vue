@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { Link, Head } from "@inertiajs/vue3";
 import MainLayout from "@/Layouts/MainLayout.vue";
 import RestaurantCard from "@/Components/RestaurantCard.vue";
@@ -30,27 +30,6 @@ const openDetailModal = (local, category) => {
     activeCategory.value = category;
     showModal.value = true;
 };
-
-// Reveal animation logic
-onMounted(() => {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                const index = entry.target.getAttribute('data-index');
-                setTimeout(() => {
-                    entry.target.classList.add('reveal-card');
-                }, (index % 4) * 100);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { 
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    const cards = document.querySelectorAll('.card-animate');
-    cards.forEach((card) => observer.observe(card));
-});
 
 const getCardComponent = (category) => {
     switch (category) {
@@ -106,14 +85,14 @@ const getLocalProp = (category) => {
             <section class="py-8 md:py-16">
                 <div class="max-w-7xl mx-auto px-6 sm:px-12 lg:px-16">
                     <div v-if="results.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
-                        <template v-for="(item, index) in results" :key="`${item.category}-${item.id}`">
+                        <template v-for="(item, index) in results" :key="`${item.category}-${item.id}-${index}`">
                             <component 
                                 :is="getCardComponent(item.category)"
                                 v-bind="{ [getLocalProp(item.category)]: item }"
                                 :index="index"
                                 @open-modal="openDetailModal(item, item.category)"
-                                class="card-animate opacity-0 translate-y-8 transition-all duration-700 ease-out"
-                                :data-index="index"
+                                class="reveal-card-animation"
+                                :style="{ animationDelay: `${(index % 4) * 75}ms` }"
                             />
                         </template>
                     </div>
@@ -127,11 +106,11 @@ const getLocalProp = (category) => {
                         <p class="text-gray-500 max-w-md mb-12">{{ $t('search.explore_more') }}</p>
                         
                         <div class="flex flex-wrap justify-center gap-4">
-                            <Link href="/gastronomia" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.gastronomy') }}</Link>
-                            <Link href="/deportes" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.sport') }}</Link>
-                            <Link href="/ocio" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.leisure') }}</Link>
-                            <Link href="/salud" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.health') }}</Link>
-                            <Link href="/belleza" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.beauty') }}</Link>
+                            <Link :href="route('gastronomia')" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.gastronomy') }}</Link>
+                            <Link :href="route('deportes')" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.sport') }}</Link>
+                            <Link :href="route('ocio')" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.leisure') }}</Link>
+                            <Link :href="route('salud')" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.health') }}</Link>
+                            <Link :href="route('belleza')" class="px-6 py-3 bg-white rounded-full text-sm font-bold shadow-sm hover:shadow-md transition-all">{{ $t('home.categories.beauty') }}</Link>
                         </div>
                     </div>
                 </div>
@@ -148,9 +127,20 @@ const getLocalProp = (category) => {
     </MainLayout>
 </template>
 
-<style>
-.reveal-card {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
+<style scoped>
+@keyframes revealCard {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reveal-card-animation {
+    opacity: 0;
+    animation: revealCard 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 </style>

@@ -207,7 +207,7 @@ const handleConfirmBooking = async (data) => {
     bookingData.value = data;
     
     try {
-        await axios.post('/reservations', {
+        await axios.post(route('reservations.store'), {
             type: categoryToModel[props.category],
             id: props.local.id,
             service_id: data.service.id,

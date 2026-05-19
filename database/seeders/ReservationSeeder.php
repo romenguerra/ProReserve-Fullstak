@@ -22,7 +22,8 @@ class ReservationSeeder extends Seeder
                 'service_id' => $service->id,
                 'reservation_date' => Carbon::now()->addDays(2)->toDateString(),
                 'reservation_time' => '10:00:00',
-                'status' => 'confirmed',
+                'status' => 'pending',
+                'guests' => 1,
                 'special_request' => 'Por favor, llamar al llegar.'
             ]);
         }

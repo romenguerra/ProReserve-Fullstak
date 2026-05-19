@@ -14,14 +14,7 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
-        $query = $request->input('q');
-        
-        if (!$query) {
-            return Inertia::render('Search', [
-                'results' => [],
-                'query' => ''
-            ]);
-        }
+        $query = $request->input('q', '');
 
         $results = collect();
 
@@ -34,15 +27,19 @@ class SearchController extends Controller
         ];
 
         foreach ($models as $category => $modelClass) {
-            $found = $modelClass::where('status', 'active')
-                ->where(function($q) use ($query) {
+            $dbQuery = $modelClass::where('status', 'active');
+            
+            if (!empty($query)) {
+                $dbQuery->where(function($q) use ($query) {
                     $q->where('name', 'like', "%{$query}%")
                       ->orWhere('description', 'like', "%{$query}%")
                       ->orWhereHas('services', function($sq) use ($query) {
                           $sq->where('name', 'like', "%{$query}%");
                       });
-                })
-                ->with(['services', 'resources'])
+                });
+            }
+
+            $found = $dbQuery->with(['services', 'resources'])
                 ->get()
                 ->map(function($item) use ($category) {
                     $item->category = $category;

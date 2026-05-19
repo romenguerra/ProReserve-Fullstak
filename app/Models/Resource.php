@@ -15,6 +15,10 @@ class Resource extends Model
         'resourceable_type',
         'name',
         'capacity',
+        'resource_type',
+        'unit_count',
+        'unit_capacity',
+        'max_guests_per_booking',
     ];
 
     public function resourceable(): MorphTo
