@@ -438,11 +438,18 @@ const logout = () => {
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-50">
-                                <tr v-for="user in filteredUsers" :key="user.id" class="hover:bg-gray-50/30 transition-colors group">
+                                <tr 
+                                    v-for="user in filteredUsers" 
+                                    :key="user.id" 
+                                    @click="openEditModal(user)"
+                                    class="hover:bg-gray-50/30 transition-colors group cursor-pointer"
+                                >
                                     <td class="px-8 py-6">
                                         <div class="flex items-center gap-4">
-                                            <div class="w-10 h-10 bg-gray-100 rounded-2xl flex items-center justify-center font-black text-gray-400">{{ user.name.charAt(0) }}</div>
-                                            <span class="font-black text-gray-900 text-sm">{{ user.name }}</span>
+                                            <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xs font-black uppercase tracking-wider shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                                                {{ getInitials(user.name) }}
+                                            </div>
+                                            <span class="font-black text-gray-900 text-sm group-hover:text-indigo-600 transition-colors">{{ user.name }}</span>
                                         </div>
                                     </td>
                                     <td class="px-8 py-6 text-sm text-gray-500 font-medium">{{ user.email }}</td>
@@ -451,7 +458,7 @@ const logout = () => {
                                             {{ role.name }}
                                         </span>
                                     </td>
-                                    <td class="px-8 py-6 text-right">
+                                    <td class="px-8 py-6 text-right" @click.stop>
                                         <div class="flex items-center justify-end gap-2">
                                             <button 
                                                 @click="openEditModal(user)"
